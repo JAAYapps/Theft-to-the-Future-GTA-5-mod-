@@ -1,0 +1,33 @@
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe.config
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.pdb
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csprojResolveAssemblyReference.cache
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.launcher.resources
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.Properties.Resources.resources
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.GenerateResource.Cache
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.CoreCompileInputs.cache
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.exe
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.pdb
+C:\Users\thejo\source\repos\TTTF Launcher\TTTF Launcher\bin\Debug\SimpleTCP.dll
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe.config
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.pdb
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\SimpleTCP.dll
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csprojResolveAssemblyReference.cache
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.launcher.resources
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.Properties.Resources.resources
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.GenerateResource.Cache
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.CoreCompileInputs.cache
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.exe
+D:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.pdb
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe.config
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.pdb
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\bin\Debug\SimpleTCP.dll
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csprojResolveAssemblyReference.cache
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.launcher.resources
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.Properties.Resources.resources
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.GenerateResource.Cache
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.CoreCompileInputs.cache
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.exe
+C:\Users\thejo\Desktop\BTTF Time Travel 8.0\new mods\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.pdb

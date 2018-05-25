@@ -49,7 +49,10 @@ C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\bin\Debug\ScriptHookVDotNet.dll
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\bin\Debug\SimpleTCP.dll
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\bin\Debug\NAudio.xml
-C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\obj\Debug\TTTF TimeTravel 0.9.0.csprojResolveAssemblyReference.cache
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\obj\Debug\TTTF TimeTravel 0.9.0.csproj.CoreCompileInputs.cache
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\obj\Debug\TTTF TimeTravel 0.9.0.dll
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\obj\Debug\TTTF TimeTravel 0.9.0.pdb
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\obj\Debug\TTTF TimeTravel 0.9.0.csprojResolveAssemblyReference.cache
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\bin\Debug\libmp3lame.32.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\bin\Debug\libmp3lame.64.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\TTTF TimeTravel 0.9.0\TTTF TimeTravel 0.9.0\bin\Debug\NAudio.Lame.dll

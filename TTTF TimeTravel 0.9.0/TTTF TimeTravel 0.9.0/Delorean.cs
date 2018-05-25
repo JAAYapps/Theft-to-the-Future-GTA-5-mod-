@@ -11,6 +11,7 @@ namespace TTTF_TimeTravel_0._9._0
         public bool flyingison = false;
         public bool RCmode = false;
         bool RCmodeactive = true;
+        public bool RCInvisible = false;
         public void ToggleRCmode()
         {
             string error = "";

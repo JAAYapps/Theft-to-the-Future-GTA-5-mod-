@@ -21,7 +21,7 @@ namespace TTTF_TimeTravel_0._9._0
                 Tick += onTick;
                 KeyUp += onKeyUp;
                 KeyDown += onKeyDown;
-                this.Aborted += onClose;
+                Aborted += onClose;
                 //loadscriptsettings();
                 Task.Factory.StartNew(() => { Sounds.initialLoad(); }); 
             }
@@ -38,7 +38,8 @@ namespace TTTF_TimeTravel_0._9._0
         private void onClose(object sender, EventArgs e)
         {
             UI.ShowSubtitle("Closing TTTF");
-            Wait(1000);
+            if (client.TcpClient.Connected)
+                client.Disconnect();
             Sounds.unLoad();
             Wait(5000);
         }
@@ -112,14 +113,14 @@ namespace TTTF_TimeTravel_0._9._0
             }
         }
 
-        TTTFmenu TTTF;
+        static TTTFmenu TTTF;
         private void onKeyUp(object sender, KeyEventArgs e)
         {
             try
             {
                 if (e.KeyCode == Keys.H)
                 {
-                    TimeTravel.startMalfunction();
+                    //TimeTravel.startMalfunction();
                 }
                 else if (e.KeyCode == Keys.F5)
                 {
@@ -183,12 +184,15 @@ namespace TTTF_TimeTravel_0._9._0
         bool rcenable = false;
         private void onTick(object sender, EventArgs e)
         {
+            string rooterror = "";
             try
             {
                 if (!Game.IsLoading)
                 {
+                    rooterror = "initial";
                     if (!initial)
                     {
+                        rooterror = "bus check";
                         foreach (Vehicle v in World.GetAllVehicles())
                         {
                             if (v.Model == VehicleHash.Bus)
@@ -197,33 +201,42 @@ namespace TTTF_TimeTravel_0._9._0
                             }
                             Wait(10);
                         }
-                        
+                        rooterror = "Game.Player.CanControlCharacter";
                         Game.Player.CanControlCharacter = true;
                         if (Game.Player.Character.IsInVehicle())
                         {
                             Game.Player.Character.CurrentVehicle.IsVisible = true;
                         }
-
+                        rooterror = "connectionstart";
                         try
                         {
+                            TTTF = new TTTFmenu();
+                            rooterror = "connectionstart begining";
                             if (!connectstart)
                             {
+                                rooterror = "new simpleTCP";
                                 client = new SimpleTCP.SimpleTcpClient();
+                                rooterror = "Encode";
                                 client.StringEncoder = Encoding.UTF8;
+                                rooterror = "datareceived";
                                 client.DataReceived += luancherdata;
+                                rooterror = "connect to launcher";
                                 client.Connect("127.0.0.1", 10757);
+                                rooterror = "WriteLine";
                                 client.WriteLineAndGetReply("script running", new TimeSpan(0, 0, 20));
+                                rooterror = "connectionstart true";
                                 connectstart = true;
                             }
-                            TTTF = new TTTFmenu();
+                            rooterror = "new TTTF";
+                            
                         }
                         catch
                         {
 
                         }
 
-                        
 
+                        rooterror = "if sever connect";
                         if (!servconnected)
                         {
                             if (speakerror)
@@ -233,8 +246,21 @@ namespace TTTF_TimeTravel_0._9._0
                         initial = true;
                     }
 
-
+                    rooterror = "TTTF on tick";
                     TTTF.OnTick();
+                    try
+                    {
+                        if (Game.Player.Character.IsInVehicle())
+                            if (Game.Player.Character.CurrentVehicle.FriendlyName == new Model("dmc12"))
+                            {
+                                Game.Player.Character.CurrentVehicle.CanBeVisiblyDamaged = !TTTF.invincible;
+                                Game.Player.Character.CurrentVehicle.IsInvincible = TTTF.invincible;
+                            }
+                    }
+                    catch
+                    {
+                        
+                    }
                     Libeads.tick();
                     helpFromDoc.tick();
                     Traveler.tick();
@@ -257,7 +283,6 @@ namespace TTTF_TimeTravel_0._9._0
                         if (!rcenable)
                         {
                             TTTF.quickRC();
-                            TTTF.Show();
                             rcenable = true;
                         }
                     }
@@ -317,7 +342,7 @@ namespace TTTF_TimeTravel_0._9._0
                 debug.Draw();
                 UIText debug3 = new UIText("Error: " + d.Message, new System.Drawing.Point(100, 350), (float)0.6);
                 debug3.Draw();
-                UIText debug4 = new UIText("Root Error: " + d.InnerException, new System.Drawing.Point(100, 500), (float)0.6);
+                UIText debug4 = new UIText("Root Error: " + rooterror, new System.Drawing.Point(100, 500), (float)0.6);
                 debug4.Draw();
                 UI.ShowSubtitle(d.Message);
             }
@@ -370,6 +395,13 @@ namespace TTTF_TimeTravel_0._9._0
                     int x = int.Parse(xystring.Substring(0, xystring.IndexOf(",")));
                     int y = int.Parse(xystring.Substring(xystring.IndexOf(',') + 1, (xystring.LastIndexOf(xystring.Last())) - (xystring.IndexOf(',') + 1)));
                     displaysystem.change_time_display_location(x, y);
+                }
+
+                if (e.MessageString.Contains("anim:"))
+                {
+                    string anim = e.MessageString.Replace("anim:", "");
+                    TTTF.root = anim.Substring(0, anim.IndexOf(','));
+                    TTTF.effect = anim.Substring(anim.IndexOf(',') + 1, (anim.LastIndexOf(anim.Last())) - (anim.IndexOf(',') + 1));
                 }
             }
             catch (Exception d)

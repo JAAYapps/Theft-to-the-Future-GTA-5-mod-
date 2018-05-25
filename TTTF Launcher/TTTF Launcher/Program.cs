@@ -16,7 +16,16 @@ namespace TTTF_Launcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new launcher());
+            launcher l = new launcher();
+            bool i = false;
+            while (!l.IsDisposed)
+            {
+                if (!i)
+                    l.Show();
+                i = true;
+                Application.DoEvents();
+            }
+
         }
     }
 }

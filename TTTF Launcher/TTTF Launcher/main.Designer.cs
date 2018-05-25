@@ -33,6 +33,10 @@
             this.launch = new System.Windows.Forms.Button();
             this.scriptmanager = new System.Windows.Forms.Timer(this.components);
             this.closeshare = new System.Windows.Forms.Button();
+            this.root = new System.Windows.Forms.TextBox();
+            this.animation = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // activitylist
@@ -58,7 +62,7 @@
             // launch
             // 
             this.launch.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.launch.Location = new System.Drawing.Point(354, 336);
+            this.launch.Location = new System.Drawing.Point(606, 336);
             this.launch.Name = "launch";
             this.launch.Size = new System.Drawing.Size(148, 23);
             this.launch.TabIndex = 1;
@@ -74,7 +78,7 @@
             // 
             // closeshare
             // 
-            this.closeshare.Location = new System.Drawing.Point(638, 346);
+            this.closeshare.Location = new System.Drawing.Point(760, 336);
             this.closeshare.Name = "closeshare";
             this.closeshare.Size = new System.Drawing.Size(75, 23);
             this.closeshare.TabIndex = 2;
@@ -82,11 +86,47 @@
             this.closeshare.UseVisualStyleBackColor = true;
             this.closeshare.Click += new System.EventHandler(this.closeshare_Click);
             // 
+            // root
+            // 
+            this.root.Location = new System.Drawing.Point(72, 336);
+            this.root.Name = "root";
+            this.root.Size = new System.Drawing.Size(222, 20);
+            this.root.TabIndex = 3;
+            // 
+            // animation
+            // 
+            this.animation.Location = new System.Drawing.Point(359, 336);
+            this.animation.Name = "animation";
+            this.animation.Size = new System.Drawing.Size(198, 20);
+            this.animation.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(41, 339);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "root";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(300, 341);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Animation";
+            // 
             // launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(847, 371);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.animation);
+            this.Controls.Add(this.root);
             this.Controls.Add(this.closeshare);
             this.Controls.Add(this.launch);
             this.Controls.Add(this.activitylist);
@@ -95,6 +135,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.launcher_FormClosing);
             this.Load += new System.EventHandler(this.launcher_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -103,6 +144,10 @@
         private System.Windows.Forms.Button launch;
         private System.Windows.Forms.Timer scriptmanager;
         private System.Windows.Forms.Button closeshare;
+        private System.Windows.Forms.TextBox root;
+        private System.Windows.Forms.TextBox animation;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

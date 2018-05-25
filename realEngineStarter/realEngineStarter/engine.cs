@@ -32,6 +32,7 @@ namespace realEngineStarter
         {
             KeyDown += down;
             KeyUp += up;
+            Aborted += onClose;
             try
             {
                 Task.Factory.StartNew(() => { getAudio(); });
@@ -65,6 +66,18 @@ namespace realEngineStarter
                 }
             };
             _myMenuPool.Add(myMenu);
+        }
+
+        private void onClose(object sender, EventArgs e)
+        {
+            van = null;
+            smalltruck = null;
+            bigrigtruck = null;
+            Delorean = null;
+            key = null;
+            defaultcarstart = null;
+            enginedamage = null;
+            knocking = null;
         }
 
         private void up(object sender, KeyEventArgs e)
@@ -897,7 +910,7 @@ namespace realEngineStarter
             }
         }
         #endregion
-
+        
         #region timer
         bool half_time = false;
         bool initial = false;
@@ -922,76 +935,96 @@ namespace realEngineStarter
             return temp;
         }
 
+        static string error = "";
         void logic(Vehicle CurrentVehicle)
         {
-            if (CurrentVehicle.EngineRunning && CurrentVehicle.Model == "bttf")
+            if (CurrentVehicle != null)
             {
-                int n = 0;
-                if (DateTime.Now.Millisecond % 180 >= 90 && DateTime.Now.Millisecond % 180 <= 180)
+                error = "bttf check";
+                if (CurrentVehicle.EngineRunning && CurrentVehicle.Model == "bttf")
                 {
-                    n = rand.Next(1, 2000);
-                }
-
-                if (n == 1)
-                {
-                    n++;
-                    enginestarted = false;
-                    starts = false;
-                    stalled = true;
-                    delorean_stall = true;
-                }
-            }
-
-            if ((CurrentVehicle.CurrentRPM * 100) == 100)
-            {
-                if (DateTime.Now.Millisecond % 125 > 62 && DateTime.Now.Millisecond % 125 <= 125)
-                {
-                    if (half_time)
+                    int n = 0;
+                    if (DateTime.Now.Millisecond % 180 >= 90 && DateTime.Now.Millisecond % 180 <= 180)
                     {
-                        if (temp_increase() > 90)
-                        {
-                            CurrentVehicle.EngineHealth--;
-                        }
-                        half_time = false;
+                        n = rand.Next(1, 2000);
                     }
+
+                    if (n == 1)
+                    {
+                        n++;
+                        enginestarted = false;
+                        starts = false;
+                        stalled = true;
+                        delorean_stall = true;
+                    }
+                }
+
+                error = "rpm";
+                if ((CurrentVehicle.CurrentRPM * 100) == 100)
+                {
+                    if (DateTime.Now.Millisecond % 125 > 62 && DateTime.Now.Millisecond % 125 <= 125)
+                    {
+                        if (half_time)
+                        {
+                            if (temp_increase() > 90)
+                            {
+                                CurrentVehicle.EngineHealth--;
+                            }
+                            half_time = false;
+                        }
+                    }
+                    else
+                    {
+                        half_time = true;
+                    }
+                    //UI.ShowSubtitle("overrev " + Game.Player.Character.CurrentVehicle.CurrentRPM * 100);
                 }
                 else
                 {
-                    half_time = true;
+                    if (temp > 20)
+                    {
+                        temp_decrease();
+                    }
                 }
-                //UI.ShowSubtitle("overrev " + Game.Player.Character.CurrentVehicle.CurrentRPM * 100);
-            }
-            else
-            {
-                if (temp > 20)
+
+                //UI.ShowSubtitle("health " + (CurrentVehicle.EngineHealth / 1000) + " Temp: " + temp);
+
+                error = "engine health";
+                if (CurrentVehicle.EngineHealth > 800)
                 {
-                    temp_decrease();
+                    enginedamage.Volume(0.00001f);
+                    knocking.Volume(0.00001f);
                 }
-            }
+                else if (CurrentVehicle.EngineHealth > 0)
+                {
+                    enginedamage.Volume(0.8f - CurrentVehicle.EngineHealth / 1000);
+                }
+                else
+                {
+                    CurrentVehicle.EngineRunning = false;
+                    enginestarted = false;
+                    stopall();
+                }
 
-            //UI.ShowSubtitle("health " + (CurrentVehicle.EngineHealth / 1000) + " Temp: " + temp);
+                if (CurrentVehicle.EngineHealth > 600)
+                    knocking.Volume(0.00001f);
+                else if (CurrentVehicle.EngineHealth > 0)
+                    knocking.Volume(1f - CurrentVehicle.EngineHealth / 1000f);
+                else
+                {
+                    CurrentVehicle.EngineRunning = false;
+                    enginestarted = false;
+                }
 
-            if (CurrentVehicle.EngineHealth > 800)
-            {
-                enginedamage.Volume(0.00001f);
-                knocking.Volume(0.00001f);
-            }
-            else
-            {
-                enginedamage.Volume(0.8f - CurrentVehicle.EngineHealth / 1000);
-            }
-            if (CurrentVehicle.EngineHealth > 600)
-                knocking.Volume(0.00001f);
-            else
-                knocking.Volume(1f - CurrentVehicle.EngineHealth / 1000f);
-            try
-            {
-                enginedamage.playSpeed((CurrentVehicle.CurrentRPM * 100) / 5);
-                knocking.playSpeed((CurrentVehicle.CurrentRPM * 100) / 5);
-            }
-            catch
-            {
+                try
+                {
+                    enginedamage.playSpeed((CurrentVehicle.CurrentRPM * 100) / 5);
+                    knocking.playSpeed((CurrentVehicle.CurrentRPM * 100) / 5);
+                }
+                catch
+                {
 
+                }
             }
         }
 
@@ -1018,8 +1051,12 @@ namespace realEngineStarter
                     {
                         if (!initial)
                         {
-                            
-                            initial = true;
+                            if (knocking != null && enginedamage != null)
+                            {
+                                initial = true;
+                            }
+                            else
+                                getAudio();
                         }
 
                         if (Game.Player.Character.IsInVehicle())
@@ -1042,6 +1079,7 @@ namespace realEngineStarter
                                 checkenginestats();
                                 normalstart();
                                 starter();
+
                                 logic(Game.Player.Character.CurrentVehicle);
 
                             }
@@ -1060,7 +1098,7 @@ namespace realEngineStarter
                                     debug.Draw();
                                     UIText debug3 = new UIText("Error: " + d.Message, new System.Drawing.Point(100, 350), (float)0.6);
                                     debug3.Draw();
-                                    UIText debug4 = new UIText("Root Error: " + d.InnerException, new System.Drawing.Point(100, 500), (float)0.6);
+                                    UIText debug4 = new UIText("Root Error: " + error, new System.Drawing.Point(100, 500), (float)0.6);
                                     debug4.Draw();
                                     UI.ShowSubtitle(d.Message);
                                 }
@@ -1081,7 +1119,7 @@ namespace realEngineStarter
                                 debug.Draw();
                                 UIText debug3 = new UIText("Error: " + d.Message, new System.Drawing.Point(100, 350), (float)0.6);
                                 debug3.Draw();
-                                UIText debug4 = new UIText("Root Error: " + d.InnerException, new System.Drawing.Point(100, 500), (float)0.6);
+                                UIText debug4 = new UIText("Root Error: " + error, new System.Drawing.Point(100, 500), (float)0.6);
                                 debug4.Draw();
                                 UI.ShowSubtitle(d.Message);
                             }
@@ -1099,7 +1137,7 @@ namespace realEngineStarter
                 debug.Draw();
                 UIText debug3 = new UIText("Error: " + d.Message, new System.Drawing.Point(100, 350), (float)0.6);
                 debug3.Draw();
-                UIText debug4 = new UIText("Root Error: " + d.InnerException, new System.Drawing.Point(100, 500), (float)0.6);
+                UIText debug4 = new UIText("Root Error: " + error, new System.Drawing.Point(100, 500), (float)0.6);
                 debug4.Draw();
                 UI.ShowSubtitle(d.Message);
             }

@@ -34,7 +34,6 @@ namespace TTTF_TimeTravel_0._9._0
                         {
                             Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
                             Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
-                            Deloreon.SetMod(VehicleMod.RearBumper, 2, true);
                             Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
                             Deloreon.SetMod(VehicleMod.Frame, -1, true);
                             Deloreon.SetMod(VehicleMod.Horns, 16, true);
@@ -75,24 +74,8 @@ namespace TTTF_TimeTravel_0._9._0
                     Deloreon.DirtLevel = 0;
                     Deloreon.NumberPlate = "OutATime";
                     Script.Wait(50);
-                    // Set the vehicle mods
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
-                    Deloreon.SetMod(VehicleMod.RearBumper, 2, true);
-                    Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.SetMod(VehicleMod.Frame, -1, true);
-                    Deloreon.SetMod(VehicleMod.Horns, 16, true);
-                    Deloreon.SetMod(VehicleMod.RearBumper, 0, true);
-                    Deloreon.SetMod(VehicleMod.RightFender, 0, true);
-                    Deloreon.SetMod(VehicleMod.Fender, 0, true);
-                    Deloreon.SetMod(VehicleMod.ArchCover, 0, true);
-                    Deloreon.SetMod(VehicleMod.Exhaust, 0, true);
-                    Deloreon.SetMod(VehicleMod.Hood, 0, true);
-                    Deloreon.SetMod(VehicleMod.Ornaments, 0, true);
                     //Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
-                    Deloreon.PrimaryColor = VehicleColor.MetallicBlueSilver;
-                    Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.AddBlip();
-                    Deloreon.CurrentBlip.Color = BlipColor.White;
                     if (rescue)
                     {
                         traveler = Deloreon.CreatePedOnSeat(VehicleSeat.Driver, Game.Player.Character.Model);

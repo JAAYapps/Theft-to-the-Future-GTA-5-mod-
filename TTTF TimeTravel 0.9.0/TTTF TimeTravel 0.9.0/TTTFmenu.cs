@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TTTF_TimeTravel_0._9._0
 {
@@ -19,8 +20,11 @@ namespace TTTF_TimeTravel_0._9._0
         UIMenu coop = new UIMenu("Co-op menu", "Co-op Menu");
         UIMenu debuginfo = new UIMenu("Debug info", "Debuging menu");
         string[] soundsFolder = Directory.GetFiles(Sounds.sounds);
-        bool invincible = false, beepsound = false, fluxsoundbool = false;
+        public bool invincible = false, beepsound = false, fluxsoundbool = false;
         public static bool RCmode = false;
+        public bool animationTest = false;
+        public string root = "";
+        public string effect = "";
 
         void setDebugmenu()
         {
@@ -160,6 +164,8 @@ namespace TTTF_TimeTravel_0._9._0
             }
             myMenu.AddItem(new UIMenuCheckboxItem("Collom Beep", beepsound));
             myMenu.AddItem(new UIMenuCheckboxItem("Flux Sound", fluxsoundbool));
+            myMenu.AddItem(new UIMenuItem("Play animation on player"));
+            myMenu.AddItem(new UIMenuItem("Set Effect"));
             myMenu.AddItem(new UIMenuItem("Tutorial mode"));
             myMenu.AddItem(new UIMenuItem("Debugging"));
             myMenu.AddItem(new UIMenuItem("Exit"));
@@ -176,6 +182,30 @@ namespace TTTF_TimeTravel_0._9._0
                 {
                     if (!mainsystem.checkifConnectedToLauncher())
                     {
+                        System.Diagnostics.Process[] temp = System.Diagnostics.Process.GetProcessesByName("TTTF Launcher.exe");
+                        bool running = false;
+                        foreach (System.Diagnostics.Process i in temp)
+                        {
+                            running = true;
+                        }
+
+                        if (!running)
+                        {
+                            // Prepare the process to run
+                            System.Diagnostics.ProcessStartInfo start = new System.Diagnostics.ProcessStartInfo();
+                            // Enter in the command line arguments, everything you would enter after the executable name itself
+                            start.Arguments = "";
+                            // Enter the executable to run, including the complete path
+                            start.FileName = (Application.StartupPath + "\\scripts\\TTTF Launcher.exe");
+                            // Do you want to show a console window?
+                            start.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
+                            start.CreateNoWindow = false;
+                            // Run the external process & wait for it to finish
+                            System.Diagnostics.Process proc = System.Diagnostics.Process.Start(start);
+                            Script.Wait(3000);
+                            UI.ShowSubtitle("Launcher running: " + proc.ProcessName);
+                        }
+
                         mainsystem.client = new SimpleTCP.SimpleTcpClient();
                         mainsystem.client.StringEncoder = Encoding.UTF8;
                         mainsystem.client.DataReceived += mainsystem.luancherdata;
@@ -195,6 +225,81 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 myMenu.Visible = false;
                 coop.Visible = true;
+            }
+            else if (selectedItem.Text == "Play animation on player")
+            {
+                try
+                {
+                    mainsystem.client.WriteLineAndGetReply("send animation (script)", new TimeSpan(0, 0, 10));
+                }
+                catch
+                {
+
+                }
+                Script.Wait(2000);
+                Function.Call(Hash.REQUEST_ANIM_DICT, root);
+                DateTime tmpTimeOut = DateTime.Now;
+                if (root != "")
+                {
+                    Game.Player.Character.Task.PlayAnimation(root, effect);
+
+                    while(!Function.Call<bool>(Hash.HAS_ANIM_DICT_LOADED, root))
+                    {
+                        Script.Wait(10);
+                    }
+
+                    if (Function.Call<bool>(Hash.HAS_ANIM_DICT_LOADED, root))
+                    {
+                        Function.Call(Hash.TASK_PLAY_ANIM, Game.Player.Character, root, effect, 8, (8 * -1), -1, 0, 0, false, false, false);
+                        Script.Wait(50);
+                        tmpTimeOut = DateTime.Now;
+                        while ((DateTime.Now.Subtract(tmpTimeOut).TotalMilliseconds < 3000))
+                        {
+                            UI.ShowSubtitle(("Anim play time: " + Function.Call<double>(Hash.GET_ENTITY_ANIM_CURRENT_TIME, Game.Player.Character, root, effect)));
+                            Script.Wait(5);
+                        }
+
+                        UI.ShowSubtitle("Reset anim playback time to 0.1 and reduce play speed to 0.25", 5000);
+                        Function.Call(Hash.SET_ENTITY_ANIM_CURRENT_TIME, Game.Player.Character, root, effect, 0.1);
+                        Function.Call(Hash.SET_ENTITY_ANIM_SPEED, Game.Player.Character, root, effect, 0.25);
+                        Script.Wait(5000);
+                        UI.ShowSubtitle("End anim playback");
+                        Function.Call(Hash.STOP_ANIM_TASK, Game.Player.Character, root, effect, 1);
+                    }
+                    else
+                        UI.ShowSubtitle("Animation dictionary does not exist.");
+                }
+                else
+                {
+                    Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
+                    Vector3 animxyz = Game.Player.Character.Position;
+                    Vector3 animrot = Game.Player.Character.Rotation;
+                    Function.Call(Hash.TASK_PLAY_ANIM_ADVANCED, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", animxyz.X, animxyz.Y, animxyz.Z, animrot.X, animrot.Y, animrot.Z, 0.8f, 0.5, 6000, (int)AnimationFlags.UpperBodyOnly, 0.35f, false, false);
+                
+                    
+                    tmpTimeOut = DateTime.Now;
+                    while ((DateTime.Now.Subtract(tmpTimeOut).TotalMilliseconds < 8000))
+                    {
+                        UI.ShowSubtitle(("Anim play time: " + Function.Call<double>(Hash.GET_ENTITY_ANIM_CURRENT_TIME, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0")));
+                        Script.Wait(5);
+                    }
+                    /*
+                    UI.ShowSubtitle("Reset anim playback time to 0.1 and reduce play speed to 0.25", 5000);
+                    Function.Call(Hash.SET_ENTITY_ANIM_CURRENT_TIME, Game.Player.Character, root, effect, 0.1);
+                    Function.Call(Hash.SET_ENTITY_ANIM_SPEED, Game.Player.Character, root, effect, 0.25);
+                    Script.Wait(5000);
+                    UI.ShowSubtitle("End anim playback");
+                    Function.Call(Hash.STOP_ANIM_TASK, Game.Player.Character, root, effect, 1);
+                    */
+                }
+
+                
+                
+            }
+            else if (selectedItem.Text == "Set Effect")
+            {
+                root = Game.GetUserInput(100);
+                effect = Game.GetUserInput(100);
             }
             else if (selectedItem.Text == "Spawn Delorean (DMC 12)")
             {
@@ -425,7 +530,7 @@ namespace TTTF_TimeTravel_0._9._0
             }
             else if (selectedItem.Text == "Tutorial mode")
             {
-                mainsystem.client.WriteLineAndGetReply("Start tutorial (scene)", new TimeSpan(0,0,10));
+                mainsystem.client.WriteLineAndGetReply("Start tutorial (scene)", new TimeSpan(0, 0, 10));
                 Show();
             }
             else if (selectedItem.Text == "Debugging")
@@ -468,21 +573,18 @@ namespace TTTF_TimeTravel_0._9._0
         {
             _myMenuPool.ProcessMenus();
 
+            if (Game.CurrentInputMode == InputMode.GamePad)
+            {
+                if (Game.IsControlJustReleased(0, GTA.Control.LookBehind))
+                {
+                    Show();
+                }
+            }
 
             if (Sounds.testSound != null)
             {
                 UIText Instruct = new UIText("PlayState: " + Sounds.testSound.getPlayState() + "\n PlayStatePaused: " + Sounds.testSound.getPlayStatePaused() + "\n PlayStateStopped: " + Sounds.testSound.getPlayStateStopped(), new Point(400, 300), (float)0.9);
                 Instruct.Draw();
-            }
-
-            try
-            {
-                if (Game.Player.Character.IsInVehicle())
-                    timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsInvincible = invincible;
-            }
-            catch
-            {
-
             }
         }
 

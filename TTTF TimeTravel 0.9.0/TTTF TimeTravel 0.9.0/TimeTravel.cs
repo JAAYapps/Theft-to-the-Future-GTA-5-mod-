@@ -16,9 +16,9 @@ namespace TTTF_TimeTravel_0._9._0
         #region Delorean functions
         public static bool stoponce = false;
 
-        public static void startMalfunction()
+        public static void startMalfunction(Vehicle car)
         {
-            if (Game.Player.Character.CurrentVehicle.Model == "bttf3" || Game.Player.Character.CurrentVehicle.Model == "bttf3rr")
+            if (car.Model == "bttf3" || car.Model == "bttf3rr")
             {
                 if (Sounds.cirerrorbttf3.getPlayStateStopped())
                     Sounds.cirerrorbttf3.Play();
@@ -32,7 +32,7 @@ namespace TTTF_TimeTravel_0._9._0
 
         static void malfunction(Delorean Delorean, bool refilltimecircuits, bool toggle)
         {
-            if (Game.Player.Character.CurrentVehicle.Model == "bttf3" || Game.Player.Character.CurrentVehicle.Model == "bttf3rr")
+            if (Delorean.getDelorean().Model == "bttf3" || Delorean.getDelorean().Model == "bttf3rr")
             {
                 if (!Sounds.cirerrorbttf3.getPlayStateStopped())
                 {
@@ -109,7 +109,9 @@ namespace TTTF_TimeTravel_0._9._0
         //bool fluxsoundbool = false;
         static bool flyingison = false;
         static bool tickbool = false;
-
+        static bool errorbool = false;
+        static string error = "";
+        static string error2 = "";
         public static void runningCircuits(Delorean delorean)
         {
             if (delorean != null)
@@ -164,6 +166,9 @@ namespace TTTF_TimeTravel_0._9._0
                     flyingison = true;
                 }
 
+                if (Delorean.DirtLevel > 0)
+                    Delorean.DirtLevel -= 0.001f;
+
                 if (delorean.toggletimecurcuits)
                 {
                     //timedisplay
@@ -210,165 +215,202 @@ namespace TTTF_TimeTravel_0._9._0
                     {
                         if (delorean.refilltimecurcuits)
                         {
-                            if (Game.Player.Character.CurrentVehicle.Model == "bttf3")
+                            if (delorean.getDelorean().Model == "bttf3")
                                 World.DrawLightWithRange(Delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
-                            else if (Game.Player.Character.CurrentVehicle.Model == "bttf3rr")
+                            else if (delorean.getDelorean().Model == "bttf3rr")
                                 World.DrawLightWithRange(Delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
                             else
                                 World.DrawLightWithRange(Delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.DodgerBlue, (float)1.2, 400);
-
-                            double time = 0;
-                            if (Delorean.Model == "bttf3" || Delorean.Model == "bttf3rr")
-                                time = Sounds.sparksbttf3.gettime();
-                            else
-                                time = Sounds.sparksfeul.gettime();
-                            if (time < 3000)
+                            
+                            if (errorbool)
                             {
-                                effects.wormholeAndTravel(Delorean, tempspeed, delorean.refilltimecurcuits);
+                                UI.Notify(error2);
+                                UIText debug4 = new UIText("Root Error: " + error + ". Problem: " + error2, new System.Drawing.Point(100, 500), (float)0.6);
+                                debug4.Draw();
                             }
-                            else
+                            try
                             {
-                                if (Function.Call<int>(Hash.GET_FOLLOW_VEHICLE_CAM_VIEW_MODE) == 4)
+                                double time = 0;
+                                time = Sounds.sparksfeul.gettime();
+                                if (time < 3000)
                                 {
-                                    Delorean.DirtLevel = 12;
-                                    //Function.Call(Hash.SET_CLOCK_DATE, getmonth(), getday(), getyear());
-                                    Function.Call(Hash.SET_CLOCK_TIME, ((delorean.fh1 * 10) + delorean.fh2), ((delorean.fm1 * 10) + delorean.fm2), 0);
-                                    if (delorean.refilltimecurcuits)
-                                    {
-                                        if (Delorean.Model == "bttf3")
-                                        {
-                                            Sounds.sparksbttf3.Stop();
-                                        }
-                                        Sounds.sparksfeul.Stop();
-                                    }
-                                    else
-                                    {
-                                        if (Delorean.Model == "bttf3")
-                                        {
-                                            Sounds.sparksbttf3.Stop();
-                                        }
-                                        Sounds.sparks.Stop();
-                                    }
-                                    Script.Wait(10);
-                                    delorean.timetravelentry();
-                                    Script.Wait(10);
-                                    if (Delorean.Model == "bttf3" || Delorean.Model == "bttf3rr")
-                                    {
-                                        Sounds.Timetravelreentery3.Play();
-                                    }
-                                    else if (Delorean.Model == "bttf2")
-                                    {
-                                        Sounds.Timetravelreentery2.Play();
-                                    }
-                                    else if (Delorean.Model == "bttf2f")
-                                    {
-                                        Sounds.Timetravelreentery2f.Play();
-                                    }
-                                    else
-                                    {
-                                        Sounds.Timetravelreentery.Play();
-                                    }
-                                    Script.Wait(10);
-                                    Ped[] peds = World.GetNearbyPeds(Game.Player.Character, 1000);
-                                    Vehicle[] pedVehicles = World.GetNearbyVehicles(Game.Player.Character, 1000);
-                                    for (int i = 0; i < peds.Length; i++)
-                                    {
-                                        Script.Wait(10);
-                                        if (peds[i] != Delorean.GetPedOnSeat(VehicleSeat.Driver))
-                                            if (peds[i] != Delorean.GetPedOnSeat(VehicleSeat.Passenger))
-                                                GTA.Native.Function.Call(GTA.Native.Hash.SET_ENTITY_COORDS_NO_OFFSET, peds[i], 0, 0, 0, 0, 0, 1);
-                                    }
-                                    Array.Clear(peds, 0, peds.Length);
-                                    Script.Wait(10);
-                                    for (int i = 0; i < pedVehicles.Length; i++)
-                                    {
-                                        Script.Wait(10);
-                                        if (pedVehicles[i] != Delorean)
-                                            GTA.Native.Function.Call(GTA.Native.Hash.SET_ENTITY_COORDS_NO_OFFSET, pedVehicles[i], 0, 0, 0, 0, 0, 1);
-                                    }
-                                    Array.Clear(pedVehicles, 0, pedVehicles.Length);
-                                    //End Ped Despawning
-                                    GTA.Native.Function.Call(GTA.Native.Hash.SET_RANDOM_WEATHER_TYPE);
-                                    Script.Wait(10);
-                                    Game.Player.WantedLevel = 0;
-
-                                    Script.Wait(10);
-                                    delorean.refilltimecurcuits = false;
-                                    Script.Wait(10);
-                                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Delorean.Handle, 0);
-                                    Delorean.SetMod(VehicleMod.Spoilers, 1, true);
-                                    Delorean.SetMod(VehicleMod.FrontBumper, -1, true);
+                                    effects.wormholeAndTravel(Delorean, tempspeed, delorean.refilltimecurcuits);
                                 }
                                 else
                                 {
-                                    Delorean.IsInvincible = true;
-                                    if (delorean.refilltimecurcuits)
+                                    if (Function.Call<int>(Hash.GET_FOLLOW_VEHICLE_CAM_VIEW_MODE) == 4)
                                     {
-                                        if (Delorean.Model == "bttf3")
+                                        Delorean.DirtLevel = 12;
+                                        //Function.Call(Hash.SET_CLOCK_DATE, getmonth(), getday(), getyear());
+                                        Function.Call(Hash.SET_CLOCK_TIME, ((delorean.fh1 * 10) + delorean.fh2), ((delorean.fm1 * 10) + delorean.fm2), 0);
+                                        if (delorean.refilltimecurcuits)
                                         {
-                                            Sounds.sparksbttf3.Stop();
+                                            if (Delorean.Model == "bttf3")
+                                            {
+                                                Sounds.sparksbttf3.Stop();
+                                            }
+                                            Sounds.sparksfeul.Stop();
                                         }
-                                        Sounds.sparksfeul.Stop();
-                                    }
-                                    else
-                                    {
-                                        if (Delorean.Model == "bttf3")
+                                        else
                                         {
-                                            Sounds.sparksbttf3.Stop();
+                                            if (Delorean.Model == "bttf3")
+                                            {
+                                                Sounds.sparksbttf3.Stop();
+                                            }
+                                            Sounds.sparks.Stop();
                                         }
-                                        Sounds.sparks.Stop();
-                                    }
-                                    effects.make_effect("scr_rcpaparazzo1", "scr_rcpap1_camera", Delorean);
-                                    if (Delorean.Model == "bttf3" || Delorean.Model == "bttf3rr")
-                                    {
-                                        Sounds.Timetravelreenterycutscene3.Play();
-                                    }
-                                    else
-                                        Sounds.Timetravelreenterycutscene.Play();
-                                    if (!stoponce)
-                                    {
-                                        Delorean.FreezePosition = true;
-                                        Delorean.HasCollision = false;
-                                        stoponce = true;
-                                    }
-                                    Delorean.IsVisible = false;
-                                    Delorean.EngineRunning = false;
-
-                                    for (double tempcount = 0; tempcount <= 6; tempcount += 0.2)
-                                    {
-                                        World.DrawSpotLight(Delorean.Position, Delorean.Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
-                                        effects.make_effecttimetravel(1, tempcount + 3, Game.Player.Character.CurrentVehicle);
-                                        effects.make_effecttimetravel2(-1, tempcount + 3, Game.Player.Character.CurrentVehicle);
-                                        tempcount += 0.1;
-                                        effects.make_effecttimetravel(1, tempcount + 3, Game.Player.Character.CurrentVehicle);
-                                        effects.make_effecttimetravel2(-1, tempcount + 3, Game.Player.Character.CurrentVehicle);
-                                        tempcount += 0.1;
-                                        effects.make_effecttimetravel(1, tempcount + 3, Game.Player.Character.CurrentVehicle);
-                                        effects.make_effecttimetravel2(-1, tempcount + 3, Game.Player.Character.CurrentVehicle);
-                                        tempcount += 0.1;
-                                        effects.make_effecttimetravel(1, tempcount + 3, Game.Player.Character.CurrentVehicle);
-                                        effects.make_effecttimetravel2(-1, tempcount + 3, Game.Player.Character.CurrentVehicle);
                                         Script.Wait(10);
-                                    }
-                                    if (Game.Player.WantedLevel > 0)
-                                    {
+                                        delorean.timetravelentry();
+                                        Script.Wait(10);
+                                        if (Delorean.Model == "bttf3" || Delorean.Model == "bttf3rr")
+                                        {
+                                            Sounds.Timetravelreentery3.Play();
+                                        }
+                                        else if (Delorean.Model == "bttf2")
+                                        {
+                                            Sounds.Timetravelreentery2.Play();
+                                        }
+                                        else if (Delorean.Model == "bttf2f")
+                                        {
+                                            Sounds.Timetravelreentery2f.Play();
+                                        }
+                                        else
+                                        {
+                                            Sounds.Timetravelreentery.Play();
+                                        }
+                                        Script.Wait(10);
+                                        Ped[] peds = World.GetNearbyPeds(Game.Player.Character, 1000);
+                                        Vehicle[] pedVehicles = World.GetNearbyVehicles(Game.Player.Character, 1000);
+                                        for (int i = 0; i < peds.Length; i++)
+                                        {
+                                            Script.Wait(10);
+                                            if (peds[i] != Delorean.GetPedOnSeat(VehicleSeat.Driver))
+                                                if (peds[i] != Delorean.GetPedOnSeat(VehicleSeat.Passenger))
+                                                    GTA.Native.Function.Call(GTA.Native.Hash.SET_ENTITY_COORDS_NO_OFFSET, peds[i], 0, 0, 0, 0, 0, 1);
+                                        }
+                                        Array.Clear(peds, 0, peds.Length);
+                                        Script.Wait(10);
+                                        for (int i = 0; i < pedVehicles.Length; i++)
+                                        {
+                                            Script.Wait(10);
+                                            if (pedVehicles[i] != Delorean)
+                                                GTA.Native.Function.Call(GTA.Native.Hash.SET_ENTITY_COORDS_NO_OFFSET, pedVehicles[i], 0, 0, 0, 0, 0, 1);
+                                        }
+                                        Array.Clear(pedVehicles, 0, pedVehicles.Length);
+                                        //End Ped Despawning
+                                        GTA.Native.Function.Call(GTA.Native.Hash.SET_RANDOM_WEATHER_TYPE);
+                                        Script.Wait(10);
                                         Game.Player.WantedLevel = 0;
+
+                                        Script.Wait(10);
+                                        delorean.refilltimecurcuits = false;
+                                        Script.Wait(10);
+                                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, Delorean.Handle, 0);
+                                        Delorean.SetMod(VehicleMod.Spoilers, 1, true);
+                                        Delorean.SetMod(VehicleMod.FrontBumper, -1, true);
                                     }
-                                    Delorean.OpenDoor(VehicleDoor.Hood, false, false);
-                                    if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Delorean, 10 }))
+                                    else
                                     {
-                                        Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Delorean, 10, -1 });
+                                        error = "Is invincible";
+                                        Delorean.IsInvincible = true;
+                                        error = "check refill";
+                                        if (delorean.refilltimecurcuits)
+                                        {
+                                            error = "check if bttf3";
+                                            if (Delorean.Model == "bttf3")
+                                            {
+                                                error = "stop bttf3 sound";
+                                                Sounds.sparksbttf3.Stop();
+                                            }
+                                            Sounds.sparksfeul.Stop();
+                                        }
+                                        else
+                                        {
+                                            error = "check if bttf3";
+                                            if (Delorean.Model == "bttf3")
+                                            {
+                                                error = "stop bttf3 sound";
+                                                Sounds.sparksbttf3.Stop();
+                                            }
+                                            Sounds.sparks.Stop();
+                                        }
+                                        error = "making effects";
+                                        effects.make_effect("scr_rcpaparazzo1", "scr_rcpap1_camera", Delorean);
+                                        error = "check bttf3 reentery sound";
+                                        if (Delorean.Model == "bttf3" || Delorean.Model == "bttf3rr")
+                                        {
+                                            error = "play bttf3 reentry";
+                                            Sounds.Timetravelreenterycutscene3.Play();
+                                        }
+                                        else
+                                            Sounds.Timetravelreenterycutscene.Play();
+                                        error = "stop once";
+                                        if (!stoponce)
+                                        {
+                                            error = "freeze";
+                                            Delorean.FreezePosition = true;
+                                            error = "no collide";
+                                            Delorean.HasCollision = false;
+                                            error = "stoponce true";
+                                            stoponce = true;
+                                        }
+                                        error = "is visible";
+                                        Delorean.IsVisible = false;
+                                        error = "turn off engine";
+                                        Delorean.EngineRunning = false;
+
+                                        for (double tempcount = 0; tempcount <= 6; tempcount += 0.2)
+                                        {
+                                            World.DrawSpotLight(Delorean.Position, Delorean.Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
+                                            effects.make_effecttimetravel(1, tempcount + 3, Delorean);
+                                            effects.make_effecttimetravel2(-1, tempcount + 3, Delorean);
+                                            tempcount += 0.1;
+                                            effects.make_effecttimetravel(1, tempcount + 3, Delorean);
+                                            effects.make_effecttimetravel2(-1, tempcount + 3, Delorean);
+                                            tempcount += 0.1;
+                                            effects.make_effecttimetravel(1, tempcount + 3, Delorean);
+                                            effects.make_effecttimetravel2(-1, tempcount + 3, Delorean);
+                                            tempcount += 0.1;
+                                            effects.make_effecttimetravel(1, tempcount + 3, Delorean);
+                                            effects.make_effecttimetravel2(-1, tempcount + 3, Delorean);
+                                            Script.Wait(10);
+                                        }
+                                        if (Game.Player.WantedLevel > 0)
+                                        {
+                                            Game.Player.WantedLevel = 0;
+                                        }
+                                        Delorean.OpenDoor(VehicleDoor.Hood, false, false);
+                                        if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Delorean, 10 }))
+                                        {
+                                            Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Delorean, 10, -1 });
+                                        }
+                                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, Delorean.Handle, 0);
+                                        Delorean.SetMod(VehicleMod.Spoilers, 1, true);
+                                        Delorean.SetMod(VehicleMod.FrontBumper, -1, true);
+                                        if (Game.Player.Character.IsInVehicle(Delorean))
+                                            reentry(Delorean);
+                                        else
+                                        {
+                                            delorean.timetravelentry();
+                                            delorean.refilltimecurcuits = false;
+                                            Script.Wait(10);
+                                            Function.Call(Hash.SET_VEHICLE_MOD_KIT, Delorean.Handle, 0);
+                                            Delorean.SetMod(VehicleMod.Spoilers, 1, true);
+                                            Delorean.SetMod(VehicleMod.FrontBumper, -1, true);
+                                        }
                                     }
-                                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Delorean.Handle, 0);
-                                    Delorean.SetMod(VehicleMod.Spoilers, 1, true);
-                                    Delorean.SetMod(VehicleMod.FrontBumper, -1, true);
-                                    reentry();
                                 }
+                            }
+                            catch (Exception f)
+                            {
+                                error2 = f.Message;
+                                errorbool = true;
                             }
                         }
                     }
                     else if (tempspeed < 84)
                     {
+                        errorbool = false;
                         if (Delorean.Model != new Model("BTTF3") && Delorean.Model != new Model("BTTF3rr"))
                         {
                             Function.Call(Hash.SET_VEHICLE_MOD_KIT, Delorean.Handle, 0);
@@ -414,13 +456,13 @@ namespace TTTF_TimeTravel_0._9._0
 
         static bool timeentry = false;
         static bool timeenter = false;
-        public static void reentry()
+        public static void reentry(Vehicle car)
         {
             Libeads.timejump = true;
             Script.Wait(2000);
             Game.FadeScreenOut(600);
             timeenter = true;
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].timetravelentry();
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].timetravelentry();
             effects.reseteffect();
             Script.Wait(1000);
             if (!timeentry)
@@ -430,8 +472,8 @@ namespace TTTF_TimeTravel_0._9._0
                 Vehicle[] pedVehicles = World.GetNearbyVehicles(Game.Player.Character, 100);
                 for (int i = 0; i < peds.Length; i++)
                 {
-                    if (peds[i] != timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver))
-                        if (peds[i] != timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger))
+                    if (peds[i] != timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver))
+                        if (peds[i] != timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger))
                             if (!Game.MissionFlag)
                                 peds[i].Delete();
                     //Function.Call(GTA.Native.Hash.SET_ENTITY_COORDS_NO_OFFSET, peds[i], 0, 0, 0, 0, 0, 1);
@@ -439,8 +481,8 @@ namespace TTTF_TimeTravel_0._9._0
                 Array.Clear(peds, 0, peds.Length);
                 for (int i = 0; i < pedVehicles.Length; i++)
                 {
-                    if (pedVehicles[i] != timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver))
-                        if (pedVehicles[i] != timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger))
+                    if (pedVehicles[i] != timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver))
+                        if (pedVehicles[i] != timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger))
                             if (!Game.MissionFlag)
                                 pedVehicles[i].Delete();
                     //Function.Call(GTA.Native.Hash.SET_ENTITY_COORDS_NO_OFFSET, pedVehicles[i], 0, 0, 0, 0, 0, 1);
@@ -450,89 +492,86 @@ namespace TTTF_TimeTravel_0._9._0
 
                 Function.Call(GTA.Native.Hash.SET_RANDOM_WEATHER_TYPE);
                 //Function.Call(Hash.SET_CLOCK_DATE, getmonth(), getday(), getyear());
-                Function.Call(Hash.SET_CLOCK_TIME, ((timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fh1 * 10) + timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fh2), 
-                    ((timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fm1 * 10) + timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fm2), 0);
+                Function.Call(Hash.SET_CLOCK_TIME, ((timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fh1 * 10) + timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fh2), 
+                    ((timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fm1 * 10) + timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fm2), 0);
                 timeentry = true;
             }
 
             Script.Wait(2000);
 
             timeentry = false;
-            if (Game.Player.Character.IsInVehicle(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean()))
-            {
-                timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().CloseDoor(VehicleDoor.Hood, false);
-                Game.FadeScreenIn(300);
-            }
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().CloseDoor(VehicleDoor.Hood, false);       
 
+            Game.FadeScreenIn(300);
             Script.Wait(1000);
 
-            if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == "bttf3" || timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == "bttf3rr")
+            if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == "bttf3" || timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == "bttf3rr")
             {
                 Sounds.reenterybttf3.Play();
             }
-            else if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == "bttf")
+            else if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == "bttf")
             {
                 Sounds.reenterybttf1.Play();
             }
             else
                 Sounds.reenterybttf2.Play();
 
-            if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF"))
+            if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF"))
             {
-                World.DrawSpotLight(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
-                timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsVisible = true;
+                World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
+                timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
                 Script.Wait(10);
-                timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsVisible = false;
+                timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = false;
                 Script.Wait(50);
-                World.DrawSpotLight(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
-                timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsVisible = true;
+                World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
+                timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
                 Script.Wait(10);
-                timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsVisible = false;
+                timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = false;
                 Script.Wait(50);
-                World.DrawSpotLight(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
-                timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsVisible = true;
+                World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
+                timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
                 Script.Wait(10);
             }
             else
             {
-                World.DrawSpotLight(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Rotation, Color.DeepSkyBlue, 80, 100, 60, 100, 5);
-                if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3") || timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3rr"))
-                    effects.make_effect("scr_martin1", "scr_sol1_sniper_impact", timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean());
+                World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.DeepSkyBlue, 80, 100, 60, 100, 5);
+                if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3") || timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3rr"))
+                    effects.make_effect("scr_martin1", "scr_sol1_sniper_impact", timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean());
                 Script.Wait(700);
-                if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3") || timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3rr"))
-                    effects.make_effect("scr_martin1", "scr_sol1_sniper_impact", timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean());
-                World.DrawSpotLight(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Rotation, Color.DeepSkyBlue, 80, 100, 60, 100, 5);
+                if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3") || timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3rr"))
+                    effects.make_effect("scr_martin1", "scr_sol1_sniper_impact", timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean());
+                World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.DeepSkyBlue, 80, 100, 60, 100, 5);
                 Script.Wait(700);
-                if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3") || timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3rr"))
-                    effects.make_effect("scr_martin1", "scr_sol1_sniper_impact", timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean());
-                World.DrawSpotLight(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().Rotation, Color.DeepSkyBlue, 80, 100, 60, 100, 5);
+                if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3") || timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Model == new Model("BTTF3rr"))
+                    effects.make_effect("scr_martin1", "scr_sol1_sniper_impact", timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean());
+                World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.DeepSkyBlue, 80, 100, 60, 100, 5);
             }
             Script.Wait(10);
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().FreezePosition = false;
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().FreezePosition = false;
             Script.Wait(10);
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().HasCollision = true;
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().HasCollision = true;
             Script.Wait(10);
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsVisible = true;
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
             Script.Wait(10);
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().ApplyForceRelative(new Vector3(0, 60, 0));
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().ApplyForceRelative(new Vector3(0, 55, 0));
             if (timeenter)
             {
-                if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsDoorBroken(VehicleDoor.FrontLeftDoor))
+                if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsDoorBroken(VehicleDoor.FrontLeftDoor))
                 {
-                    timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver).Kill();
-                    timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger).Kill();
+                    timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver).Kill();
+                    timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger).Kill();
                 }
-                if (timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsDoorBroken(VehicleDoor.FrontRightDoor))
+                if (timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsDoorBroken(VehicleDoor.FrontRightDoor))
                 {
-                    timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver).Kill();
-                    timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger).Kill();
+                    timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Driver).Kill();
+                    timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().GetPedOnSeat(VehicleSeat.Passenger).Kill();
                 }
             }
             //Mrfusionpower -= 3;
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].refilltimecurcuits = false;
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().IsInvincible = false;
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].refilltimecurcuits = false;
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsInvincible = false;
             Game.Player.CanControlCharacter = true;
-            timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().DirtLevel = 12;
+            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().DirtLevel = 12;
 
             startfreeze();
         }
@@ -588,7 +627,7 @@ namespace TTTF_TimeTravel_0._9._0
             }
             else
             {
-                if (playonce && !timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].refilltimecurcuits)
+                if (playonce && !timecurcuitssystem.bttfList[car.NumberPlate.Trim()].refilltimecurcuits)
                 {
                     Sounds.cold.Play();
                     playonce = false;

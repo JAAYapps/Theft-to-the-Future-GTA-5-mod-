@@ -1481,11 +1481,11 @@ namespace TTTF_TimeTravel_0._9._0
 
                     if (hour > 12)
                     {
-                        fampm = "pm";
+                        presampm = "pm";
                     }
                     else
                     {
-                        fampm = "am";
+                        presampm = "am";
                     }
 
                     //ampm

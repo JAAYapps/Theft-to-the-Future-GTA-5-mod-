@@ -90,6 +90,7 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 if (bttfList[bttfcar].getDelorean().Model == "bttf2" || bttfList[bttfcar].getDelorean().Model == "bttf2f")
                 {
+                    bool visible = Game.Player.Character.IsVisible;
                     if (bttfList[bttfcar].flyingison)
                     {
                         Vehicle tempv = bttfList[bttfcar].getDelorean();
@@ -127,7 +128,6 @@ namespace TTTF_TimeTravel_0._9._0
                         try
                         {
                             Function.Call(Hash.SET_VEHICLE_MOD_KIT, tempspawn.Handle, 0);
-                            tempspawn.SetMod(VehicleMod.RearBumper, 2, true);
                             tempspawn.ToggleMod(VehicleToggleMod.Turbo, true);
                             tempspawn.SetMod(VehicleMod.Frame, -1, true);
                             tempspawn.SetMod(VehicleMod.Horns, 16, true);
@@ -138,6 +138,14 @@ namespace TTTF_TimeTravel_0._9._0
                             tempspawn.SetMod(VehicleMod.Exhaust, 0, true);
                             tempspawn.SetMod(VehicleMod.Hood, 0, true);
                             tempspawn.SetMod(VehicleMod.Ornaments, 0, true);
+                            if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { tempspawn, 10 }))
+                            {
+                                Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { tempspawn, 10, 0 });
+                            }
+                            if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { tempspawn, 1 }))
+                            {
+                                Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { tempspawn, 1, -1 });
+                            }
                         }
                         catch
                         {
@@ -175,8 +183,8 @@ namespace TTTF_TimeTravel_0._9._0
                                 tempv.ApplyForce(new Vector3(0, 0, 0.6f));
                                 tempspawn = World.CreateVehicle(bttf2f, new Vector3(500, 500, 500));
                                 tempspawn.NumberPlate = tempv.NumberPlate;
+
                                 Function.Call(Hash.SET_VEHICLE_MOD_KIT, tempspawn.Handle, 0);
-                                tempspawn.SetMod(VehicleMod.RearBumper, 2, true);
                                 tempspawn.ToggleMod(VehicleToggleMod.Turbo, true);
                                 tempspawn.SetMod(VehicleMod.Frame, -1, true);
                                 tempspawn.SetMod(VehicleMod.Horns, 16, true);
@@ -187,6 +195,14 @@ namespace TTTF_TimeTravel_0._9._0
                                 tempspawn.SetMod(VehicleMod.Exhaust, 0, true);
                                 tempspawn.SetMod(VehicleMod.Hood, 0, true);
                                 tempspawn.SetMod(VehicleMod.Ornaments, 0, true);
+                                if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { tempspawn, 10 }))
+                                {
+                                    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { tempspawn, 10, 0 });
+                                }
+                                if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { tempspawn, 1 }))
+                                {
+                                    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { tempspawn, 1, -1 });
+                                }
                                 tempspawn.SetMod(VehicleMod.AirFilter, 0, true);
                                 tempspawn.SetMod(VehicleMod.Aerials, 0, true);
                                 tempspawn.SetMod(VehicleMod.EngineBlock, 0, true);
@@ -244,6 +260,7 @@ namespace TTTF_TimeTravel_0._9._0
                         driver.HasCollision = true;
                         passenger.HasCollision = true;
                     }
+                    Game.Player.Character.IsVisible = visible;
                 }
             }
             
@@ -277,6 +294,19 @@ namespace TTTF_TimeTravel_0._9._0
                                     }
                                     else
                                     {
+                                        Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
+                                        while (!Function.Call<bool>(Hash.HAS_ANIM_DICT_LOADED, "ah_1_mcs_1-0"))
+                                        {
+                                            Script.Wait(10);
+                                        }
+                                        Game.Player.Character.Position = bttfList[car.NumberPlate.Trim()].getDelorean().GetOffsetInWorldCoords(new Vector3(0, -2.3f, -1));
+                                        Game.Player.Character.Rotation = bttfList[car.NumberPlate.Trim()].getDelorean().Rotation;
+
+                                        Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
+                                        Vector3 animxyz = Game.Player.Character.Position;
+                                        Vector3 animrot = Game.Player.Character.Rotation;
+                                        Function.Call(Hash.TASK_PLAY_ANIM_ADVANCED, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", animxyz.X, animxyz.Y, animxyz.Z, animrot.X, animrot.Y, animrot.Z, 0.8f, 0.5, 6000, (int)AnimationFlags.UpperBodyOnly, 0.35f, false, false);
+                                        Script.Wait(1500);
                                         Sounds.pr0load.Play();
                                         bttfList[car.NumberPlate.Trim()].getDelorean().OpenDoor(VehicleDoor.Trunk, false, false);
                                         bttfList[car.NumberPlate.Trim()].refilltimecurcuits = true;
@@ -287,6 +317,19 @@ namespace TTTF_TimeTravel_0._9._0
                                 }
                                 else
                                 {
+                                    Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
+                                    while (!Function.Call<bool>(Hash.HAS_ANIM_DICT_LOADED, "ah_1_mcs_1-0"))
+                                    {
+                                        Script.Wait(10);
+                                    }
+                                    Game.Player.Character.Position = bttfList[car.NumberPlate.Trim()].getDelorean().GetOffsetInWorldCoords(new Vector3(0, -2.3f, -1));
+                                    Game.Player.Character.Rotation = bttfList[car.NumberPlate.Trim()].getDelorean().Rotation;
+                                    
+                                    Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
+                                    Vector3 animxyz = Game.Player.Character.Position;
+                                    Vector3 animrot = Game.Player.Character.Rotation;
+                                    Function.Call(Hash.TASK_PLAY_ANIM_ADVANCED, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", animxyz.X, animxyz.Y, animxyz.Z, animrot.X, animrot.Y, animrot.Z, 0.8f, 0.5, 6000, (int)AnimationFlags.UpperBodyOnly, 0.35f, false, false);
+                                    Script.Wait(1500);
                                     Sounds.Mrfrusionfill.Play();
                                     bttfList[car.NumberPlate.Trim()].getDelorean().OpenDoor(VehicleDoor.Trunk, false, false);
                                     bttfList[car.NumberPlate.Trim()].refilltimecurcuits = true;

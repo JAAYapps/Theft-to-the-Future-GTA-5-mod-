@@ -291,6 +291,7 @@ namespace TTTF_TimeTravel_0._9._0
                                         Libeads.plutblip.CurrentBlip.Color = BlipColor.Yellow;
                                         Libeads.plutblip.CurrentBlip.IsFlashing = true;
                                         Libeads.plutblip.CurrentBlip.ShowRoute = true;
+                                        Libeads.timejump = false;
                                     }
                                     else
                                     {
@@ -312,6 +313,8 @@ namespace TTTF_TimeTravel_0._9._0
                                         bttfList[car.NumberPlate.Trim()].refilltimecurcuits = true;
                                         Script.Wait(3000);
                                         bttfList[car.NumberPlate.Trim()].getDelorean().CloseDoor(VehicleDoor.Trunk, false);
+                                        Script.Wait(500);
+                                        Function.Call(Hash.STOP_ANIM_TASK, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", 1);
                                         Libeads.plutonium--;
                                     }
                                 }

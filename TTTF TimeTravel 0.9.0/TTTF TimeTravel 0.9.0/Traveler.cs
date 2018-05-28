@@ -12,7 +12,7 @@ namespace TTTF_TimeTravel_0._9._0
     class Traveler
     {
         public static bool enabled = false;
-        static Ped traveler = null;
+        static public Ped traveler = null;
         public static void autoSetCircuits()
         {
             Script.Wait(600);
@@ -39,35 +39,40 @@ namespace TTTF_TimeTravel_0._9._0
         {
             try
             {
-                while (!traveler.IsInVehicle(timecurcuitssystem.bttfList[traveler.CurrentVehicle.NumberPlate.Trim()].getDelorean()) && traveler.IsAlive)
+                if (!enabled)
                 {
-                    try
+                    while (!traveler.IsInVehicle(timecurcuitssystem.bttfList[traveler.CurrentVehicle.NumberPlate.Trim()].getDelorean()) && traveler.IsAlive)
                     {
-                        if (Game.Player.Character.IsInVehicle())
+                        try
                         {
-                            if (!traveler.IsInVehicle())
+                            if (Game.Player.Character.IsInVehicle())
                             {
-                                traveler.Task.EnterVehicle(Game.Player.Character.CurrentVehicle, VehicleSeat.Passenger);
+                                if (!traveler.IsInVehicle())
+                                {
+                                    traveler.Task.EnterVehicle(Game.Player.Character.CurrentVehicle, VehicleSeat.Passenger);
+                                }
+                            }
+                            else
+                            {
+                                if (traveler.IsInVehicle())
+                                    if (!Game.Player.Character.IsInVehicle())
+                                        traveler.Task.LeaveVehicle();
+                                traveler.Task.RunTo(Game.Player.Character.GetOffsetInWorldCoords(new Vector3(0, -3, 0)));
+                                UI.ShowSubtitle("Task progress " + traveler.TaskSequenceProgress);
                             }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            if (traveler.IsInVehicle())
-                                if (!Game.Player.Character.IsInVehicle())
-                                    traveler.Task.LeaveVehicle();
-                            traveler.Task.RunTo(Game.Player.Character.GetOffsetInWorldCoords(new Vector3(0, -3, 0)));
+                            UI.ShowSubtitle(e.Message);
                         }
+                        Doors.doorswithwait(true, false, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean(), false, 2000);
+                        Script.Wait(10);
                     }
-                    catch (Exception e)
-                    {
-                        UI.ShowSubtitle(e.Message);
-                    }
-                    Doors.doorswithwait(true, false, timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean(), false, 2000);
+                    if (!traveler.IsDead)
+                        autoSetCircuits();
+                    else
+                        UI.ShowSubtitle("You from the future Died");
                 }
-                if (!traveler.IsDead)
-                    autoSetCircuits();
-                else
-                    UI.ShowSubtitle("You from the future Died");
             }
             catch
             {

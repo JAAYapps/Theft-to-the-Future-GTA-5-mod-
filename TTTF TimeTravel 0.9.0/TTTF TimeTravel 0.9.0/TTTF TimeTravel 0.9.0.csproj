@@ -69,6 +69,7 @@
     <Compile Include="Libeads.cs" />
     <Compile Include="mainsystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="readwritefile.cs" />
     <Compile Include="Serialize.cs" />
     <Compile Include="soundplayer.cs" />
     <Compile Include="Sounds.cs" />

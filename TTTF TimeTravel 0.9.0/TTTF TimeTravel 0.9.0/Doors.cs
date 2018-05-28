@@ -11,13 +11,14 @@ namespace TTTF_TimeTravel_0._9._0
 {
     class Doors
     {
+        static bool ice = false;
         static bool doorisopen = false;
         static bool doorisopen2 = false;
         static bool doorisclosed = true;
         static bool doorisclosed2 = true;
         static bool closeactive = false;
 
-        public static void doors(bool enabled, bool ice, Vehicle delorean, bool doorDebug)
+        public static void doors(bool enabled, Vehicle delorean, bool doorDebug)
         {
             if (enabled)
             {

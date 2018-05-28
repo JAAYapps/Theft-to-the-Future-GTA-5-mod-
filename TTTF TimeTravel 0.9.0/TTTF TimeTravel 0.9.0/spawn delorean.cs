@@ -150,31 +150,42 @@ namespace TTTF_TimeTravel_0._9._0
                             Deloreon.ApplyForceRelative(new Vector3(0, 0, 0), new Vector3(30, 0, 0));
                         }
                         traveler.Task.LeaveVehicle(Deloreon, false);
-                        for (int count = 0; count < 300; count++)
-                        {
-                            Doors.doors(true, true, Deloreon, false);
-                            Script.Wait(10);
-                        }
-                        traveler.Task.GoTo(Deloreon.GetOffsetInWorldCoords(new Vector3(3, -3.6f, -5.5f)), false);
                         for (int count = 0; count < 100; count++)
                         {
-                            Doors.doors(true, true, Deloreon, false);
+                            Doors.doors(true, Deloreon, false);
                             Script.Wait(10);
                         }
-                        traveler.Task.GoTo(Deloreon.GetOffsetInWorldCoords(new Vector3(0, -2.6f, 0.5f)), true);
+                        traveler.Task.GoTo(Deloreon.GetOffsetInWorldCoords(new Vector3(0, -3.6f, 0)), false);
+                        for (int count = 0; count < 100; count++)
+                        {
+                            Doors.doors(true, Deloreon, false);
+                            Script.Wait(10);
+                        }
+                        traveler.Task.GoTo(Deloreon.GetOffsetInWorldCoords(new Vector3(0, -2.3f, 0)), true);
                         for (int count = 0; count < 70; count++)
                         {
-                            Doors.doors(true, true, Deloreon, false);
+                            Doors.doors(true, Deloreon, false);
                             Script.Wait(10);
                         }
                         traveler.Task.ClearAll();
-                        traveler.Task.StartScenario("PROP_HUMAN_ATM", Deloreon.GetOffsetInWorldCoords(new Vector3(0, -2.6f, 0.5f)));
-                        for (int count = 0; count < 70; count++)
+                        Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
+                        while (!Function.Call<bool>(Hash.HAS_ANIM_DICT_LOADED, "ah_1_mcs_1-0"))
                         {
-                            Doors.doors(true, true, Deloreon, false);
+                            Doors.doors(true, Deloreon, false);
                             Script.Wait(10);
                         }
-                        traveler.Rotation = Deloreon.Rotation;
+                        Game.Player.Character.Position = Deloreon.GetOffsetInWorldCoords(new Vector3(0, -2.3f, -1));
+                        Game.Player.Character.Rotation = Deloreon.Rotation;
+
+                        Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
+                        Vector3 animxyz = Game.Player.Character.Position;
+                        Vector3 animrot = Game.Player.Character.Rotation;
+                        Function.Call(Hash.TASK_PLAY_ANIM_ADVANCED, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", animxyz.X, animxyz.Y, animxyz.Z, animrot.X, animrot.Y, animrot.Z, 0.8f, 0.5, 6000, (int)AnimationFlags.UpperBodyOnly, 0.35f, false, false);
+                        for (int count = 0; count < 15; count++)
+                        {
+                            Doors.doors(true, Deloreon, false);
+                            Script.Wait(10);
+                        }
                         if (Deloreon != null)
                         {
                             if (Deloreon.Model == "bttf")
@@ -183,6 +194,8 @@ namespace TTTF_TimeTravel_0._9._0
                                 Deloreon.OpenDoor(VehicleDoor.Trunk, false, false);
                                 Script.Wait(3000);
                                 Deloreon.CloseDoor(VehicleDoor.Trunk, false);
+                                Script.Wait(500);
+                                Function.Call(Hash.STOP_ANIM_TASK, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", 1);
                             }
                             else
                             {
@@ -191,7 +204,8 @@ namespace TTTF_TimeTravel_0._9._0
                                 Script.Wait(4000);
                                 Deloreon.CloseDoor(VehicleDoor.Trunk, false);
                             }
-                            Traveler.enabled = true;
+                            Traveler.traveler = traveler;
+                            Traveler.enabled = false;
                         }
                     }
                     else

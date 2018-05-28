@@ -185,11 +185,9 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 foreach (string car in timecurcuitssystem.bttfList.Keys)
                 {
+                    #region time check
                     TimeTravel.runningCircuits(timecurcuitssystem.bttfList[car]);
                     TimeTravel.tickfreeze(timecurcuitssystem.bttfList[car].getDelorean());
-
-                    #region time check
-
                     #endregion
 
                     if (timecurcuitssystem.bttfList[car].getDelorean().IsDead)
@@ -208,7 +206,7 @@ namespace TTTF_TimeTravel_0._9._0
                         }
                     }
                 }
-                Doors.doors(World.GetClosestVehicle(Game.Player.Character.Position, 10).FriendlyName == "DMC12", false, World.GetClosestVehicle(Game.Player.Character.Position, 10), false);
+                Doors.doors(World.GetClosestVehicle(Game.Player.Character.Position, 10).FriendlyName == "DMC12", World.GetClosestVehicle(Game.Player.Character.Position, 10), false);
             }
             catch
             {

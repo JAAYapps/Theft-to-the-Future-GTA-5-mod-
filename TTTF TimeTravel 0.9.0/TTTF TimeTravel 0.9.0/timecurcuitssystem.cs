@@ -13,12 +13,26 @@ namespace TTTF_TimeTravel_0._9._0
     class timecurcuitssystem
     {
         public static Dictionary<string, Delorean> bttfList = new Dictionary<string, Delorean>();
+        public static Dictionary<string, effects> wormhole = new Dictionary<string, effects>();
+        public static Dictionary<string, TimeTravel> circuits = new Dictionary<string, TimeTravel>();
 
         public static void addToList(string name, Vehicle car)
         {
             car.NumberPlate = name;
-
             bttfList.Add(name, new Delorean(car));
+            wormhole.Add(name, new effects());
+            if (car.Model == "BTTF1")
+                circuits.Add(name, new bttf1TimeTravel());
+            else if (car.Model == "BTTF2")
+                circuits.Add(name, new bttf2TimeTravel());
+            else if (car.Model == "BTTF2F")
+                circuits.Add(name, new bttf2TimeTravel());
+            else if (car.Model == "BTTF3")
+                circuits.Add(name, new bttf3TimeTravel());
+            else if (car.Model == "BTTF3RR")
+                circuits.Add(name, new bttf3TimeTravel());
+            else
+                circuits.Add(name, new bttf1TimeTravel());
         }
 
         public static void RemoveTimeCircuits()
@@ -26,7 +40,9 @@ namespace TTTF_TimeTravel_0._9._0
             Delorean temp = null;
             if (bttfList.TryGetValue(Game.Player.Character.CurrentVehicle.NumberPlate.Trim(), out temp))
             {
-                bttfList.Remove(Game.Player.Character.CurrentVehicle.NumberPlate);
+                bttfList.Remove(Game.Player.Character.CurrentVehicle.NumberPlate.Trim());
+                wormhole.Remove(Game.Player.Character.CurrentVehicle.NumberPlate.Trim());
+                circuits.Remove(Game.Player.Character.CurrentVehicle.NumberPlate.Trim());
             }
         }
 
@@ -36,24 +52,24 @@ namespace TTTF_TimeTravel_0._9._0
             if (bttfList.TryGetValue(name, out temp))
             {
                 bttfList.Remove(name);
+                wormhole.Remove(name);
+                circuits.Remove(name);
             }
         }
 
         public static void RemoveDelorean()
         {
-            if (bttfList.Count - 1 <= 0)
-            {
-                Game.Player.Character.CurrentVehicle.Delete();
-            }
-            else
+            if (bttfList.Count - 1 > 0)
             {
                 Delorean temp = null;
                 if (bttfList.TryGetValue(Game.Player.Character.CurrentVehicle.NumberPlate.Trim(), out temp))
                 {
-                    bttfList.Remove(Game.Player.Character.CurrentVehicle.NumberPlate);
+                    bttfList.Remove(Game.Player.Character.CurrentVehicle.NumberPlate.Trim());
+                    wormhole.Remove(Game.Player.Character.CurrentVehicle.NumberPlate.Trim());
+                    circuits.Remove(Game.Player.Character.CurrentVehicle.NumberPlate.Trim());
                 }
-                temp.getDelorean().Delete();
             }
+            Game.Player.Character.CurrentVehicle.Delete();
         }
 
         public static void RemoveDelorean(string name)
@@ -62,6 +78,8 @@ namespace TTTF_TimeTravel_0._9._0
             if (bttfList.TryGetValue(name, out temp))
             {
                 bttfList.Remove(name);
+                wormhole.Remove(name);
+                circuits.Remove(name);
             }
             temp.getDelorean().Delete();
         }
@@ -71,6 +89,19 @@ namespace TTTF_TimeTravel_0._9._0
             car.NumberPlate = name;
             bttfList.Add(name, new Delorean(car, refilledOn));
             bttfList[name].setDelorean(car);
+            wormhole.Add(name, new effects());
+            if (car.Model == "BTTF1")
+                circuits.Add(name, new bttf1TimeTravel());
+            else if (car.Model == "BTTF2")
+                circuits.Add(name, new bttf2TimeTravel());
+            else if (car.Model == "BTTF2F")
+                circuits.Add(name, new bttf2TimeTravel());
+            else if (car.Model == "BTTF3")
+                circuits.Add(name, new bttf3TimeTravel());
+            else if (car.Model == "BTTF3RR")
+                circuits.Add(name, new bttf3TimeTravel());
+            else
+                circuits.Add(name, new bttf1TimeTravel());
         }
 
         public static void addToList(string name, Vehicle car, bool refilledOn, int day1 = 2, int day2 = 9, int month1 = 0, int month2 = 5
@@ -80,6 +111,19 @@ namespace TTTF_TimeTravel_0._9._0
             car.NumberPlate = name;
             bttfList.Add(name, new Delorean(car, refilledOn, day1, day2, month1, month2, y1, y2, y3, y4, h1, h2, m1, m2));
             bttfList[name].setDelorean(car);
+            wormhole.Add(name, new effects());
+            if (car.Model == "BTTF1")
+                circuits.Add(name, new bttf1TimeTravel());
+            else if (car.Model == "BTTF2")
+                circuits.Add(name, new bttf2TimeTravel());
+            else if (car.Model == "BTTF2F")
+                circuits.Add(name, new bttf2TimeTravel());
+            else if (car.Model == "BTTF3")
+                circuits.Add(name, new bttf3TimeTravel());
+            else if (car.Model == "BTTF3RR")
+                circuits.Add(name, new bttf3TimeTravel());
+            else
+                circuits.Add(name, new bttf1TimeTravel());
         }
 
         public static void Toggleflight()
@@ -263,8 +307,6 @@ namespace TTTF_TimeTravel_0._9._0
                     Game.Player.Character.IsVisible = visible;
                 }
             }
-            
-            //UI.ShowSubtitle("Flying mode: " + Deloreanlist[index].flyingison, 5);
         }
 
         public static void ToggleMrfusion(Ped ped)
@@ -300,12 +342,12 @@ namespace TTTF_TimeTravel_0._9._0
                                         {
                                             Script.Wait(10);
                                         }
-                                        Game.Player.Character.Position = bttfList[car.NumberPlate.Trim()].getDelorean().GetOffsetInWorldCoords(new Vector3(0, -2.3f, -1));
-                                        Game.Player.Character.Rotation = bttfList[car.NumberPlate.Trim()].getDelorean().Rotation;
+                                        ped.Position = bttfList[car.NumberPlate.Trim()].getDelorean().GetOffsetInWorldCoords(new Vector3(0, -2.3f, -1));
+                                        ped.Rotation = bttfList[car.NumberPlate.Trim()].getDelorean().Rotation;
 
                                         Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
-                                        Vector3 animxyz = Game.Player.Character.Position;
-                                        Vector3 animrot = Game.Player.Character.Rotation;
+                                        Vector3 animxyz = ped.Position;
+                                        Vector3 animrot = ped.Rotation;
                                         Function.Call(Hash.TASK_PLAY_ANIM_ADVANCED, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", animxyz.X, animxyz.Y, animxyz.Z, animrot.X, animrot.Y, animrot.Z, 0.8f, 0.5, 6000, (int)AnimationFlags.UpperBodyOnly, 0.35f, false, false);
                                         Script.Wait(1500);
                                         Sounds.pr0load.Play();
@@ -314,7 +356,7 @@ namespace TTTF_TimeTravel_0._9._0
                                         Script.Wait(3000);
                                         bttfList[car.NumberPlate.Trim()].getDelorean().CloseDoor(VehicleDoor.Trunk, false);
                                         Script.Wait(500);
-                                        Function.Call(Hash.STOP_ANIM_TASK, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", 1);
+                                        Function.Call(Hash.STOP_ANIM_TASK, ped, "ah_1_mcs_1-0", "csb_janitor_dual-0", 1);
                                         Libeads.plutonium--;
                                     }
                                 }
@@ -325,13 +367,13 @@ namespace TTTF_TimeTravel_0._9._0
                                     {
                                         Script.Wait(10);
                                     }
-                                    Game.Player.Character.Position = bttfList[car.NumberPlate.Trim()].getDelorean().GetOffsetInWorldCoords(new Vector3(0, -2.3f, -1));
-                                    Game.Player.Character.Rotation = bttfList[car.NumberPlate.Trim()].getDelorean().Rotation;
+                                    ped.Position = bttfList[car.NumberPlate.Trim()].getDelorean().GetOffsetInWorldCoords(new Vector3(0, -2.3f, -1));
+                                    ped.Rotation = bttfList[car.NumberPlate.Trim()].getDelorean().Rotation;
                                     
                                     Function.Call(Hash.REQUEST_ANIM_DICT, "ah_1_mcs_1-0");
-                                    Vector3 animxyz = Game.Player.Character.Position;
-                                    Vector3 animrot = Game.Player.Character.Rotation;
-                                    Function.Call(Hash.TASK_PLAY_ANIM_ADVANCED, Game.Player.Character, "ah_1_mcs_1-0", "csb_janitor_dual-0", animxyz.X, animxyz.Y, animxyz.Z, animrot.X, animrot.Y, animrot.Z, 0.8f, 0.5, 6000, (int)AnimationFlags.UpperBodyOnly, 0.35f, false, false);
+                                    Vector3 animxyz = ped.Position;
+                                    Vector3 animrot = ped.Rotation;
+                                    Function.Call(Hash.TASK_PLAY_ANIM_ADVANCED, ped, "ah_1_mcs_1-0", "csb_janitor_dual-0", animxyz.X, animxyz.Y, animxyz.Z, animrot.X, animrot.Y, animrot.Z, 0.8f, 0.5, 6000, (int)AnimationFlags.UpperBodyOnly, 0.35f, false, false);
                                     Script.Wait(1500);
                                     Sounds.Mrfrusionfill.Play();
                                     bttfList[car.NumberPlate.Trim()].getDelorean().OpenDoor(VehicleDoor.Trunk, false, false);
@@ -393,7 +435,6 @@ namespace TTTF_TimeTravel_0._9._0
             if (bttfList.TryGetValue(Game.Player.Character.CurrentVehicle.NumberPlate.Trim(), out delorea))
             {
                 #region Engine
-                UI.ShowSubtitle(bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().EngineRunning + " and " + enginestate);
                 if (bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().EngineRunning != enginestate)
                 {
                     if (bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean().EngineRunning)
@@ -448,7 +489,7 @@ namespace TTTF_TimeTravel_0._9._0
                 displaysystem.display_background(bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean(), bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].refilltimecurcuits, bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].toggletimecurcuits);
                 if (bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].toggletimecurcuits)
                 {
-                    if (!TimeTravel.freeze && !emptyNotify && !bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].refilltimecurcuits)
+                    if (!circuits[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].freeze && !emptyNotify && !bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].refilltimecurcuits)
                     {
                         displaysystem.runempty();
                         emptyNotify = true;

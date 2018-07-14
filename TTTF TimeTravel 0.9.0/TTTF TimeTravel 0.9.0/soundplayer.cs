@@ -71,7 +71,6 @@ namespace TTTF_TimeTravel_0._9._0
             }
         }
 
-        //bool isPlaying = false;
         public void Play()
         {
             if (!File.Exists(soundpath))
@@ -79,7 +78,6 @@ namespace TTTF_TimeTravel_0._9._0
             reader.CurrentTime = TimeSpan.FromSeconds(0);
             speedControl.Reposition();
             wavePlayer.Play();
-            //isPlaying = true;
         }
 
         bool playLoopBool = false;
@@ -91,7 +89,6 @@ namespace TTTF_TimeTravel_0._9._0
                 speedControl.Reposition();
                 wavePlayer.Play();
             }
-            //isPlaying = false;
         }
 
         public bool pausebool = false;

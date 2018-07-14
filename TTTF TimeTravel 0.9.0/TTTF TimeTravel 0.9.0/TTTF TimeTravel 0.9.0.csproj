@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bttf1TimeTravel.cs" />
+    <Compile Include="bttf2TimeTravel.cs" />
+    <Compile Include="bttf3TimeTravel.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Delorean.cs" />
     <Compile Include="DeloreanManagement.cs" />

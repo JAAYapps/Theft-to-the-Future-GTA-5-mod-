@@ -18,3 +18,13 @@ C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\realEngineStarter\re
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\realEngineStarter\realEngineStarter\obj\x64\Debug\realEngineStarter.csproj.CoreCompileInputs.cache
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\realEngineStarter\realEngineStarter\obj\x64\Debug\realEngineStarter.dll
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\new mods\realEngineStarter\realEngineStarter\obj\x64\Debug\realEngineStarter.pdb
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\bin\x64\Debug\realEngineStarter.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\bin\x64\Debug\realEngineStarter.pdb
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\bin\x64\Debug\NativeUI.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\bin\x64\Debug\NAudio.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\bin\x64\Debug\ScriptHookVDotNet2.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\bin\x64\Debug\NAudio.xml
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\obj\x64\Debug\realEngineStarter.csprojResolveAssemblyReference.cache
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\obj\x64\Debug\realEngineStarter.csproj.CoreCompileInputs.cache
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\obj\x64\Debug\realEngineStarter.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\realEngineStarter\realEngineStarter\obj\x64\Debug\realEngineStarter.pdb

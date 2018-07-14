@@ -113,7 +113,7 @@ namespace TTTF_TimeTravel_0._9._0
             }
         }
 
-        static TTTFmenu TTTF;
+        public static TTTFmenu TTTF;
         private void onKeyUp(object sender, KeyEventArgs e)
         {
             try
@@ -265,15 +265,6 @@ namespace TTTF_TimeTravel_0._9._0
                     helpFromDoc.tick();
                     Traveler.tick();
                     DeloreanManagement.tick();
-
-                    try
-                    {
-                        //UI.ShowSubtitle("Velocity: " + Game.Player.Character.CurrentVehicle.DisplayName);
-                    }
-                    catch
-                    {
-
-                    }
                     
                     R = Game.IsKeyPressed(Keys.R);
                     C = Game.IsKeyPressed(Keys.C);
@@ -349,19 +340,19 @@ namespace TTTF_TimeTravel_0._9._0
 
 
             
-            if (display_errors)
-            {
-                UIText debug2 = new UIText(messageerrors[0], new System.Drawing.Point(100, 50), (float)0.6);
-                debug2.Draw();
-                UIText debug = new UIText(messageerrors[1], new System.Drawing.Point(100, 200), (float)0.6);
-                debug.Draw();
-                UIText debug3 = new UIText(messageerrors[2], new System.Drawing.Point(100, 350), (float)0.6);
-                debug3.Draw();
-                UIText debug4 = new UIText(messageerrors[3], new System.Drawing.Point(100, 500), (float)0.6);
-                debug4.Draw();
-            }
+            //if (display_errors)
+            //{
+            //    UIText debug2 = new UIText(messageerrors[0], new System.Drawing.Point(100, 50), (float)0.6);
+            //    debug2.Draw();
+            //    UIText debug = new UIText(messageerrors[1], new System.Drawing.Point(100, 200), (float)0.6);
+            //    debug.Draw();
+            //    UIText debug3 = new UIText(messageerrors[2], new System.Drawing.Point(100, 350), (float)0.6);
+            //    debug3.Draw();
+            //    UIText debug4 = new UIText(messageerrors[3], new System.Drawing.Point(100, 500), (float)0.6);
+            //    debug4.Draw();
+            //}
         }
-        public static string[] messageerrors = new string[4];
+        //public static string[] messageerrors = new string[4];
         public static bool display_errors = false;
 
         public static SimpleTCP.SimpleTcpClient client;
@@ -406,10 +397,10 @@ namespace TTTF_TimeTravel_0._9._0
             }
             catch (Exception d)
             {
-                messageerrors[0] = "object: " + d.TargetSite + " location: " + d.StackTrace + " Error: " + d.Message;
-                messageerrors[1] = "location: " + d.StackTrace;
-                messageerrors[2] = "Error: " + d.Message;
-                messageerrors[3] = "Root Error: " + d.InnerException;
+                //messageerrors[0] = "object: " + d.TargetSite + " location: " + d.StackTrace + " Error: " + d.Message;
+                //messageerrors[1] = "location: " + d.StackTrace;
+                //messageerrors[2] = "Error: " + d.Message;
+                //messageerrors[3] = "Root Error: " + d.InnerException;
                 UI.ShowSubtitle(d.Message);
                 display_errors = true;
             }

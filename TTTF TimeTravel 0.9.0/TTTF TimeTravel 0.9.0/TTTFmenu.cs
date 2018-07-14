@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace TTTF_TimeTravel_0._9._0
 {
-    class TTTFmenu
+    public class TTTFmenu
     {
         private MenuPool _myMenuPool = new MenuPool();
         public UIMenu myMenu = new UIMenu("Theft to the Future", "Mod Menu");
@@ -41,7 +41,7 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 myMenu.SetBannerType("Scripts\\menu images\\THEFT-FUTURE-LOGO-BLACK.png");
             }
-            setmenu();
+            setmenu(false);
             setDebugmenu();
             setCoOp();
 
@@ -135,8 +135,10 @@ namespace TTTF_TimeTravel_0._9._0
             coop.RefreshIndex();
         }
 
-        void setmenu()
+        public void setmenu(bool clear)
         {
+            if (clear)
+                myMenu.Clear();
             if (!mainsystem.checkifConnectedToLauncher())
             {
                 myMenu.AddItem(new UIMenuItem("Connect to Launcher"));
@@ -212,8 +214,7 @@ namespace TTTF_TimeTravel_0._9._0
                         mainsystem.client.Connect("127.0.0.1", 10757);
                         mainsystem.client.WriteLineAndGetReply("script running", new TimeSpan(0, 0, 20));
                         mainsystem.setConnection(true);
-                        myMenu.Clear();
-                        setmenu();
+                        setmenu(true);
                     }
                 }
                 catch (Exception d)
@@ -364,15 +365,13 @@ namespace TTTF_TimeTravel_0._9._0
             else if (selectedItem.Text == "Rescue Cutscene")
             {
                 spawn_delorean.spawn(new Model(carmodel), true);
-                myMenu.Clear();
-                setmenu();
+                setmenu(true);
                 Show();
             }
             else if (selectedItem.Text == "Spawn Delorean")
             {
                 spawn_delorean.spawn(new Model(carmodel), false);
-                myMenu.Clear();
-                setmenu();
+                setmenu(true);
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 1)")
             {
@@ -424,8 +423,7 @@ namespace TTTF_TimeTravel_0._9._0
                             timecurcuitssystem.RemoveDelorean(rcmodel.Trim());
                             rcmodel = "";
                             RCmode = false;
-                            myMenu.Clear();
-                            setmenu();
+                            setmenu(true);
 
                             Script.Wait(100);
                         }
@@ -454,8 +452,7 @@ namespace TTTF_TimeTravel_0._9._0
                             timecurcuitssystem.RemoveTimeCircuits(rcmodel.Trim());
                             rcmodel = "";
                             RCmode = false;
-                            myMenu.Clear();
-                            setmenu();
+                            setmenu(true);
                             Script.Wait(100);
                         }
                         else
@@ -496,15 +493,13 @@ namespace TTTF_TimeTravel_0._9._0
                 else if (RCmode)
                 {
                     Sounds.RCcontrolstop.Play();
-                    myMenu.Clear();
-                    setmenu();
+                    setmenu(true);
                     //myMenu.Visible = false;
                 }
             }
             else if (selectedItem.Text == "Back")
             {
-                myMenu.Clear();
-                setmenu();
+                setmenu(true);
             }
             else if (selectedItem.Text.Contains("RC: "))
             {
@@ -515,8 +510,7 @@ namespace TTTF_TimeTravel_0._9._0
                     timecurcuitssystem.bttfList[rcmodel.Trim()].ToggleRCmode();
                     myMenu.Visible = false;
                     RCmode = true;
-                    myMenu.Clear();
-                    setmenu();
+                    setmenu(true);
                 }
             }
             else if (selectedItem.Text == ("RC mode: " + rcmodel.Trim()))
@@ -526,7 +520,7 @@ namespace TTTF_TimeTravel_0._9._0
                 rcmodel = "";
                 RCmode = false;
                 myMenu.Clear();
-                setmenu();
+                setmenu(true);
             }
             else if (selectedItem.Text == "Tutorial mode")
             {

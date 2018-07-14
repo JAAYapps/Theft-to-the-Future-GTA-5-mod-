@@ -26,8 +26,6 @@ namespace TTTF_TimeTravel_0._9._0
         {
             try
             {
-                UI.ShowSubtitle("Time: " + Sounds.empty.gettime() + " state: " + Sounds.empty.gettimeend());
-
                 if (Sounds.empty.gettime() <= 300)
                 {
                     Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);

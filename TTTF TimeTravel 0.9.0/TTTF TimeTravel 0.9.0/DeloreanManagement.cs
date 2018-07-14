@@ -160,15 +160,19 @@ namespace TTTF_TimeTravel_0._9._0
         public int presday1 = 1, presday2 = 0, presmonth1 = 0, presmonth2 = 9, presy1 = 1, presy2 = 9, presy3 = 9, presy4 = 5, presh1 = 0, presh2 = 6, presm1 = 1, presm2 = 1;
         public string presampm = "pm";
 
+
         public static void tick()
         {
             if (Game.Player.Character.IsInVehicle())
             {
                 Delorean temp = null;
-                if (timecurcuitssystem.bttfList.TryGetValue(Game.Player.Character.CurrentVehicle.NumberPlate.Trim(), out temp))
+                string car = Game.Player.Character.CurrentVehicle.NumberPlate.Trim();
+                if (timecurcuitssystem.bttfList.TryGetValue(car, out temp))
                 {
                     timecurcuitssystem.DisplayScreenTimePanel();
                     effects.flux_capcitor(Game.Player.Character.CurrentVehicle);
+                    timecurcuitssystem.circuits[car].runningCircuits(timecurcuitssystem.bttfList[car], timecurcuitssystem.wormhole[car]);
+                    timecurcuitssystem.circuits[car].tickfreeze(timecurcuitssystem.bttfList[car].getDelorean());
                 }
             }
             else
@@ -181,13 +185,14 @@ namespace TTTF_TimeTravel_0._9._0
                 }
             }
 
+
+
             try
             {
                 foreach (string car in timecurcuitssystem.bttfList.Keys)
                 {
                     #region time check
-                    TimeTravel.runningCircuits(timecurcuitssystem.bttfList[car]);
-                    TimeTravel.tickfreeze(timecurcuitssystem.bttfList[car].getDelorean());
+
                     #endregion
 
                     if (timecurcuitssystem.bttfList[car].getDelorean().IsDead)

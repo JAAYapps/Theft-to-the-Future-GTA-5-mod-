@@ -122,50 +122,45 @@ namespace TTTF_TimeTravel_0._9._0
             }
         }
 
-        static bool below84 = false;
-        static bool past84 = false;
-        public static void wormhole(Vehicle delorean, int tempspeed, bool refilltimecurcuits)
+        public bool below84 = false;
+        bool past84 = false;
+        public void wormhole(Vehicle delorean, int tempspeed, bool refilltimecurcuits)
         {
             if (delorean.Model == "bttf3" || delorean.Model == "bttf3rr")
             {
                 if (tempspeed > 64 && tempspeed < 88)
                 {
-                    if (!below84)
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
+                    delorean.SetMod(VehicleMod.Spoilers, 0, true);
+                    delorean.SetMod(VehicleMod.Frame, 5, true);
+                    if (refilltimecurcuits)
                     {
-                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                        delorean.SetMod(VehicleMod.Spoilers, 0, true);
-                        delorean.SetMod(VehicleMod.Frame, 5, true);
-                        if (refilltimecurcuits)
-                        {
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("scr_family4", "scr_fam4_trailer_sparks", new Vector3(0, 2.5f, 1.7f), new Vector3(100, 0, 0), 0.9f, false, false, false, delorean);
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("scr_family4", "scr_fam4_trailer_sparks", new Vector3(0, 2.5f, 1.7f), new Vector3(100, 0, 0), 0.9f, false, false, false, delorean);
 
-                            if (Game.Player.Character.CurrentVehicle.Model == "bttf3")
-                                World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
-                            else if (Game.Player.Character.CurrentVehicle.Model == "bttf3rr")
-                                World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
-                            else
-                                World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.DodgerBlue, (float)1.2, 400);
-
-                            if (!past84)
-                            {
-                                Sounds.sparksbttf3.Play();
-                                Sounds.sparksfeul.Play();
-                                delorean.IsInvincible = true;
-                                past84 = true;
-                            }
-                        }
+                        if (delorean.Model == "bttf3")
+                            World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
+                        else if (delorean.Model == "bttf3rr")
+                            World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
                         else
+                            World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.DodgerBlue, (float)1.2, 400);
+
+                        if (!past84)
                         {
-                            if (!past84)
-                            {
-                                Sounds.sparksbttf3.Play();
-                                Sounds.sparks.Play();
-                                past84 = true;
-                            }
+                            Sounds.sparksbttf3.Play();
+                            Sounds.sparksfeul.Play();
+                            past84 = true;
+                        }
+                    }
+                    else
+                    {
+                        if (!past84)
+                        {
+                            Sounds.sparksbttf3.Play();
+                            past84 = true;
                         }
                     }
                 }
@@ -174,51 +169,48 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 if (tempspeed > 84 && tempspeed < 88)
                 {
-                    if (!below84)
+                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
+                    delorean.SetMod(VehicleMod.Spoilers, 0, true);
+                    delorean.SetMod(VehicleMod.Frame, 5, true);
+                    if (refilltimecurcuits)
                     {
-                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                        delorean.SetMod(VehicleMod.Spoilers, 0, true);
-                        delorean.SetMod(VehicleMod.Frame, 5, true);
-                        if (refilltimecurcuits)
-                        {
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                            make_effect("core", "blood_stungun", delorean);
-                            if (Game.Player.Character.CurrentVehicle.Model == "bttf3")
-                                World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
-                            else if (Game.Player.Character.CurrentVehicle.Model == "bttf3rr")
-                                World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
-                            else
-                                World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.DodgerBlue, (float)1.2, 400);
-
-                            if (!past84)
-                            {
-                                Sounds.sparksfeul.Play();
-                                past84 = true;
-                            }
-                        }
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                        make_effect("core", "blood_stungun", delorean);
+                        if (delorean.Model == "bttf3")
+                            World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
+                        else if (delorean.Model == "bttf3rr")
+                            World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.Orange, (float)1.2, 400);
                         else
+                            World.DrawLightWithRange(delorean.GetOffsetInWorldCoords(new Vector3(0, (float)2.2, (float)0.5)), Color.DodgerBlue, (float)1.2, 400);
+
+                        if (!past84)
                         {
-                            if (!past84)
-                            {
-                                Sounds.sparks.Play();
-                                past84 = true;
-                            }
+                            Sounds.sparksfeul.Play();
+                            past84 = true;
+                        }
+                    }
+                    else
+                    {
+                        if (!past84)
+                        {
+                            Sounds.sparks.Play();
+                            past84 = true;
                         }
                     }
                 }
             }
         }
 
-        public static void resetwormhole()
+        public void resetwormhole()
         {
             below84 = false;
             past84 = false;
         }
 
-        public static void wormholeAndTravel(Vehicle delorean, int tempspeed, bool refilltimecurcuits)
+        public void wormholeAndTravel(Vehicle delorean, int tempspeed, bool refilltimecurcuits)
         {
             if (!past84)
             {
@@ -240,25 +232,21 @@ namespace TTTF_TimeTravel_0._9._0
                 }
                 past84 = true;
             }
-
-            if (!below84)
+            Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
+            delorean.SetMod(VehicleMod.Spoilers, 0, true);
+            delorean.SetMod(VehicleMod.Frame, 5, true);
+            if (refilltimecurcuits)
             {
-                Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                delorean.SetMod(VehicleMod.Spoilers, 0, true);
-                delorean.SetMod(VehicleMod.Frame, 5, true);
-                if (refilltimecurcuits)
-                {
-                    make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                    make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                    make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                    make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
-                    if (delorean.Model == "bttf3" || delorean.Model == "bttf3rr")
-                        make_effect("scr_family4", "scr_fam4_trailer_sparks", new Vector3(0, 2.5f, 1.7f), new Vector3(100, 0, 0), 0.9f, false, false, false, delorean);
-                    else
-                        make_effect("core", "blood_stungun", delorean);
+                make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(0.8f, -1.4f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
+                if (delorean.Model == "bttf3" || delorean.Model == "bttf3rr")
+                    make_effect("scr_family4", "scr_fam4_trailer_sparks", new Vector3(0, 2.5f, 1.7f), new Vector3(100, 0, 0), 0.9f, false, false, false, delorean);
+                else
+                    make_effect("core", "blood_stungun", delorean);
 
-                    //make_effect("scr_martin1", "scr_sol1_sniper_impact", delorean);
-                }
+                //make_effect("scr_martin1", "scr_sol1_sniper_impact", delorean);
             }
         }
         #endregion

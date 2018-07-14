@@ -8,6 +8,7 @@ namespace TTTF_TimeTravel_0._9._0
         Vehicle car = null;
         Ped rcMode = null;
         Ped playermemory = null;
+        public bool timeTraveled = false;
         public bool flyingison = false;
         public bool RCmode = false;
         bool RCmodeactive = true;

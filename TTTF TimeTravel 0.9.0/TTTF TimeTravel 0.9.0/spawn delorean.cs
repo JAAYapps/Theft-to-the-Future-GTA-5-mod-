@@ -27,7 +27,7 @@ namespace TTTF_TimeTravel_0._9._0
                     // At 90 degrees to the players heading
                     float heading = Game.Player.Character.Heading - 90;
                     Ped traveler = null;
-                    mainsystem.messageerrors[3] = "after traveler is null";
+                    //mainsystem.messageerrors[3] = "after traveler is null";
                     while (Deloreon == null)
                     {
                         try
@@ -216,10 +216,10 @@ namespace TTTF_TimeTravel_0._9._0
                 }
                 catch(Exception d)
                 {
-                    mainsystem.messageerrors[0] = d.Message;
-                    mainsystem.messageerrors[1] = d.Source;
-                    mainsystem.messageerrors[2] = d.TargetSite.ToString();
-                    mainsystem.display_errors = true;
+                    //mainsystem.messageerrors[0] = d.Message;
+                    //mainsystem.messageerrors[1] = d.Source;
+                    //mainsystem.messageerrors[2] = d.TargetSite.ToString();
+                    //mainsystem.display_errors = true;
                 }
             }
         }

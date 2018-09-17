@@ -12,7 +12,7 @@ namespace TTTF_TimeTravel_0._9._0
 {
     class spawn_delorean
     {
-        public static void spawn(Model Deloreanmodel, bool rescue)
+        public static void spawn(Model Deloreanmodel, double movie, bool rescue)
         {
             if (Deloreanmodel.IsValid)
             {
@@ -33,25 +33,14 @@ namespace TTTF_TimeTravel_0._9._0
                         try
                         {
                             Deloreon = World.CreateVehicle(Deloreanmodel, position, heading);
-                            Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
-                            Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                            Deloreon.SetMod(VehicleMod.Frame, -1, true);
-                            Deloreon.SetMod(VehicleMod.Horns, 16, true);
-                            Deloreon.SetMod(VehicleMod.RearBumper, 0, true);
-                            Deloreon.SetMod(VehicleMod.RightFender, 0, true);
-                            Deloreon.SetMod(VehicleMod.Fender, 0, true);
-                            Deloreon.SetMod(VehicleMod.ArchCover, 0, true);
-                            Deloreon.SetMod(VehicleMod.Exhaust, 0, true);
-                            Deloreon.SetMod(VehicleMod.Hood, 0, true);
-                            Deloreon.SetMod(VehicleMod.Ornaments, 0, true);
-                            if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreon, 10 }))
-                            {
-                                Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreon, 10, 0 });
-                            }
-                            if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreon, 1 }))
-                            {
-                                Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreon, 1, -1 });
-                            }
+                            //if (!Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreon, 10 }))
+                            //{
+                            //    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreon, 10, 0 });
+                            //}
+                            //if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { Deloreon, 1 }))
+                            //{
+                            //    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { Deloreon, 1, -1 });
+                            //}
                         }
                         catch
                         {
@@ -71,6 +60,7 @@ namespace TTTF_TimeTravel_0._9._0
                     else
                         Deloreon.Rotation = new Vector3(Game.Player.Character.Rotation.X, Game.Player.Character.Rotation.Y, Game.Player.Character.Rotation.Z);
                     Deloreon.PlaceOnGround();
+                    
                     Deloreon.DirtLevel = 0;
                     Deloreon.NumberPlate = "OutATime";
                     Script.Wait(50);
@@ -81,13 +71,13 @@ namespace TTTF_TimeTravel_0._9._0
                         traveler = Deloreon.CreatePedOnSeat(VehicleSeat.Driver, Game.Player.Character.Model);
                         traveler.RandomizeOutfit();
                         Deloreon.IsVisible = false;
-                        timecurcuitssystem.addToList(Game.GetUserInput(7).ToUpper(), Deloreon, true);
+                        timecurcuitssystem.addToList(Game.GetUserInput(7).ToUpper(), movie, Deloreon, true);
                         traveler.CanBeDraggedOutOfVehicle = true;
-                        if (Deloreon.Model == "bttf3" || Deloreon.Model == "bttf3rr")
+                        if (movie == 3 || movie == 3.5)
                         {
                             Sounds.reenterybttf3.Play();
                         }
-                        else if (Deloreon.Model == "bttf")
+                        else if (movie == 1)
                         {
                             Sounds.reenterybttf1.Play();
                         }
@@ -211,10 +201,10 @@ namespace TTTF_TimeTravel_0._9._0
                     else
                     {
                         Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
-                        timecurcuitssystem.addToList(Game.GetUserInput(7).ToUpper(), Deloreon);
+                        timecurcuitssystem.addToList(Game.GetUserInput(7).ToUpper(), movie, Deloreon);
                     }
                 }
-                catch(Exception d)
+                catch
                 {
                     //mainsystem.messageerrors[0] = d.Message;
                     //mainsystem.messageerrors[1] = d.Source;

@@ -17,31 +17,56 @@ namespace TTTF_TimeTravel_0._9._0
             try
             {
                 //Game.FadeScreenIn(500);
-                Interval = 0;
+                Interval = 2;
                 Tick += onTick;
                 KeyUp += onKeyUp;
                 KeyDown += onKeyDown;
-                Aborted += onClose;
+                //Aborted += onClose;
+
+                //this is the hover mode
+                //Function.Call((Hash)0xD138FA15C9776837, Game.Player.Character.CurrentVehicle, 1f);
+                //Function.Call((Hash)0x438b3d7ca026fe91, Game.Player.Character.CurrentVehicle.Handle, 1f);
                 //loadscriptsettings();
-                Task.Factory.StartNew(() => { Sounds.initialLoad(); }); 
             }
             catch (Exception e)
             {
-                while (true)
-                {
-                    UI.ShowSubtitle(e.Message);
-                    Wait(10);
-                }
+                Tick += errorTick;
+                initError = e;
+            }
+        }
+
+        Exception initError = null;
+        private void errorTick(object sender, EventArgs e)
+        {
+            try
+            {
+                UI.ShowSubtitle(initError.Message);
+            }
+            catch
+            {
+
             }
         }
 
         private void onClose(object sender, EventArgs e)
         {
-            UI.ShowSubtitle("Closing TTTF");
-            if (client.TcpClient.Connected)
-                client.Disconnect();
-            Sounds.unLoad();
-            Wait(5000);
+            try
+            {
+                UI.ShowSubtitle("Closing TTTF");
+                if (client.TcpClient.Connected)
+                    client.Disconnect();
+                Sounds.unLoad();
+                foreach (KeyValuePair<string, PropManager> item in timecurcuitssystem.effectProps)
+                {
+                    item.Value.removeWormhole();
+                    Wait(10);
+                }
+                timecurcuitssystem.effectProps.Clear();
+            }
+            catch 
+            {
+
+            }
         }
 
         Point tempxy = new Point(0,0);
@@ -114,13 +139,23 @@ namespace TTTF_TimeTravel_0._9._0
         }
 
         public static TTTFmenu TTTF;
+        PropManager icetest = new PropManager();
         private void onKeyUp(object sender, KeyEventArgs e)
         {
             try
             {
-                if (e.KeyCode == Keys.H)
+                if (e.KeyCode == Keys.R)
                 {
                     //TimeTravel.startMalfunction();
+                    icetest.SpawnProp(Game.Player.Character.CurrentVehicle, "bttf_icebody", "chassis", new GTA.Math.Vector3(0, 0, 0), new GTA.Math.Vector3(0, 0, 0));
+                }
+                if (e.KeyCode == Keys.T)
+                {
+                    icetest.ice.Alpha++;
+                }
+                if (e.KeyCode == Keys.G)
+                {
+                    icetest.ice.Alpha--;
                 }
                 else if (e.KeyCode == Keys.F5)
                 {
@@ -165,34 +200,22 @@ namespace TTTF_TimeTravel_0._9._0
             }
         }
 
-
-        public static bool checkifConnectedToLauncher()
-        {
-            return servconnected;
-        }
-        public static void setConnection(bool connection)
-        {
-            connectstart = connection;
-        }
         bool initial = false;
-        static bool servconnected = false;
-        static bool speakerror = false;
-        static bool connectstart = false;
-        static bool connection_success = false;
+        static bool servTime = false;
+        //static bool speakerror = false;
+        //static bool connectstart = false;
+        public static bool connection_success = false;
         bool R = false;
         bool C = false;
         bool rcenable = false;
         private void onTick(object sender, EventArgs e)
         {
-            string rooterror = "";
             try
             {
                 if (!Game.IsLoading)
                 {
-                    rooterror = "initial";
                     if (!initial)
                     {
-                        rooterror = "bus check";
                         foreach (Vehicle v in World.GetAllVehicles())
                         {
                             if (v.Model == VehicleHash.Bus)
@@ -201,65 +224,128 @@ namespace TTTF_TimeTravel_0._9._0
                             }
                             Wait(10);
                         }
-                        rooterror = "Game.Player.CanControlCharacter";
                         Game.Player.CanControlCharacter = true;
                         if (Game.Player.Character.IsInVehicle())
                         {
                             Game.Player.Character.CurrentVehicle.IsVisible = true;
                         }
-                        rooterror = "connectionstart";
                         try
                         {
-                            TTTF = new TTTFmenu();
-                            rooterror = "connectionstart begining";
-                            if (!connectstart)
+                            client = new SimpleTCP.SimpleTcpClient();
+                            client.StringEncoder = Encoding.UTF8;
+                            //client.DataReceived += luancherdata;
+                            client.Connect("127.0.0.1", 10757);
+                            UI.Notify("Connection: " + client.TcpClient.Connected);
+                            string launcher = client.WriteLineAndGetReply("script running", new TimeSpan(0, 0, 1)).MessageString;
+
+                            if (launcher.Contains("Launcher running"))
                             {
-                                rooterror = "new simpleTCP";
-                                client = new SimpleTCP.SimpleTcpClient();
-                                rooterror = "Encode";
-                                client.StringEncoder = Encoding.UTF8;
-                                rooterror = "datareceived";
-                                client.DataReceived += luancherdata;
-                                rooterror = "connect to launcher";
-                                client.Connect("127.0.0.1", 10757);
-                                rooterror = "WriteLine";
-                                client.WriteLineAndGetReply("script running", new TimeSpan(0, 0, 20));
-                                rooterror = "connectionstart true";
-                                connectstart = true;
+                                Sounds.initialLoad(true);
+                                if (Sounds.Intro.getPlayState())
+                                {
+                                    Sounds.Intro.Play();
+                                }
+                                ResponceList(client.WriteLineAndGetReply("send saved display xy", new TimeSpan(0, 0, 30)).MessageString);
+                                
+                                connection_success = true;
+
+                                if (servTime)
+                                {
+                                    ResponceList(client.WriteLineAndGetReply("send display time", new TimeSpan(0, 0, 30)).MessageString);
+                                    servTime = false;
+                                }
                             }
-                            rooterror = "new TTTF";
-                            
+                            else
+                            {
+
+                            }
+
+                            //rooterror = "connectionstart begining";
+                            //if (!connectstart)
+                            //{
+                            //    Wait(10);
+                            //    rooterror = "new simpleTCP";
+                            //    client = new SimpleTCP.SimpleTcpClient();
+                            //    Wait(10);
+                            //    rooterror = "Encode";
+                            //    client.StringEncoder = Encoding.UTF8;
+                            //    Wait(10);
+                            //    rooterror = "datareceived";
+                            //    client.DataReceived += luancherdata;
+                            //    Wait(10);
+                            //    rooterror = "connect to launcher";
+                            //    client.Connect("127.0.0.1", 10757);
+                            //    Wait(10);
+                            //    rooterror = "WriteLine";
+                            //    connectstart = true;
+                            //    client.WriteLineAndGetReply("script running", new TimeSpan(0, 0, 20));
+                            //    rooterror = "connectionstart true";
+                            //    Wait(10);
+                            //}
+                            //rooterror = "new TTTF";
                         }
-                        catch
+                        catch (Exception f)
                         {
-
+                            try
+                            {
+                                UI.Notify(f.Message);
+                                UI.Notify("load sounds");
+                                Sounds.initialLoad(false);
+                                UI.Notify("check if not playing");
+                                if (Sounds.Intro.getPlayStateStopped())
+                                {
+                                    UI.Notify("play");
+                                    Sounds.Intro.Play();
+                                    UI.Notify("No connection to laucher");
+                                }
+                            }
+                            catch ( Exception g)
+                            {
+                                int count = 0;
+                                Sounds.unLoad();
+                                while (count < 100)
+                                {
+                                    UI.Notify(g.Message);
+                                    UI.Notify(g.StackTrace);
+                                    UI.Notify(g.TargetSite.Name);
+                                    UI.Notify(g.ToString());
+                                    Wait(10);
+                                }
+                            }
                         }
-
-
-                        rooterror = "if sever connect";
-                        if (!servconnected)
-                        {
-                            if (speakerror)
-                                UI.ShowSubtitle("Run Process the Theft To The Future launcher to communicate with the other scripts.");
-                            speakerror = true;
-                        }
+                        TTTF = new TTTFmenu();
                         initial = true;
                     }
 
-                    rooterror = "TTTF on tick";
-                    TTTF.OnTick();
                     try
                     {
+                        TTTF.OnTick();
+
                         if (Game.Player.Character.IsInVehicle())
                             if (Game.Player.Character.CurrentVehicle.FriendlyName == new Model("dmc12"))
                             {
                                 Game.Player.Character.CurrentVehicle.CanBeVisiblyDamaged = !TTTF.invincible;
                                 Game.Player.Character.CurrentVehicle.IsInvincible = TTTF.invincible;
+                                if (TTTF.invincible)
+                                {
+                                    Game.Player.Character.CurrentVehicle.EngineHealth = 1000;
+                                    Game.Player.Character.CurrentVehicle.IsDriveable = true;
+                                    Game.Player.Character.CurrentVehicle.IsPersistent = true;
+                                    Game.Player.Character.CurrentVehicle.IsOnlyDamagedByPlayer = true;
+                                    Game.Player.Character.CurrentVehicle.IsFireProof = true;
+                                    Game.Player.Character.CurrentVehicle.Health = 1000;
+                                    Game.Player.Character.CurrentVehicle.FuelLevel = 1000;
+                                    Game.Player.Character.CurrentVehicle.EngineCanDegrade = false;
+                                }
+                                   //("misc_a");
+                                
                             }
+
+                        //UI.ShowSubtitle("Is in flying vehicle: " + Function.Call<bool>(Hash.IS_PED_IN_FLYING_VEHICLE, Game.Player.Character));
                     }
                     catch
                     {
-                        
+
                     }
                     Libeads.tick();
                     helpFromDoc.tick();
@@ -282,127 +368,104 @@ namespace TTTF_TimeTravel_0._9._0
                         rcenable = false;
                     }
 
-                    if (servconnected)
-                    {
-                        if (!connection_success)
-                        {
-                            if (Sounds.Intro.getPlayStateStopped())
-                            {
-                                Sounds.Intro.Play();
-                            }
-                            client.WriteLineAndGetReply("send saved display xy", new TimeSpan(0,0,30));
-                            connection_success = true;
-                        }
-
-
-
-
-
-                        //if (Properties.Settings.Default.presday1 == 2 && Properties.Settings.Default.presday2 == 9 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 4 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
-                        //{
-                        //    riot();
-                        //}
-                        //else if (Properties.Settings.Default.presday1 == 3 && Properties.Settings.Default.presday2 == 0 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 4 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
-                        //{
-                        //    riot();
-                        //}
-                        //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 1 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
-                        //{
-                        //    riot();
-                        //}
-                        //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 2 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
-                        //{
-                        //    riot();
-                        //}
-                        //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 3 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
-                        //{
-                        //    riot();
-                        //}
-                        //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 4 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
-                        //{
-                        //    riot();
-                        //}
-                    }
+                    //if (Properties.Settings.Default.presday1 == 2 && Properties.Settings.Default.presday2 == 9 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 4 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
+                    //{
+                    //    riot();
+                    //}
+                    //else if (Properties.Settings.Default.presday1 == 3 && Properties.Settings.Default.presday2 == 0 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 4 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
+                    //{
+                    //    riot();
+                    //}
+                    //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 1 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
+                    //{
+                    //    riot();
+                    //}
+                    //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 2 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
+                    //{
+                    //    riot();
+                    //}
+                    //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 3 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
+                    //{
+                    //    riot();
+                    //}
+                    //else if (Properties.Settings.Default.presday1 == 0 && Properties.Settings.Default.presday2 == 4 && Properties.Settings.Default.presmonth1 == 0 && Properties.Settings.Default.presmonth2 == 5 && Properties.Settings.Default.presy1 == 1 && Properties.Settings.Default.presy2 == 9 && Properties.Settings.Default.presy3 == 9 && Properties.Settings.Default.presy4 == 2)
+                    //{
+                    //    riot();
+                    //}
                 }
             }
             catch (Exception d)
             {
-                UIText debug2 = new UIText("object: " + d.TargetSite + " location: " + d.StackTrace + " Error: " + d.Message, new System.Drawing.Point(100, 50), (float)0.6);
-                debug2.Draw();
-                UIText debug = new UIText("location: " + d.StackTrace, new System.Drawing.Point(100, 200), (float)0.6);
-                debug.Draw();
-                UIText debug3 = new UIText("Error: " + d.Message, new System.Drawing.Point(100, 350), (float)0.6);
-                debug3.Draw();
-                UIText debug4 = new UIText("Root Error: " + rooterror, new System.Drawing.Point(100, 500), (float)0.6);
-                debug4.Draw();
-                UI.ShowSubtitle(d.Message);
+                try
+                {
+                    UIText debug2 = new UIText("object: " + d.TargetSite + " location: " + d.StackTrace + " Error: " + d.Message, new System.Drawing.Point(100, 50), (float)0.6);
+                    debug2.Draw();
+                    UIText debug = new UIText("location: " + d.StackTrace, new System.Drawing.Point(100, 200), (float)0.6);
+                    debug.Draw();
+                    UIText debug3 = new UIText("Error: " + d.Message, new System.Drawing.Point(100, 350), (float)0.6);
+                    debug3.Draw();
+                }
+                catch
+                {
+
+                }
+
+                Sounds.unLoad();
+                while (true)
+                {
+                    UI.Notify(d.Message);
+                    UI.Notify(d.StackTrace);
+                    UI.Notify(d.TargetSite.Name);
+                    UI.Notify(d.ToString());
+                    Wait(10);
+                }
             }
-
-
-            
-            //if (display_errors)
-            //{
-            //    UIText debug2 = new UIText(messageerrors[0], new System.Drawing.Point(100, 50), (float)0.6);
-            //    debug2.Draw();
-            //    UIText debug = new UIText(messageerrors[1], new System.Drawing.Point(100, 200), (float)0.6);
-            //    debug.Draw();
-            //    UIText debug3 = new UIText(messageerrors[2], new System.Drawing.Point(100, 350), (float)0.6);
-            //    debug3.Draw();
-            //    UIText debug4 = new UIText(messageerrors[3], new System.Drawing.Point(100, 500), (float)0.6);
-            //    debug4.Draw();
-            //}
         }
-        //public static string[] messageerrors = new string[4];
-        public static bool display_errors = false;
 
         public static SimpleTCP.SimpleTcpClient client;
-        void connection()
-        {
-            if (!connectstart)
-            {
-                client = new SimpleTCP.SimpleTcpClient();
-                client.StringEncoder = Encoding.UTF8;
-                client.DataReceived += luancherdata;
-                client.Connect("127.0.0.1", 10757);
-                client.WriteLineAndGetReply("script running", new TimeSpan(0, 0, 20));
-                connectstart = true;
-            }
-        }
 
-        public static void luancherdata(object sender, SimpleTCP.Message e)
+        public static void ResponceList(string message)
         {
-            UI.ShowSubtitle("responce:" + e.MessageString);
-            if (e.MessageString.Contains("Launcher running"))
-            {
-                servconnected = true;
-            }
-
             try
             {
-                if (e.MessageString.Contains("change time display "))
+                if (message.Contains("change time display "))
                 {
-                    string xy = e.MessageString.Replace("change time display ", "");
+                    string xy = message.Replace("change time display ", "");
                     string xystring = xy.Replace("x: ", "").Replace(" y: ", ","); //x: " + x + " y: " + y
                     int x = int.Parse(xystring.Substring(0, xystring.IndexOf(",")));
                     int y = int.Parse(xystring.Substring(xystring.IndexOf(',') + 1, (xystring.LastIndexOf(xystring.Last())) - (xystring.IndexOf(',') + 1)));
                     displaysystem.change_time_display_location(x, y);
                 }
 
-                if (e.MessageString.Contains("anim:"))
+                if (message.Contains("time "))
                 {
-                    string anim = e.MessageString.Replace("anim:", "");
+                    char[] timestr = message.Remove(0, 5).ToArray();
+                    int[] time = new int[12];
+                    for (int i = 0; i < 12; i++)
+                        time[i] = int.Parse(timestr[i] + "");
+                    DeloreanManagement.setPresentTime(time[0], time[1], time[2], time[3], time[4], time[5], time[6], time[7]);
+                    Function.Call(Hash.SET_CLOCK_TIME, ((time[8] * 10) + time[9]), ((time[10] * 10) + time[11]), 0);
+                }
+
+                if (message.Contains("anim:"))
+                {
+                    string anim = message.Replace("anim:", "");
                     TTTF.root = anim.Substring(0, anim.IndexOf(','));
                     TTTF.effect = anim.Substring(anim.IndexOf(',') + 1, (anim.LastIndexOf(anim.Last())) - (anim.IndexOf(',') + 1));
                 }
             }
-            catch (Exception d)
+            catch
             {
-                //messageerrors[0] = "object: " + d.TargetSite + " location: " + d.StackTrace + " Error: " + d.Message;
-                //messageerrors[1] = "location: " + d.StackTrace;
-                //messageerrors[2] = "Error: " + d.Message;
-                //messageerrors[3] = "Root Error: " + d.InnerException;
-                UI.ShowSubtitle(d.Message);
-                display_errors = true;
+
+            }
+        }
+
+        public static void luancherdata(object sender, SimpleTCP.Message e)
+        {
+            UI.Notify("responce: " + e.MessageString);
+            if (e.MessageString.Contains("Launcher running"))
+            {
+
             }
         }
     }

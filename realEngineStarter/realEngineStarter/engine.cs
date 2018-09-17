@@ -1030,14 +1030,22 @@ namespace realEngineStarter
 
         void getAudio()
         {
-            van = new soundplayer(sounds + "Truck.wav", false);
-            smalltruck = new soundplayer(sounds + "truck2.wav", false);
-            bigrigtruck = new soundplayer(sounds + "Diesel_Truck_Starter.wav", false);
+            van = new soundplayer(sounds + "Truck.wav", true);
+            Wait(10);
+            smalltruck = new soundplayer(sounds + "truck2.wav", true);
+            Wait(10);
+            bigrigtruck = new soundplayer(sounds + "Diesel_Truck_Starter.wav", true);
+            Wait(10);
             Delorean = new soundplayer(sounds + "restart_engine.wav", true);
-            key = new soundplayer(sounds + "key.wav", false);
-            defaultcarstart = new soundplayer(sounds + "Car start up.wav", false);
-            enginedamage = new soundplayer(sounds + "engine damage.wav", false);
-            knocking = new soundplayer(sounds + "knocking.wav", false);
+            Wait(10);
+            key = new soundplayer(sounds + "key.wav", true);
+            Wait(10);
+            defaultcarstart = new soundplayer(sounds + "Car start up.wav", true);
+            Wait(10);
+            enginedamage = new soundplayer(sounds + "engine damage.wav", true);
+            Wait(10);
+            knocking = new soundplayer(sounds + "knocking.wav", true);
+            Wait(10);
         }
 
         public void tickEvent(object sender, EventArgs e)

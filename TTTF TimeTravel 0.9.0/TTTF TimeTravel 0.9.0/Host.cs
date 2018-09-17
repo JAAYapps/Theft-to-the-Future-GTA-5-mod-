@@ -11,7 +11,7 @@ namespace TTTF_TimeTravel_0._9._0
     {
 
         static SimpleTCP.SimpleTcpServer server = new SimpleTCP.SimpleTcpServer();
-        static bool sendpeds = true;
+        //static bool sendpeds = true;
         public static void Start_server(string port)
         {
             server.DataReceived += server_data;
@@ -22,7 +22,7 @@ namespace TTTF_TimeTravel_0._9._0
         {
             if (e.MessageString == "Send all peds")
             {
-                sendpeds = false;
+
             }
         }
 

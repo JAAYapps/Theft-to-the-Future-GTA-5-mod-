@@ -69,9 +69,13 @@
     <Compile Include="effects.cs" />
     <Compile Include="helpFromDoc.cs" />
     <Compile Include="Host.cs" />
+    <Compile Include="IAudioData.cs" />
+    <Compile Include="ITuningParts.cs" />
     <Compile Include="Libeads.cs" />
+    <Compile Include="localsoundplayer.cs" />
     <Compile Include="mainsystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropManager.cs" />
     <Compile Include="readwritefile.cs" />
     <Compile Include="Serialize.cs" />
     <Compile Include="soundplayer.cs" />
@@ -83,10 +87,12 @@
     <Compile Include="SoundTouch\SoundTouchSettings.cs" />
     <Compile Include="SoundTouch\VarispeedSampleProvider.cs" />
     <Compile Include="spawn delorean.cs" />
+    <Compile Include="surroundAudio.cs" />
     <Compile Include="timecurcuitssystem.cs" />
     <Compile Include="TimeTravel.cs" />
     <Compile Include="Traveler.cs" />
     <Compile Include="TTTFmenu.cs" />
+    <Compile Include="TuningParts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

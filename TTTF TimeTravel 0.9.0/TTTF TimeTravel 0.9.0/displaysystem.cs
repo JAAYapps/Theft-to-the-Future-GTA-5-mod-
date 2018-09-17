@@ -118,308 +118,62 @@ namespace TTTF_TimeTravel_0._9._0
 
         public static bool Displayadjustment = false;
 
-        public static string timedisplayfuture(int fmonth1, int fmonth2, int fday1, int fday2, int fy1, int fy2, int fy3, int fy4, int fh1, int fh2, string fampm, int fm1, int fm2)
+        public static string timedisplay(int month1, int month2, int day1, int day2, int y1, int y2, int y3, int y4, int h1, int h2, string ampm, int m1, int m2)
         {
             string fmonthname = "";
-            if ((fmonth1 * 10) + fmonth2 == 1)
+            if ((month1 * 10) + month2 == 1)
             {
                 fmonthname = "JAN";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 2)
+            else if ((month1 * 10) + month2 == 2)
             {
                 fmonthname = "FEB";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 3)
+            else if ((month1 * 10) + month2 == 3)
             {
                 fmonthname = "MAR";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 4)
+            else if ((month1 * 10) + month2 == 4)
             {
                 fmonthname = "APR";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 5)
+            else if ((month1 * 10) + month2 == 5)
             {
                 fmonthname = "MAY";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 6)
+            else if ((month1 * 10) + month2 == 6)
             {
                 fmonthname = "JUN";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 7)
+            else if ((month1 * 10) + month2 == 7)
             {
                 fmonthname = "JUL";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 8)
+            else if ((month1 * 10) + month2 == 8)
             {
                 fmonthname = "AUG";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 9)
+            else if ((month1 * 10) + month2 == 9)
             {
                 fmonthname = "SEP";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 10)
+            else if ((month1 * 10) + month2 == 10)
             {
                 fmonthname = "OCT";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 11)
+            else if ((month1 * 10) + month2 == 11)
             {
                 fmonthname = "NOV";
             }
-            else if ((fmonth1 * 10) + fmonth2 == 12)
+            else if ((month1 * 10) + month2 == 12)
             {
                 fmonthname = "DEC";
             }
 
-            if (fh1 == 0 && fh2 == 0)
-            {
-                return (fmonthname.PadLeft(5) + " " + (fday1.ToString()
-                    + fday2.ToString()).PadRight(3) + (fy1.ToString() + fy2.ToString() + fy3.ToString()
-                    + fy4.ToString()).PadLeft(5) + "   " + ((fh1 + 1).ToString() + (fh2 + 2).ToString()
-                    + ":" + fm1.ToString() + fm2.ToString()).PadRight(6)) + fampm;
-            }
-            else
-            {
-                return (fmonthname.PadLeft(5) + " " + (fday1.ToString()
-                    + fday2.ToString()).PadRight(3) + (fy1.ToString() + fy2.ToString() + fy3.ToString()
-                    + fy4.ToString()).PadLeft(5) + "   " + (fh1.ToString() + fh2.ToString()
-                    + ":" + fm1.ToString() + fm2.ToString()).PadRight(6)) + fampm;
-            }
-        }
-
-        public static string timedisplaypresent(int presmonth1, int presmonth2, int presday1, int presday2, int presy1, int presy2, int presy3, int presy4, int presh1, int presh2, string presampm, int presm1, int presm2)
-        {
-            string minutestring = "";
-
-            int presmin = World.CurrentDayTime.Minutes;
-            if (presmin < 10)
-            {
-                minutestring = "0" + presmin;
-            }
-            else
-            {
-                minutestring = presmin.ToString();
-            }
-
-            int hour = World.CurrentDayTime.Hours;
-            string hours;
-            if (hour < 10 && hour > 0)
-            {
-                hours = "0" + hour;
-            }
-            else if (hour == 0)
-            {
-                hours = "12";
-            }
-            else
-            {
-                if (hour > 12)
-                {
-                    if (hour < 22)
-                    {
-                        hours = "0" + (hour - 12);
-                    }
-                    else
-                    {
-                        hours = (hour - 12).ToString();
-                    }
-                }
-                else
-                {
-                    hours = hour.ToString();
-                }
-            }
-
-
-            string presyear;
-            try
-            {
-                presyear = World.CurrentDate.Year.ToString();
-            }
-            catch
-            {
-                presyear = presy1.ToString() + presy2 + presy3 + presy4;
-            }
-
-
-            string presmonthname;
-
-            try
-            {
-                int presnouth = World.CurrentDate.Month - 1;
-                presmonthname = "";
-                if (presnouth == 1)
-                {
-                    presmonthname = "JAN";
-                }
-                else if (presnouth == 2)
-                {
-                    presmonthname = "FEB";
-                }
-                else if (presnouth == 3)
-                {
-                    presmonthname = "MAR";
-                }
-                else if (presnouth == 4)
-                {
-                    presmonthname = "APR";
-                }
-                else if (presnouth == 5)
-                {
-                    presmonthname = "MAY";
-                }
-                else if (presnouth == 6)
-                {
-                    presmonthname = "JUN";
-                }
-                else if (presnouth == 7)
-                {
-                    presmonthname = "JUL";
-                }
-                else if (presnouth == 8)
-                {
-                    presmonthname = "AUG";
-                }
-                else if (presnouth == 9)
-                {
-                    presmonthname = "SEP";
-                }
-                else if (presnouth == 10)
-                {
-                    presmonthname = "OCT";
-                }
-                else if (presnouth == 11)
-                {
-                    presmonthname = "NOV";
-                }
-                else if (presnouth == 12)
-                {
-                    presmonthname = "DEC";
-                }
-            }
-            catch
-            {
-                presmonthname = "";
-                if ((presmonth1 * 10) + presmonth2 == 1)
-                {
-                    presmonthname = "JAN";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 2)
-                {
-                    presmonthname = "FEB";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 3)
-                {
-                    presmonthname = "MAR";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 4)
-                {
-                    presmonthname = "APR";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 5)
-                {
-                    presmonthname = "MAY";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 6)
-                {
-                    presmonthname = "JUN";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 7)
-                {
-                    presmonthname = "JUL";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 8)
-                {
-                    presmonthname = "AUG";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 9)
-                {
-                    presmonthname = "SEP";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 10)
-                {
-                    presmonthname = "OCT";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 11)
-                {
-                    presmonthname = "NOV";
-                }
-                else if ((presmonth1 * 10) + presmonth2 == 12)
-                {
-                    presmonthname = "DEC";
-                }
-            }
-
-            return (presmonthname.ToString().PadLeft(5) + " " + (presday1.ToString()
-                + presday2.ToString()).PadRight(3) + " " + presyear.PadLeft(5) + "   " + (hours
-                + ":" + minutestring).PadRight(6)) + presampm;
-        }
-
-        public static string timedisplaypast(int pastmonth1, int pastmonth2, int pastday1, int pastday2, int pasty1, int pasty2, int pasty3, int pasty4, int pasth1, int pasth2, string pastampm, int pastm1, int pastm2)
-        {
-            string pastmonthname = "";
-            if ((pastmonth1 * 10) + pastmonth2 == 1)
-            {
-                pastmonthname = "JAN";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 2)
-            {
-                pastmonthname = "FEB";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 3)
-            {
-                pastmonthname = "MAR";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 4)
-            {
-                pastmonthname = "APR";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 5)
-            {
-                pastmonthname = "MAY";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 6)
-            {
-                pastmonthname = "JUN";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 7)
-            {
-                pastmonthname = "JUL";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 8)
-            {
-                pastmonthname = "AUG";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 9)
-            {
-                pastmonthname = "SEP";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 10)
-            {
-                pastmonthname = "OCT";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 11)
-            {
-                pastmonthname = "NOV";
-            }
-            else if ((pastmonth1 * 10) + pastmonth2 == 12)
-            {
-                pastmonthname = "DEC";
-            }
-
-            if (pasth1 == 0 && pasth2 == 0)
-            {
-                return (pastmonthname.PadLeft(5) + " " + (pastday1.ToString()
-                + pastday2.ToString()).PadRight(3) + " " + (pasty1.ToString() + pasty2.ToString() + pasty3.ToString()
-                + pasty4.ToString()).PadLeft(5) + "   " + ((pasth1 + 1).ToString() + (pasth2 + 2).ToString()
-                + ":" + pastm1.ToString() + pastm2.ToString()).PadRight(6)) + pastampm;
-            }
-            else
-            {
-                return (pastmonthname.PadLeft(5) + " " + (pastday1.ToString()
-                    + pastday2.ToString()).PadRight(3) + " " + (pasty1.ToString() + pasty2.ToString() + pasty3.ToString()
-                    + pasty4.ToString()).PadLeft(5) + "   " + (pasth1.ToString() + pasth2.ToString()
-                    + ":" + pastm1.ToString() + pastm2.ToString()).PadRight(6)) + pastampm;
-            }
+            return (fmonthname.PadLeft(5) + " " + (day1.ToString()
+                + day2.ToString()).PadRight(3) + (y1.ToString() + y2.ToString() + y3.ToString()
+                + y4.ToString()).PadLeft(5) + "   " + ((h1 == 0 && h2 == 0) ? "12" : ((h1).ToString() + (h2).ToString())
+                + ":" + m1.ToString() + m2.ToString()).PadRight(6)) + ampm;
         }
 
         #region time circuits display
@@ -1354,138 +1108,6 @@ namespace TTTF_TimeTravel_0._9._0
                         debug2.Draw();
                     }
 
-                    presampm = "am";
-                    int hour = World.CurrentDayTime.Hours;
-                    if (hour == 0)
-                    {
-                        h1 = 1;
-                        h2 = 2;
-                    }
-                    else if (hour == 1)
-                    {
-                        h1 = 0;
-                        h2 = 1;
-                    }
-                    else if (hour == 2)
-                    {
-                        h1 = 0;
-                        h2 = 2;
-                    }
-                    else if (hour == 3)
-                    {
-                        h1 = 0;
-                        h2 = 3;
-                    }
-                    else if (hour == 4)
-                    {
-                        h1 = 0;
-                        h2 = 4;
-                    }
-                    else if (hour == 5)
-                    {
-                        h1 = 0;
-                        h2 = 5;
-                    }
-                    else if (hour == 6)
-                    {
-                        h1 = 0;
-                        h2 = 6;
-                    }
-                    else if (hour == 7)
-                    {
-                        h1 = 0;
-                        h2 = 7;
-                    }
-                    else if (hour == 8)
-                    {
-                        h1 = 0;
-                        h2 = 8;
-                    }
-                    else if (hour == 9)
-                    {
-                        h1 = 0;
-                        h2 = 9;
-                    }
-                    else if (hour == 10)
-                    {
-                        h1 = 1;
-                        h2 = 0;
-                    }
-                    else if (hour == 11)
-                    {
-                        h1 = 1;
-                        h2 = 1;
-                    }
-                    else if (hour == 12)
-                    {
-                        h1 = 1;
-                        h2 = 2;
-                    }
-                    else if (hour == 13)
-                    {
-                        h1 = 0;
-                        h2 = 1;
-                    }
-                    else if (hour == 14)
-                    {
-                        h1 = 0;
-                        h2 = 2;
-                    }
-                    else if (hour == 15)
-                    {
-                        h1 = 0;
-                        h2 = 3;
-                    }
-                    else if (hour == 16)
-                    {
-                        h1 = 0;
-                        h2 = 4;
-                    }
-                    else if (hour == 17)
-                    {
-                        h1 = 0;
-                        h2 = 5;
-                    }
-                    else if (hour == 18)
-                    {
-                        h1 = 0;
-                        h2 = 6;
-                    }
-                    else if (hour == 19)
-                    {
-                        h1 = 0;
-                        h2 = 7;
-                    }
-                    else if (hour == 20)
-                    {
-                        h1 = 0;
-                        h2 = 8;
-                    }
-                    else if (hour == 21)
-                    {
-                        h1 = 0;
-                        h2 = 9;
-                    }
-                    else if (hour == 22)
-                    {
-                        h1 = 1;
-                        h2 = 0;
-                    }
-                    else if (hour == 23)
-                    {
-                        h1 = 1;
-                        h2 = 1;
-                    }
-
-                    if (hour > 12)
-                    {
-                        presampm = "pm";
-                    }
-                    else
-                    {
-                        presampm = "am";
-                    }
-
                     //ampm
                     img = "\\green " + presampm + ".jpg";
                     if (File.Exists(image + img))
@@ -1499,7 +1121,7 @@ namespace TTTF_TimeTravel_0._9._0
                     }
 
                     //hour display
-                    img = displaymunber(h1, time.Present);
+                    img = displaymunber(presh1, time.Present);
                     if (File.Exists(image + "\\hour\\1" + img))
                     {
                         DrawTexture(image + "\\hour\\1" + img, 60, new Point(loc.X + 366, loc.Y + 157), new Size(20, 29));
@@ -1509,7 +1131,7 @@ namespace TTTF_TimeTravel_0._9._0
                         UIText debug2 = new UIText("File is not present: " + img, new Point(400, 100), (float)0.6);
                         debug2.Draw();
                     }
-                    img = displaymunber(h2, time.Present);
+                    img = displaymunber(presh2, time.Present);
                     if (File.Exists(image + "\\hour\\2" + img))
                     {
                         DrawTexture(image + "\\hour\\2" + img, 60, new Point(loc.X + 388, loc.Y + 157), new Size(20, 29));
@@ -1521,63 +1143,26 @@ namespace TTTF_TimeTravel_0._9._0
                     }
 
                     //tick
+                    if (ticktock)
                     {
-                        if (ticktock)
+                        img = "\\green colon on.jpg";
+                        if (File.Exists(image + img))
                         {
-                            img = "\\green colon on.jpg";
-                            if (File.Exists(image + img))
-                            {
-                                DrawTexture(image + img, 60, new Point(loc.X + 420, loc.Y + 159), new Size(16, 24));
-                                delorean.SetMod(VehicleMod.Grille, 0, true);
-                            }
-                            else
-                            {
-                                UIText debug2 = new UIText("File is not present: " + img, new Point(400, 100), (float)0.6);
-                                debug2.Draw();
-                            }
+                            DrawTexture(image + img, 60, new Point(loc.X + 420, loc.Y + 159), new Size(16, 24));
+                            delorean.SetMod(VehicleMod.Grille, 0, true);
                         }
                         else
                         {
-                            delorean.SetMod(VehicleMod.Grille, -1, true);
+                            UIText debug2 = new UIText("File is not present: " + img, new Point(400, 100), (float)0.6);
+                            debug2.Draw();
                         }
-                    }
-
-                    //minute display
-                    int presmin = World.CurrentDayTime.Minutes;
-                    if (presmin < 10)
-                    {
-                        presm1 = 0;
-                        presm2 = presmin;
                     }
                     else
                     {
-                        if (presmin < 20)
-                        {
-                            presm1 = 1;
-                            presm2 = presmin - 10;
-                        }
-                        else if (presmin < 30)
-                        {
-                            presm1 = 2;
-                            presm2 = presmin - 20;
-                        }
-                        else if (presmin < 40)
-                        {
-                            presm1 = 3;
-                            presm2 = presmin - 30;
-                        }
-                        else if (presmin < 50)
-                        {
-                            presm1 = 4;
-                            presm2 = presmin - 40;
-                        }
-                        else if (presmin < 60)
-                        {
-                            presm1 = 5;
-                            presm2 = presmin - 50;
-                        }
+                        delorean.SetMod(VehicleMod.Grille, -1, true);
                     }
 
+                    //minute display
                     img = displaymunber(presm1, time.Present);
                     if (File.Exists(image + "\\min\\1" + img))
                     {
@@ -1887,9 +1472,9 @@ namespace TTTF_TimeTravel_0._9._0
                     UIResText Mrfusion = new UIResText("Empty", new Point(1600, 900), (float)0.6, Color.Orange);
                     Mrfusion.Draw();
                 }
-                UIResText Timedisplayf = new UIResText(timedisplayfuture(fmonth1, fmonth2, fday1, fday2, fy1, fy2, fy3, fy4, fh1, fh2, fampm, fm1, fm2), new Point(1450, 940), (float)0.6, Color.Red);
-                UIResText Timedisplaypres = new UIResText(timedisplaypresent(presmonth1, presmonth2, presday1, presday2, presy1, presy2, presy3, presy4, presh1, presh2, presampm, presm1, presm2), new Point(1450, 980), (float)0.6, Color.Green);
-                UIResText Timedisplaypast = new UIResText(timedisplaypast(pastmonth1, pastmonth2, pastday1, pastday2, pasty1, pasty2, pasty3, pasty4, pasth1, pasth2, pastampm, pastm1, pastm2), new Point(1450, 1020), (float)0.6, Color.Yellow);
+                UIResText Timedisplayf = new UIResText(timedisplay(fmonth1, fmonth2, fday1, fday2, fy1, fy2, fy3, fy4, fh1, fh2, fampm, fm1, fm2), new Point(1450, 940), (float)0.6, Color.Red);
+                UIResText Timedisplaypres = new UIResText(timedisplay(presmonth1, presmonth2, presday1, presday2, presy1, presy2, presy3, presy4, presh1, presh2, presampm, presm1, presm2), new Point(1450, 980), (float)0.6, Color.Green);
+                UIResText Timedisplaypast = new UIResText(timedisplay(pastmonth1, pastmonth2, pastday1, pastday2, pasty1, pasty2, pasty3, pasty4, pasth1, pasth2, pastampm, pastm1, pastm2), new Point(1450, 1020), (float)0.6, Color.Yellow);
                 Timedisplayf.DropShadow = true;
                 Timedisplaypres.DropShadow = true;
                 Timedisplaypast.DropShadow = true;

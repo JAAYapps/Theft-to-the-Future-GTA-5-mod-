@@ -53,3 +53,18 @@ C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.CoreCompileInputs.cache
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.exe
 C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\Theft-to-the-Future-GTA-5-mod--master\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.pdb
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe.config
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.exe
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\bin\Debug\TTTF Launcher.pdb
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\bin\Debug\SimpleTCP.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csprojAssemblyReference.cache
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.launcher.resources
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF_Launcher.Properties.Resources.resources
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.GenerateResource.cache
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.CoreCompileInputs.cache
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.csproj.CopyComplete
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.exe
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\obj\Debug\TTTF Launcher.pdb
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\bin\Debug\NAudio.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\bin\Debug\NAudio.Lame.dll
+C:\Users\thejo\Desktop\BTTF gta 5 mod and archives\BTTF gta 5 mod\Theft-to-the-Future-GTA-5-mod-\TTTF Launcher\TTTF Launcher\bin\Debug\NAudio.xml

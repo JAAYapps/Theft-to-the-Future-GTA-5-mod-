@@ -12,6 +12,8 @@ namespace TTTF_TimeTravel_0._9._0
 {
     class bttf2TimeTravel : TimeTravel
     {
+        public const double movie = 2;
+
         #region Delorean functions
         //bool stoponce = false;
 
@@ -164,7 +166,7 @@ namespace TTTF_TimeTravel_0._9._0
             Function.Call(GTA.Native.Hash.SET_RANDOM_WEATHER_TYPE);
         }
 
-        void insteantTravel(Delorean delorean, effects worm)
+        void insteantTravel(Delorean delorean)
         {
             Vehicle DMC = delorean.getDelorean();
             DMC.DirtLevel = 12;
@@ -204,7 +206,7 @@ namespace TTTF_TimeTravel_0._9._0
             DMC.SetMod(VehicleMod.FrontBumper, -1, true);
         }
 
-        void cutScene(Delorean delorean, effects worm)
+        void cutScene(Delorean delorean)
         {
             Vehicle DMC = delorean.getDelorean();
             DMC.IsInvincible = true;
@@ -250,6 +252,8 @@ namespace TTTF_TimeTravel_0._9._0
                 {
                     Game.Player.WantedLevel = 0;
                 }
+                delorean.timetravelentry();
+                CharacterTravel(delorean);
                 reentry(DMC);
             }
             else
@@ -273,11 +277,11 @@ namespace TTTF_TimeTravel_0._9._0
                     delorean.timeTraveled = true;
                     if (Function.Call<int>(Hash.GET_FOLLOW_VEHICLE_CAM_VIEW_MODE) == 4)
                     {
-                        insteantTravel(delorean, worm);
+                        insteantTravel(delorean);
                     }
                     else
                     {
-                        cutScene(delorean, worm);
+                        cutScene(delorean);
                     }
                 }
             }
@@ -321,8 +325,8 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 Vehicle Deloreancar = delorean.getDelorean();
                 #region functions
-                if (Deloreancar.DirtLevel > 0)
-                    Deloreancar.DirtLevel -= 0.001f;
+                if (timecurcuitssystem.effectProps[Deloreancar.NumberPlate.Trim()].ice.Alpha > 0)
+                    timecurcuitssystem.effectProps[Deloreancar.NumberPlate.Trim()].ice.Alpha -= 1;
 
                 if (Deloreancar.Model == new Model("BTTF2") && flyingison)
                 {
@@ -405,6 +409,9 @@ namespace TTTF_TimeTravel_0._9._0
                     ((timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fm1 * 10) + timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fm2), 0);
                 timeentry = true;
             }
+            Script.Wait(2000);
+
+            removePedsandVehicles(car);
 
             Script.Wait(2000);
 
@@ -442,7 +449,7 @@ namespace TTTF_TimeTravel_0._9._0
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].refilltimecurcuits = false;
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsInvincible = false;
             Game.Player.CanControlCharacter = true;
-            timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().DirtLevel = 12;
+            timecurcuitssystem.effectProps[car.NumberPlate.Trim()].ice.Alpha = 255;
 
             startfreeze();
         }

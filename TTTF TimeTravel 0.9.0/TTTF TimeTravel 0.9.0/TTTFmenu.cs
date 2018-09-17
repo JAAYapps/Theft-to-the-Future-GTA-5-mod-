@@ -139,7 +139,7 @@ namespace TTTF_TimeTravel_0._9._0
         {
             if (clear)
                 myMenu.Clear();
-            if (!mainsystem.checkifConnectedToLauncher())
+            if (!mainsystem.connection_success)
             {
                 myMenu.AddItem(new UIMenuItem("Connect to Launcher"));
             }
@@ -176,13 +176,14 @@ namespace TTTF_TimeTravel_0._9._0
 
         string carmodel = "";
         public static string rcmodel = "";
+        double movie = 0;
         public void ItemSelectHandler(UIMenu senderb, UIMenuItem selectedItem, int index)
         {
             if (selectedItem.Text == "Connect to Launcher")
             {
                 try
                 {
-                    if (!mainsystem.checkifConnectedToLauncher())
+                    if (!mainsystem.connection_success)
                     {
                         System.Diagnostics.Process[] temp = System.Diagnostics.Process.GetProcessesByName("TTTF Launcher.exe");
                         bool running = false;
@@ -208,16 +209,15 @@ namespace TTTF_TimeTravel_0._9._0
                             UI.ShowSubtitle("Launcher running: " + proc.ProcessName);
                         }
 
-                        mainsystem.client = new SimpleTCP.SimpleTcpClient();
-                        mainsystem.client.StringEncoder = Encoding.UTF8;
-                        mainsystem.client.DataReceived += mainsystem.luancherdata;
-                        mainsystem.client.Connect("127.0.0.1", 10757);
-                        mainsystem.client.WriteLineAndGetReply("script running", new TimeSpan(0, 0, 20));
-                        mainsystem.setConnection(true);
+                        if (!mainsystem.connection_success)
+                        {
+                            UI.ShowSubtitle("Run Process the Theft To The Future launcher to communicate with the other scripts.");
+                        }
+
                         setmenu(true);
                     }
                 }
-                catch (Exception d)
+                catch
                 {
 
                 }
@@ -334,7 +334,7 @@ namespace TTTF_TimeTravel_0._9._0
             }
             else if (selectedItem.Text == "Spawn Delorean (DMC 12 Gold Edition)")
             {
-                Model Deloreanmodel = new Model("DMC12g");
+                Model Deloreanmodel = new Model("DMC12");
                 if (Deloreanmodel.IsValid)
                 {
                     Vehicle Deloreon = null;
@@ -358,20 +358,21 @@ namespace TTTF_TimeTravel_0._9._0
                     Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
                     Deloreon.SetMod(VehicleMod.Horns, 16, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
-                    Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
-                    Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
+                    Deloreon.PrimaryColor = VehicleColor.BrushedGold;
+                    Deloreon.SecondaryColor = VehicleColor.BrushedGold;
                 }
             }
             else if (selectedItem.Text == "Rescue Cutscene")
             {
-                spawn_delorean.spawn(new Model(carmodel), true);
+                spawn_delorean.spawn(new Model(carmodel), movie, true);
                 setmenu(true);
                 Show();
             }
             else if (selectedItem.Text == "Spawn Delorean")
             {
-                spawn_delorean.spawn(new Model(carmodel), false);
+                spawn_delorean.spawn(new Model(carmodel), movie, false);
                 setmenu(true);
+                Show();
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 1)")
             {
@@ -379,7 +380,8 @@ namespace TTTF_TimeTravel_0._9._0
                 myMenu.AddItem(new UIMenuItem("Spawn Delorean"));
                 myMenu.AddItem(new UIMenuItem("Rescue Cutscene"));
                 myMenu.RefreshIndex();
-                carmodel = "BTTF";
+                carmodel = "bttf_land";
+                movie = 1;
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 2)")
             {
@@ -387,7 +389,8 @@ namespace TTTF_TimeTravel_0._9._0
                 myMenu.AddItem(new UIMenuItem("Spawn Delorean"));
                 myMenu.AddItem(new UIMenuItem("Rescue Cutscene"));
                 myMenu.RefreshIndex();
-                carmodel = "BTTF2";
+                carmodel = "bttf_air";
+                movie = 2;
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 3)")
             {
@@ -395,7 +398,8 @@ namespace TTTF_TimeTravel_0._9._0
                 myMenu.AddItem(new UIMenuItem("Spawn Delorean"));
                 myMenu.AddItem(new UIMenuItem("Rescue Cutscene"));
                 myMenu.RefreshIndex();
-                carmodel = "BTTF3";
+                carmodel = "bttf_land";
+                movie = 3;
             }
             else if (selectedItem.Text == "Spawn Delorean (BTTF 3 railroad)")
             {
@@ -403,11 +407,12 @@ namespace TTTF_TimeTravel_0._9._0
                 myMenu.AddItem(new UIMenuItem("Spawn Delorean"));
                 myMenu.AddItem(new UIMenuItem("Rescue Cutscene"));
                 myMenu.RefreshIndex();
-                carmodel = "BTTF3rr";
+                carmodel = "bttf_land";
+                movie = 3.5;
             }
             else if (selectedItem.Text == "Turn current car into a Time Machine")
             {
-                timecurcuitssystem.addToList(Game.GetUserInput(7).ToUpper(), Game.Player.Character.CurrentVehicle);
+                timecurcuitssystem.addToList(Game.GetUserInput(7).ToUpper(), 0, Game.Player.Character.CurrentVehicle);
             }
             else if (selectedItem.Text == "Delete car")
             {
@@ -637,7 +642,5 @@ namespace TTTF_TimeTravel_0._9._0
                 Show();
             }
         }
-
-
     }
 }

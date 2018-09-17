@@ -12,6 +12,19 @@ namespace TTTF_TimeTravel_0._9._0
 {
     class bttf3TimeTravel : TimeTravel
     {
+        public double movie { get { return movie; } set {
+                if (value == 3 || value == 3.5)
+                {
+                    movie = value;
+                }
+            }
+        }
+
+        public bttf3TimeTravel(double movie)
+        {
+            this.movie = movie;
+        }
+
         #region Delorean functions
 
         void startMalfunction(Vehicle car)
@@ -162,24 +175,37 @@ namespace TTTF_TimeTravel_0._9._0
             delorean.timetravelentry();
             Script.Wait(10);
             Sounds.Timetravelreentery3.Play();
-            Script.Wait(10);
-            if (!delorean.RCmode)
-                removePedsandVehicles(DMC);
+            if (Game.Player.Character.IsInVehicle(DMC))
+            {
+                CharacterTravel(delorean);
+                if (!delorean.RCmode)
+                {
+                    removePedsandVehicles(DMC);
+                    Script.Wait(10);
+                    Game.Player.WantedLevel = 0;
+                }
+                else
+                {
+                    TTTFmenu.RCmode = false;
+                    TTTFmenu.rcmodel = "";
+                    mainsystem.TTTF.setmenu(true);
+                    delorean.ToggleRCmode();
+                }
+                Script.Wait(10);
+                delorean.refilltimecurcuits = false;
+                Script.Wait(10);
+                Function.Call(Hash.SET_VEHICLE_MOD_KIT, DMC.Handle, 0);
+                DMC.SetMod(VehicleMod.Spoilers, 1, true);
+                DMC.SetMod(VehicleMod.FrontBumper, -1, true);
+            }
             else
             {
-                TTTFmenu.RCmode = false;
-                TTTFmenu.rcmodel = "";
-                mainsystem.TTTF.setmenu(true);
-                delorean.ToggleRCmode();
+                delorean.refilltimecurcuits = false;
+                Script.Wait(10);
+                Function.Call(Hash.SET_VEHICLE_MOD_KIT, DMC.Handle, 0);
+                DMC.SetMod(VehicleMod.Spoilers, 1, true);
+                DMC.SetMod(VehicleMod.FrontBumper, -1, true);
             }
-            Script.Wait(10);
-            Game.Player.WantedLevel = 0;
-            Script.Wait(10);
-            delorean.refilltimecurcuits = false;
-            Script.Wait(10);
-            Function.Call(Hash.SET_VEHICLE_MOD_KIT, DMC.Handle, 0);
-            DMC.SetMod(VehicleMod.Spoilers, 1, true);
-            DMC.SetMod(VehicleMod.FrontBumper, -1, true);
         }
 
         void cutScene(Delorean delorean, effects worm)
@@ -231,6 +257,8 @@ namespace TTTF_TimeTravel_0._9._0
                 {
                     Game.Player.WantedLevel = 0;
                 }
+                delorean.timetravelentry();
+                CharacterTravel(delorean);
                 reentry(DMC);
             }
             else
@@ -376,6 +404,10 @@ namespace TTTF_TimeTravel_0._9._0
 
             Script.Wait(2000);
 
+            removePedsandVehicles(car);
+
+            Script.Wait(2000);
+
             timeentry = false;
             car.CloseDoor(VehicleDoor.Hood, false);
 
@@ -422,33 +454,15 @@ namespace TTTF_TimeTravel_0._9._0
         }
 
         bool playonce = false;
-        int smokedelay = 0;
+        //int smokedelay = 0;
 
         public override void tickfreeze(Vehicle car)
         {
             if (!Sounds.cold.gettimeend() && freeze)
             {
-                if (Sounds.Vent.gettime() > 1500 && Sounds.Vent.gettime() < 4300)
-                {
-                    if (smokedelay == 0)
-                    {
-                        effects.make_effect("scr_familyscenem", "scr_meth_pipe_smoke", new Vector3(0.5f, -2f, 0.7f), new Vector3(10, 0, 180), 10.9f, false, false, false, car);
-                        effects.make_effect("scr_familyscenem", "scr_meth_pipe_smoke", new Vector3(-0.5f, -2f, 0.7f), new Vector3(10, 0, 180), 10.9f, false, false, false, car);
-                    }
-                    smokedelay++;
-                    if (smokedelay < 500)
-                    {
-                        smokedelay = 0;
-                    }
-                }
-
                 if (Sounds.cold.gettime() <= 7400)
                 {
                     playonce = false;
-                }
-                else if (Sounds.cold.gettime() <= 8500)
-                {
-                    Sounds.Vent.Play();
                 }
                 else if (Sounds.cold.gettime() < 9000)
                 {

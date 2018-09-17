@@ -48,6 +48,9 @@
     <Reference Include="ScriptHookVDotNet2">
       <HintPath>..\..\ScriptHookVDotNet2.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleTCP">
+      <HintPath>..\..\SimpleTCP.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -69,6 +72,7 @@
     <Compile Include="Soundtouch\SoundTouchProfile.cs" />
     <Compile Include="Soundtouch\SoundTouchSettings.cs" />
     <Compile Include="Soundtouch\VarispeedSampleProvider.cs" />
+    <Compile Include="surroundAudio.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -14,51 +14,50 @@ namespace TTTF_TimeTravel_0._9._0
 {
     class soundplayer
     {
-        private IWavePlayer wavePlayer;
-        private VarispeedSampleProvider speedControl;
-        private AudioFileReader reader;
-        string soundpath = "";
-
-        public soundplayer(string Path = "", bool playloop = false)
+        localsoundplayer localsound;
+        bool remote = false;
+        public soundplayer(string Path = "", bool remoteSound = false, bool playloop = false)
         {
             soundpath = Path;
-
-            if (wavePlayer == null)
-            {
-                wavePlayer = new WaveOutEvent();
-            }
-
             playLoopBool = playloop;
+            remote = remoteSound;
 
-            reader?.Dispose();
-            speedControl?.Dispose();
-            reader = null;
-            speedControl = null;
-            var file = soundpath;
-            if (file != null && file != "")
+            if (!remoteSound)
             {
-                reader = new AudioFileReader(file);
-                speedControl = new VarispeedSampleProvider(reader, 100, new SoundTouchProfile(false, false));
-                wavePlayer.Init(speedControl);
-                Play();
-                //Script.Wait(1);
-                Stop();
+                localsound = new localsoundplayer(playloop);
+                localsound.LoadFile(false, out int i, Path);
+                localsound.Play();
+                localsound.Stop();
+            }
+            else
+            {
+                if (!connectstart)
+                {
+                    client = new SimpleTCP.SimpleTcpClient();
+                    client.StringEncoder = Encoding.UTF8;
+                    //client.DataReceived += luancherdata;
+                    client.Connect("127.0.0.1", 10757);
+                    client.WriteLine("new!" + soundpath + "!" + playLoopBool);
+                    connectstart = true;
+                }
+
             }
         }
 
-        public void loadFile(string targatFile)
+        private SimpleTCP.SimpleTcpClient client;
+
+        private bool connectstart = false;
+        private void setConnection(bool connection)
         {
-            reader = null;
-            speedControl = null;
-            soundpath = targatFile;
-            var file = soundpath;
-            reader?.Dispose();
-            speedControl?.Dispose();
-            reader = null;
-            speedControl = null;
-            reader = new AudioFileReader(file);
-            speedControl = new VarispeedSampleProvider(reader, 100, new SoundTouchProfile(false, false));
-            wavePlayer.Init(speedControl);
+            connectstart = connection;
+        }
+
+        #region local sound
+        string soundpath = "";
+
+        public void loadFile(string targetFile)
+        {
+            localsound.LoadFile(false, out int i, targetFile);
         }
 
         float volume = 0f;
@@ -67,7 +66,31 @@ namespace TTTF_TimeTravel_0._9._0
             if (volume != vol)
             {
                 volume = vol;
-                reader.Volume = vol;
+                if (!remote)
+                {
+                    localsound.Volume(vol);
+                }
+                else
+                {
+                    client.WriteLine("vol!" + soundpath + "!" + vol.ToString() + "!");
+                }
+            }
+        }
+
+        public void Volume(Entity item)
+        {
+            float vol = surroundAudio.CalculateStereo(item);
+            if (volume != vol)
+            {
+                volume = vol;
+                if (!remote)
+                {
+                    localsound.Volume(vol);
+                }
+                else
+                {
+                    client.WriteLine("vol!" + soundpath + "!" + vol.ToString() + "!");
+                }
             }
         }
 
@@ -75,29 +98,31 @@ namespace TTTF_TimeTravel_0._9._0
         {
             if (!File.Exists(soundpath))
                 GTA.UI.ShowSubtitle("Path " + soundpath + "Does not exist, or does not have privileges");
-            reader.CurrentTime = TimeSpan.FromSeconds(0);
-            speedControl.Reposition();
-            wavePlayer.Play();
+
+            if (!remote)
+            {
+                localsound.Play();
+            }
+            else
+                client.WriteLine("Play!" + soundpath + "!");
         }
 
         bool playLoopBool = false;
-        private void loop(object sender, StoppedEventArgs stoppedEventArgs)
-        {
-            if (playLoopBool)
-            {
-                reader.CurrentTime = TimeSpan.FromSeconds(0);
-                speedControl.Reposition();
-                wavePlayer.Play();
-            }
-        }
 
         public bool pausebool = false;
         public void pause()
         {
             if (!pausebool)
             {
-                wavePlayer.Stop();
-                pausebool = true;
+                if (!remote)
+                {
+                    localsound.pause();
+                }
+                else
+                {
+                    client.WriteLine("Pause!" + soundpath + "!");
+                }
+
             }
         }
 
@@ -105,56 +130,191 @@ namespace TTTF_TimeTravel_0._9._0
         {
             if (pausebool)
             {
-                wavePlayer.Play();
-                pausebool = false;
+                if (!remote)
+                {
+                    localsound.resume();
+                }
+                else
+                {
+                    client.WriteLine("Resume!" + soundpath + "!");
+                }
             }
         }
 
         public void Stop()
         {
             playLoopBool = false;
-            wavePlayer.Stop();
-            reader.CurrentTime = TimeSpan.FromSeconds(0);
-            speedControl.Reposition();
+            if (!remote)
+            {
+                localsound.Stop();
+            }
+            else
+            {
+                client.WriteLine("Stop!" + soundpath + "!");
+            }
         }
 
         public double gettime()
         {
-            return reader.CurrentTime.TotalMilliseconds;
+            if (!remote)
+                return double.Parse(localsound.currentTime(false));
+            else
+            {
+                string temp = "";
+                while (true)
+                {
+                    try
+                    {
+                        temp = client.WriteLineAndGetReply("time!" + soundpath + "!", TimeSpan.FromMilliseconds(5)).MessageString.Split(':')[1];
+                        Script.Wait(1);
+                        double.Parse(temp.Substring(0, temp.Count() - 1));
+                        break;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                return double.Parse(temp.Substring(0, temp.Count() - 1));
+            }
+
         }
 
         public bool gettimeend()
         {
-            return (reader.CurrentTime.TotalMilliseconds == reader.TotalTime.TotalMilliseconds);
+            if (!remote)
+                return (gettime() == double.Parse(localsound.currentTime(false, true)));
+            else
+            {
+                string temp = "";
+                while (true)
+                {
+                    try
+                    {
+                        temp = client.WriteLineAndGetReply("timeend!" + soundpath + "!", TimeSpan.FromMilliseconds(5)).MessageString.Split(':')[1];
+                        Script.Wait(1);
+                        bool i = double.Parse(temp.Substring(0, temp.Count() - 1)) == gettime();
+                        break;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                return double.Parse(temp.Substring(0, temp.Count() - 1)) == gettime();
+            }
         }
 
         public void settime(double durration)
         {
-            reader.CurrentTime = TimeSpan.FromMilliseconds(durration);
-            speedControl.Reposition();
+            if (!remote)
+            {
+                localsound.playBackPosition(durration);
+            }
+            else
+            {
+                client.WriteLine("settime!" + soundpath + "!" + durration);
+            }
         }
 
         public bool getPlayState()
         {
-            return (wavePlayer.PlaybackState == PlaybackState.Playing);
+            if (!remote)
+                return localsound.getPlayState();
+            else
+            {
+                string temp = "";
+                while (true)
+                {
+                    try
+                    {
+                        temp = client.WriteLineAndGetReply("isplaying!" + soundpath + "!", TimeSpan.FromMilliseconds(5)).MessageString.Split(':')[1];
+                        Script.Wait(1);
+                        bool.Parse(temp.Substring(0, temp.Count() - 1));
+                        break;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                UI.ShowSubtitle("Bool: " + temp.Substring(0, temp.Count() - 1));
+                return bool.Parse(temp.Substring(0, temp.Count() - 1));
+            }
         }
 
         public bool getPlayStatePaused()
         {
-            return (wavePlayer.PlaybackState == PlaybackState.Paused);
+            if (!remote)
+                return localsound.getPlayStatePaused();
+            else
+            {
+                string temp = "";
+                while (true)
+                {
+                    try
+                    {
+                        temp = client.WriteLineAndGetReply("ispaused!" + soundpath + "!", TimeSpan.FromMilliseconds(5)).MessageString.Split(':')[1];
+                        Script.Wait(1);
+                        bool.Parse(temp.Substring(0, temp.Count() - 1));
+                        break;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                UI.ShowSubtitle("Bool: " + temp.Substring(0, temp.Count() - 1));
+                return bool.Parse(temp.Substring(0, temp.Count() - 1));
+            }
         }
 
         public bool getPlayStateStopped()
         {
-            return (wavePlayer.PlaybackState == PlaybackState.Stopped);
+            if (!remote)
+                return localsound.getPlayStateStopped();
+            else
+            {
+                string temp = "";
+                while (true)
+                {
+                    try
+                    {
+                        temp = client.WriteLineAndGetReply("isstopped!" + soundpath + "!", TimeSpan.FromMilliseconds(5)).MessageString.Split(':')[1];
+                        Script.Wait(1);
+                        bool.Parse(temp.Substring(0, temp.Count() - 1));
+                        break;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                UI.ShowSubtitle("Bool: " + temp.Substring(0, temp.Count() - 1));
+                return bool.Parse(temp.Substring(0, temp.Count() - 1));
+            }
         }
 
         public void playSpeed(float rate)
         {
             if (getPlayState())
             {
-                speedControl.PlaybackRate = 0.5f + rate * 0.1f;
+                if (!remote)
+                    localsound.playBackRate(rate);
+                    //speedControl.PlaybackRate = 0.5f + rate * 0.1f;
+                else
+                {
+                    client.WriteLine("rate!" + soundpath + "!");
+                }
             }
         }
+
+        public void remove()
+        {
+            localsound.Stop();
+            localsound.remove();
+        }
+        #endregion
     }
 }

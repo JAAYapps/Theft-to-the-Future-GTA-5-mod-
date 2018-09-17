@@ -53,7 +53,7 @@ namespace TTTF_TimeTravel_0._9._0
             presday1, presday2, presmonth, presy1, presy2, presy3, presy4, presh1, presh2, presm1, presm2, 
             pastday1, pastday2, pastmonth, pasty1, pasty2, pasty3, pasty4, pasth1, pasth2, pastm1, pastm2;
         List<Prop> fampm, presampm, pastampm;
-        Prop collum;
+        //Prop collum;
         private List<Prop> getDigits(Vehicle delorean, string dummy, time displayType)
         {
             List<Prop> temp = new List<Prop>();
@@ -73,6 +73,13 @@ namespace TTTF_TimeTravel_0._9._0
 
         public void initDisplay(Vehicle delorean)
         {
+            fmonth = new List<Prop>();
+            presmonth = new List<Prop>();
+            pastmonth = new List<Prop>();
+            fampm = new List<Prop>();
+            presampm = new List<Prop>();
+            pastampm = new List<Prop>();
+
             fmonth.Add(SpawnProp(delorean, "jan_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
             fmonth.Add(SpawnProp(delorean, "feb_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
             fmonth.Add(SpawnProp(delorean, "mar_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));

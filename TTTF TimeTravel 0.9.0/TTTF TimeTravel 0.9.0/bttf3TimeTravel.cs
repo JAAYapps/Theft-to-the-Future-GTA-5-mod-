@@ -227,22 +227,8 @@ namespace TTTF_TimeTravel_0._9._0
             }
             DMC.IsVisible = false;
             DMC.EngineRunning = false;
-            for (double tempcount = 0; tempcount <= 6; tempcount += 0.2)
-            {
-                World.DrawSpotLight(DMC.Position, DMC.Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
-                effects.make_effecttimetravel(1, tempcount + 3, DMC);
-                effects.make_effecttimetravel2(-1, tempcount + 3, DMC);
-                tempcount += 0.1;
-                effects.make_effecttimetravel(1, tempcount + 3, DMC);
-                effects.make_effecttimetravel2(-1, tempcount + 3, DMC);
-                tempcount += 0.1;
-                effects.make_effecttimetravel(1, tempcount + 3, DMC);
-                effects.make_effecttimetravel2(-1, tempcount + 3, DMC);
-                tempcount += 0.1;
-                effects.make_effecttimetravel(1, tempcount + 3, DMC);
-                effects.make_effecttimetravel2(-1, tempcount + 3, DMC);
-                Script.Wait(10);
-            }
+
+            // TODO - replace flame trail effects for bttf3 and bttf3rr
 
             if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { DMC, 10 }))
             {
@@ -392,7 +378,7 @@ namespace TTTF_TimeTravel_0._9._0
             timeenter = true;
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].timetravelentry();
             car.OpenDoor(VehicleDoor.Hood, false, false);
-            effects.reseteffect();
+            
             Script.Wait(1000);
             if (!timeentry)
             {

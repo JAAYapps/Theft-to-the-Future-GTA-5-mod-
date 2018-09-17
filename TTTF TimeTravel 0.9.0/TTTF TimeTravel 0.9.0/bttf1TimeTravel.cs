@@ -212,17 +212,30 @@ namespace TTTF_TimeTravel_0._9._0
             DMC.IsVisible = false;
             DMC.EngineRunning = false;
             timecurcuitssystem.effectProps[DMC.NumberPlate.Trim()].wormholeHide(DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
+            float fireY = -0.1f;
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 1.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 1.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 3f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 3f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, , 0.2f), new Vector3(0, 270, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 4.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 4.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 6f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 6f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 7.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 7.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 9f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 9f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 10.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 10.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
             //if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { DMC, 10 }))
             //{
@@ -344,21 +357,23 @@ namespace TTTF_TimeTravel_0._9._0
         {
             World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
-            effects.make_effect("core", "veh_exhaust_spacecraft", "dist", "strength", "fadein", new Vector3(-0.5f, -2f, 0.7f), new Vector3(10, 0, 180), 2f, false, false, false, car);
+            effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0.7f), new Vector3(10, 0, 180), 2f, false, false, false, car);
             Script.Wait(10);
+            effects.reseteffects(car);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = false;
             Script.Wait(50);
             World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
-            effects.make_effect("core", "veh_exhaust_spacecraft", "dist", "strength", "fadein", new Vector3(-0.5f, -2f, 0.7f), new Vector3(10, 0, 180), 2f, false, false, false, car);
+            effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0f), new Vector3(10, 0, 180), 2f, false, false, false, car);
             Script.Wait(10);
+            effects.reseteffects(car);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = false;
             Script.Wait(50);
             World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
-            effects.make_effect("core", "veh_exhaust_spacecraft", "dist", "strength", "fadein", new Vector3(-0.5f, -2f, 0.7f), new Vector3(10, 0, 180), 2f, false, false, false, car);
+            effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0f), new Vector3(10, 0, 180), 2f, false, false, false, car);
             Script.Wait(10);
-            
+            effects.reseteffects(car);
         }
 
         public override void reentry(Vehicle car)
@@ -372,6 +387,7 @@ namespace TTTF_TimeTravel_0._9._0
             //Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { car.Position.X, car.Position.Y, car.Position.Z, 200f });
 
             Script.Wait(1000);
+            effects.reseteffects(car);
             if (!timeentry)
             {
                 //Function.Call(Hash.SET_CLOCK_DATE, getmonth(), getday(), getyear());
@@ -421,7 +437,7 @@ namespace TTTF_TimeTravel_0._9._0
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].refilltimecurcuits = false;
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsInvincible = false;
             Game.Player.CanControlCharacter = true;
-            timecurcuitssystem.effectProps[car.NumberPlate.Trim()].ice.Alpha = 100;
+            timecurcuitssystem.effectProps[car.NumberPlate.Trim()].ice.Alpha = 255;
 
             startfreeze();
         }

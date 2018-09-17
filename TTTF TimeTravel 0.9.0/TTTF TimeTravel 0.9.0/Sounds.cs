@@ -14,27 +14,16 @@ namespace TTTF_TimeTravel_0._9._0
         public static void initialLoad(bool remote)
         {
             reenterybttf2 = new System.Media.SoundPlayer(sounds + "REENTRY_BTTF2.wav");
-            Script.Wait(200);
-            reenterybttf3 = new System.Media.SoundPlayer(sounds + "REENTRY_BTTF3.wav");
-            Script.Wait(200);
-            RCcontrolstop = new System.Media.SoundPlayer(sounds + "stop_RC_control.wav");
-            Script.Wait(200);
-            num0 = new System.Media.SoundPlayer(sounds + "0.wav");
-            Script.Wait(200);
-            num1 = new System.Media.SoundPlayer(sounds + "1.wav");
-            Script.Wait(200);
-            num2 = new System.Media.SoundPlayer(sounds + "2.wav");
-            Script.Wait(200);
-            num3 = new System.Media.SoundPlayer(sounds + "3.wav");
-            Script.Wait(200);
-            num4 = new System.Media.SoundPlayer(sounds + "4.wav");
-            Script.Wait(200);
-            num5 = new System.Media.SoundPlayer(sounds + "5.wav");
-            Script.Wait(200);
-            num6 = new System.Media.SoundPlayer(sounds + "6.wav");
-            Script.Wait(200);
-            num7 = new System.Media.SoundPlayer(sounds + "7.wav");
-            Script.Wait(200);
+            reenterybttf3 = new System.Media.SoundPlayer(sounds + "REENTRY_BTTF3.wav");      
+            RCcontrolstop = new System.Media.SoundPlayer(sounds + "stop_RC_control.wav");       
+            num0 = new System.Media.SoundPlayer(sounds + "0.wav");       
+            num1 = new System.Media.SoundPlayer(sounds + "1.wav");        
+            num2 = new System.Media.SoundPlayer(sounds + "2.wav");       
+            num3 = new System.Media.SoundPlayer(sounds + "3.wav");       
+            num4 = new System.Media.SoundPlayer(sounds + "4.wav");        
+            num5 = new System.Media.SoundPlayer(sounds + "5.wav");           
+            num6 = new System.Media.SoundPlayer(sounds + "6.wav");        
+            num7 = new System.Media.SoundPlayer(sounds + "7.wav");        
             num8 = new System.Media.SoundPlayer(sounds + "8.wav"); Script.Wait(200);
             num9 = new System.Media.SoundPlayer(sounds + "9.wav"); Script.Wait(200);
             inputerror = new soundplayer(sounds + "input enter error.wav", remote); Script.Wait(200);

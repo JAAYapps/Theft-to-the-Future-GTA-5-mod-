@@ -26,52 +26,10 @@ namespace TTTF_TimeTravel_0._9._0
             Function.Call(Hash._SET_PTFX_ASSET_NEXT_CALL, new InputArgument[] { root });
             Function.Call(Hash.START_PARTICLE_FX_NON_LOOPED_ON_ENTITY, new InputArgument[] { effect, delorean.Handle, pos.X, pos.Y, pos.Z, rot.X, rot.Y, rot.Z, scale, axisX, axisY, axisZ });
         }
-        static List<Prop> prop = new List<Prop>();
-        public static void make_effecttimetravel(double x, double y, Vehicle delorean)
-        {
-            var model = new Model("prop_beach_fire");
-            model.Request(250);
-            // Check the model is valid
-            if (model.IsInCdImage && model.IsValid)
-            {
-                // Ensure the model is loaded before we try to create it in the world
-                while (!model.IsLoaded) Script.Wait(50);
-
-                // Create the prop in the world
-                prop.Add(World.CreateProp(model, delorean.GetOffsetInWorldCoords(new Vector3((float)x, (float)y, (float)-1.3)), true, false));
-                prop[prop.Count - 1].Alpha = 0;
-            }
-        }
-        static List<Prop> prop2 = new List<Prop>();
-        public static void make_effecttimetravel2(double x, double y, Vehicle delorean)
-        {
-            var model = new Model("prop_beach_fire");
-            model.Request(250);
-            // Check the model is valid
-            if (model.IsInCdImage && model.IsValid)
-            {
-                // Ensure the model is loaded before we try to create it in the world
-                while (!model.IsLoaded) Script.Wait(50);
-
-                // Create the prop in the world
-                prop2.Add(World.CreateProp(model, delorean.GetOffsetInWorldCoords(new Vector3((float)x, (float)y, (float)-1.3)), true, false));
-                prop2[prop2.Count - 1].Alpha = 0;
-            }
-        }
-        public static void reseteffect()
-        {
-            for (int i = prop.Count - 1; i >= 0; i--)
-            {
-                prop[i].Delete();
-                prop.Remove(prop[i]);
-                prop2[i].Delete();
-                prop2.Remove(prop2[i]);
-            }
-        }
         public static void reseteffects(Vehicle delorean)
         {
             //Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { delorean.Position.X, delorean.Position.Y, delorean.Position.Z, 200f });
-            Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { car.Position.X, car.Position.Y, car.Position.Z, 200f });
+            Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { delorean.Position.X, delorean.Position.Y, delorean.Position.Z, 200f });
         }
         //int id = Function.Call<int>(Hash.START_PARTICLE_FX_LOOPED_AT_COORD, EffectName, Position.X, Position.Y, Position.Z, Rotation.X, Rotation.Y, Rotation.Z, Size, false, false, false);
 
@@ -87,14 +45,13 @@ namespace TTTF_TimeTravel_0._9._0
             Function.Call(Hash._SET_PTFX_ASSET_NEXT_CALL, new InputArgument[] { root });
             Vector3 carposition = delorean.GetOffsetInWorldCoords(pos);
             Vector3 carRotation = delorean.Rotation;
-            int id = Function.Call<int>(Hash.START_PARTICLE_FX_LOOPED_AT_COORD, effect, carposition.X, carposition.Y, carposition.Z, carRotation.X, carRotation.Y, carRotation.Z, scale, axisX, axisY, axisZ);
+            int id = Function.Call<int>(Hash.START_PARTICLE_FX_LOOPED_AT_COORD, effect, carposition.X, carposition.Y, carposition.Z, carRotation.X + rot.X, carRotation.Y + rot.Y, carRotation.Z + rot.Z, scale, axisX, axisY, axisZ);
             if (!evolution.Equals(""))
                 Function.Call(Hash.SET_PARTICLE_FX_LOOPED_EVOLUTION, id, evolution, 0.1f, 0);
             if (!evolution.Equals(""))
                 Function.Call(Hash.SET_PARTICLE_FX_LOOPED_EVOLUTION, id, evolution2, 1f, 0);
             if (!evolution.Equals(""))
                 Function.Call(Hash.SET_PARTICLE_FX_LOOPED_EVOLUTION, id, evolution3, 1f, 0);
-
         }
 
         public static void make_effect_smoke(string root, string effect, Vehicle delorean)

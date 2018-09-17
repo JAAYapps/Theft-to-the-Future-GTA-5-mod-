@@ -664,7 +664,6 @@ namespace TTTF_TimeTravel_0._9._0
                 string speed2 = "" + tempspeed % 10;
                 //UI.ShowSubtitle(tempspeed + " / " + tempspeed / 10 + " % " + tempspeed % 10);
                 img = "\\speed\\1\\" + speed1 + ".jpg";
-                delorean.SetMod(VehicleMod.SteeringWheels, (tempspeed % 10), true);
                 if (File.Exists(image + img))
                 {
                     if (speed1 != "0")
@@ -675,7 +674,6 @@ namespace TTTF_TimeTravel_0._9._0
 
                 }
                 img = "\\speed\\2\\" + speed2 + ".jpg";
-                delorean.SetMod(VehicleMod.DialDesign, (tempspeed / 10) - 1, true);
                 if (File.Exists(image + img))
                 {
                     DrawTexture(image + img, 60, new Point(loc.X + 75, loc.Y - 44), new Size(27, 35));

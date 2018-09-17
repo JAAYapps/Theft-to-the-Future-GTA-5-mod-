@@ -1,10 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TTTF_TimeTravel_0._9._0
 {
@@ -46,7 +42,486 @@ namespace TTTF_TimeTravel_0._9._0
 
         public bool traveling { get; set; }
 
-        public void SpawnProp(Vehicle dmc12, string propName, string dummy, Vector3 pos, Vector3 rot)
+        enum time
+        {
+            Future,
+            Present,
+            Past
+        }
+
+        List<Prop> fday1, fday2, fmonth, fy1, fy2, fy3, fy4, fh1, fh2, fm1, fm2, 
+            presday1, presday2, presmonth, presy1, presy2, presy3, presy4, presh1, presh2, presm1, presm2, 
+            pastday1, pastday2, pastmonth, pasty1, pasty2, pasty3, pasty4, pasth1, pasth2, pastm1, pastm2;
+        List<Prop> fampm, presampm, pastampm;
+        Prop collum;
+        private List<Prop> getDigits(Vehicle delorean, string dummy, time displayType)
+        {
+            List<Prop> temp = new List<Prop>();
+            for (int i = 0; i < 10; i++)
+            {
+                if (displayType == time.Present)
+                    temp.Add(SpawnProp(delorean, "digit_" + i + "_green", dummy, Vector3.Zero, Vector3.Zero, true));
+                if (displayType == time.Future)
+                    temp.Add(SpawnProp(delorean, "digit_" + i + "_red", dummy, Vector3.Zero, Vector3.Zero, true));
+                if (displayType == time.Past)
+                    temp.Add(SpawnProp(delorean, "digit_" + i + "_yellow", dummy, Vector3.Zero, Vector3.Zero, true));
+                Script.Wait(1);
+            }
+
+            return temp;
+        }
+
+        public void initDisplay(Vehicle delorean)
+        {
+            fmonth.Add(SpawnProp(delorean, "jan_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "feb_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "mar_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "apr_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "may_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "jun_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "jul_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "aug_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "sep_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "oct_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "nov_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            fmonth.Add(SpawnProp(delorean, "dec_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+
+            fday1 = getDigits(delorean, "tcd_day1_red", time.Future);
+            fday2 = getDigits(delorean, "tcd_day2_red", time.Future);
+            fy1 = getDigits(delorean, "tcd_year1_red", time.Future);
+            fy2 = getDigits(delorean, "tcd_year2_red", time.Future);
+            fy3 = getDigits(delorean, "tcd_year3_red", time.Future);
+            fy4 = getDigits(delorean, "tcd_year4_red", time.Future);
+            fh1 = getDigits(delorean, "tcd_hour1_red", time.Future);
+            fh2 = getDigits(delorean, "tcd_hour2_red", time.Future);
+            fm1 = getDigits(delorean, "tcd_time1_red", time.Future);
+            fm2 = getDigits(delorean, "tcd_time2_red", time.Future);
+            fampm.Add(SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero, true));
+            fampm.Add(SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero, true));
+
+
+            pastmonth.Add(SpawnProp(delorean, "jan_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "feb_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "mar_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "apr_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "may_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "jun_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "jul_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "aug_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "sep_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "oct_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "nov_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+            pastmonth.Add(SpawnProp(delorean, "dec_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
+
+            pastday1 = getDigits(delorean, "tcd_day1_yellow", time.Past);
+            pastday2 = getDigits(delorean, "tcd_day2_yellow", time.Past);
+            pasty1 = getDigits(delorean, "tcd_year1_yellow", time.Past);
+            pasty2 = getDigits(delorean, "tcd_year2_yellow", time.Past);
+            pasty3 = getDigits(delorean, "tcd_year3_yellow", time.Past);
+            pasty4 = getDigits(delorean, "tcd_year4_yellow", time.Past);
+            pasth1 = getDigits(delorean, "tcd_hour1_yellow", time.Past);
+            pasth2 = getDigits(delorean, "tcd_hour2_yellow", time.Past);
+            pastm1 = getDigits(delorean, "tcd_time1_yellow", time.Past);
+            pastm2 = getDigits(delorean, "tcd_time2_yellow", time.Past);
+            pastampm.Add(SpawnProp(delorean, "bttf_pres_am", "", Vector3.Zero, Vector3.Zero, true));
+            pastampm.Add(SpawnProp(delorean, "bttf_pres_pm", "", Vector3.Zero, Vector3.Zero, true));
+
+
+            presmonth.Add(SpawnProp(delorean, "jan_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "feb_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "mar_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "apr_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "may_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "jun_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "jul_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "aug_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "sep_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "oct_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "nov_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+            presmonth.Add(SpawnProp(delorean, "dec_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
+
+            presday1 = getDigits(delorean, "tcd_day1_green", time.Present);
+            presday2 = getDigits(delorean, "tcd_day2_green", time.Present);
+            presy1 = getDigits(delorean, "tcd_year1_green", time.Present);
+            presy2 = getDigits(delorean, "tcd_year2_green", time.Present);
+            presy3 = getDigits(delorean, "tcd_year3_green", time.Present);
+            presy4 = getDigits(delorean, "tcd_year4_green", time.Present);
+            presh1 = getDigits(delorean, "tcd_hour1_green", time.Present);
+            presh2 = getDigits(delorean, "tcd_hour2_green", time.Present);
+            presm1 = getDigits(delorean, "tcd_time1_green", time.Present);
+            presm2 = getDigits(delorean, "tcd_time2_green", time.Present);
+            presampm.Add(SpawnProp(delorean, "bttf_last_am", "", Vector3.Zero, Vector3.Zero, true));
+            presampm.Add(SpawnProp(delorean, "bttf_last_pm", "", Vector3.Zero, Vector3.Zero, true));
+        }
+
+        private void showDigit(List<Prop> pdigit , int digit)
+        {
+            if (digit == 0)
+            {
+                pdigit[0].Alpha = 255;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 1)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 255;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 2)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 255;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 3)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 255;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 4)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 255;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 5)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 255;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 6)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 255;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 7)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 255;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 8)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 255;
+                pdigit[9].Alpha = 0;
+            }
+            else if (digit == 9)
+            {
+                pdigit[0].Alpha = 0;
+                pdigit[1].Alpha = 0;
+                pdigit[2].Alpha = 0;
+                pdigit[3].Alpha = 0;
+                pdigit[4].Alpha = 0;
+                pdigit[5].Alpha = 0;
+                pdigit[6].Alpha = 0;
+                pdigit[7].Alpha = 0;
+                pdigit[8].Alpha = 0;
+                pdigit[9].Alpha = 255;
+            }
+        }
+
+        private void showMonth(List<Prop> pmonth, int digit)
+        {
+            if (digit == 0)
+            {
+                pmonth[0].Alpha = 255;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 1)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 255;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 2)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 255;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 3)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 255;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 4)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 255;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 5)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 255;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 6)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 255;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 7)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 255;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 8)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 255;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 9)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 255;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 10)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 255;
+                pmonth[11].Alpha = 0;
+            }
+            else if (digit == 11)
+            {
+                pmonth[0].Alpha = 0;
+                pmonth[1].Alpha = 0;
+                pmonth[2].Alpha = 0;
+                pmonth[3].Alpha = 0;
+                pmonth[4].Alpha = 0;
+                pmonth[5].Alpha = 0;
+                pmonth[6].Alpha = 0;
+                pmonth[7].Alpha = 0;
+                pmonth[8].Alpha = 0;
+                pmonth[9].Alpha = 0;
+                pmonth[10].Alpha = 0;
+                pmonth[11].Alpha = 255;
+            }
+        }
+
+        public void Display(Vehicle delorean, bool refilltimecurcuits, int fmonth1, int fmonth2, int fday1, int fday2, int fy1, int fy2, int fy3, int fy4, int fh1, int fh2, string fampm, int fm1, int fm2, int presmonth1, int presmonth2, int presday1, int presday2, int presy1, int presy2, int presy3, int presy4, int presh1, int presh2, string presampm, int presm1, int presm2, int pastmonth1, int pastmonth2, int pastday1, int pastday2, int pasty1, int pasty2, int pasty3, int pasty4, int pasth1, int pasth2, string pastampm, int pastm1, int pastm2, bool bug)
+        {
+            if (refilltimecurcuits)
+            {
+                if (bug)
+                {
+                    showMonth(fmonth, ((fmonth1 * 10) + fmonth2) - 1);
+                    showDigit(this.fday1, fday1);
+                    showDigit(this.fday2, fday2);
+                    showDigit(this.fy1, fy1);
+                    showDigit(this.fy2, fy2);
+                    showDigit(this.fy3, fy3);
+                    showDigit(this.fy4, fy4);
+                    showDigit(this.fh1, fh1);
+                    showDigit(this.fh1, fh2);
+                    showDigit(this.fm1, fm1);
+                    showDigit(this.fm2, fm2);
+                }
+
+                showMonth(presmonth, ((presmonth1 * 10) + presmonth2) - 1);
+                showDigit(this.presday1, presday1);
+                showDigit(this.presday2, presday2);
+                showDigit(this.presy1, presy1);
+                showDigit(this.presy2, presy2);
+                showDigit(this.presy3, presy3);
+                showDigit(this.presy4, presy4);
+                showDigit(this.presh1, presh1);
+                showDigit(this.presh1, presh1);
+                showDigit(this.presm1, presm1);
+                showDigit(this.presm2, presm2);
+
+                showMonth(pastmonth, ((pastmonth1 * 10) + pastmonth2) - 1);
+                showDigit(this.pastday1, pastday1);
+                showDigit(this.pastday2, pastday2);
+                showDigit(this.pasty1, pasty1);
+                showDigit(this.pasty2, pasty2);
+                showDigit(this.pasty3, pasty3);
+                showDigit(this.pasty4, pasty4);
+                showDigit(this.pasth1, pasth1);
+                showDigit(this.pasth1, pasth1);
+                showDigit(this.pastm1, pastm1);
+                showDigit(this.pastm2, pastm2);
+            }
+
+            //tcd_month_yellow
+            //timecurcuitssystem.effectProps[delorean.NumberPlate.Trim()].SpawnProp(delorean, "aug_yellow", "tcd_month_yellow", delorean.GetBoneCoord("tcd_month_yellow"), new Vector3(0, 0, 0));
+        }
+
+
+        public Prop SpawnProp(Vehicle dmc12, string propName, string dummy, Vector3 pos, Vector3 rot, bool dates = false)
         {
             var model = new Model(propName);
             model.Request(250);
@@ -61,139 +536,31 @@ namespace TTTF_TimeTravel_0._9._0
                 if (dummy.Equals("licenseplate"))
                 {
                     licenseplate = prop;
-                    prop.AttachTo(dmc12, 0, boneOffset, rot);
+                    prop.AttachTo(dmc12, 0, boneOffset, new Vector3(dmc12.Rotation.X , dmc12.Rotation.Y, dmc12.Rotation.Z));
+                    return prop;
                 }
 
                 if (propName.Equals("bttf_icebody"))
                 {
                     ice = prop;
                     ice.Alpha = 0;
-                    prop.AttachTo(dmc12, 0, Vector3.Zero, rot);
+                    prop.AttachTo(dmc12, 0, Vector3.Zero, Vector3.Zero);
+                    return prop;
                 }
+
+                if (dates)
+                {
+                    prop.Alpha = 0;
+                }
+
+                prop.AttachTo(dmc12, 0, boneOffset, new Vector3(dmc12.Rotation.X + rot.X, dmc12.Rotation.Y + rot.Y, dmc12.Rotation.Z + rot.Z));
+                return prop;
             }
             else
             {
                 UI.Notify(" Does not exist");
+                return null;
             }
-
-            //if (Game.Player.Character.IsInVehicle())
-            //{
-            //    var model = new Model(propName);
-            //    model.Request(250);
-
-            //    // Check the model is valid
-            //    if (model.IsInCdImage && model.IsValid)
-            //    {
-            //        // Ensure the model is loaded before we try to create it in the world
-            //        while (!model.IsLoaded) Script.Wait(50);
-
-            //        // Create the prop in the world
-            //        Prop temp = World.CreateProp(model, Game.Player.Character.GetOffsetInWorldCoords(new GTA.Math.Vector3(0, 5, 0)), true, true);
-
-
-            //        float x = 0;
-            //        float y = 0;
-            //        float z = 0;
-            //        float rx = 0;
-            //        float ry = 0;
-            //        float rz = 0;
-            //        while (true)
-            //        {
-            //            try
-            //            {
-            //                UI.Notify("Key: " + Keys.KeyCode.ToString());
-
-            //                UI.Notify("Key up");
-            //                if (Game.IsKeyPressed(Keys.Up))
-            //                {
-            //                    z += 0.01f;
-            //                }
-            //                UI.Notify("Key down");
-            //                if (Game.IsKeyPressed(Keys.Down))
-            //                {
-            //                    z -= 0.01f;
-            //                }
-
-            //                if (Game.IsKeyPressed(Keys.I))
-            //                {
-            //                    rx += 0.01f;
-            //                }
-            //                if (Game.IsKeyPressed(Keys.O))
-            //                {
-            //                    rx -= 0.01f;
-            //                }
-
-            //                if (Game.IsKeyPressed(Keys.PageUp))
-            //                {
-            //                    ry += 0.01f;
-            //                }
-            //                if (Game.IsKeyPressed(Keys.PageDown))
-            //                {
-            //                    ry -= 0.01f;
-            //                }
-
-
-            //                UI.Notify("Key not shift");
-            //                if (!Game.IsKeyPressed(Keys.ShiftKey))
-            //                {
-            //                    if (Game.IsKeyPressed(Keys.PageUp))
-            //                    {
-            //                        rz += 0.01f;
-            //                    }
-            //                    if (Game.IsKeyPressed(Keys.PageDown))
-            //                    {
-            //                        rz -= 0.01f;
-            //                    }
-
-
-            //                    UI.Notify("Key left");
-            //                    if (Game.IsKeyPressed(Keys.Left))
-            //                    {
-            //                        y += 0.01f;
-            //                    }
-            //                    UI.Notify("Key right");
-            //                    if (Game.IsKeyPressed(Keys.Right))
-            //                    {
-            //                        y -= 0.01f;
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    UI.Notify("Key shift and left");
-            //                    if (Game.IsKeyPressed(Keys.Left))
-            //                    {
-            //                        x += 0.01f;
-            //                    }
-            //                    UI.Notify("Key shift and right");
-            //                    if (Game.IsKeyPressed(Keys.Right))
-            //                    {
-            //                        x -= 0.01f;
-            //                    }
-            //                }
-            //            }
-            //            catch
-            //            {
-
-            //            }
-            //            UI.Notify("Key space");
-            //            if (Game.IsKeyPressed(Keys.Space))
-            //            {
-            //                break;
-            //            }
-            //            UI.Notify("Keys");
-            //            temp.AttachTo(dmc12, 0, new GTA.Math.Vector3(x, y, z), new GTA.Math.Vector3(rx, ry, rz));
-            //            UI.Notify("door");
-            //            Wait(10);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        UI.Notify(" Does not exist");
-            //    }
-
-            //    // Mark the model as no longer needed to remove it from memory.
-            //    model.MarkAsNoLongerNeeded();
-            //}
         }
 
         public void loadWormhole(Vehicle dmc12)

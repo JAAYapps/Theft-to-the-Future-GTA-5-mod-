@@ -12,6 +12,15 @@ namespace TTTF_TimeTravel_0._9._0
     class Doors
     {
         static bool ice = false;
+        public static void iceDoor()
+        {
+            ice = true;
+        }
+        public static void uniceDoor()
+        {
+            ice = true;
+        }
+
         static bool doorisopen = false;
         static bool doorisopen2 = false;
         static bool doorisclosed = true;

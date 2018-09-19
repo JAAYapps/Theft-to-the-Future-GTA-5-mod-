@@ -28,7 +28,6 @@ namespace TTTF_TimeTravel_0._9._0
             propManager.loadWormhole(dmc12);
             propManager.SpawnProp(dmc12, "bttf_licenseplate", "licenseplate", Vector3.Zero, dmc12.GetOffsetInWorldCoords(new Vector3(3,0,0)));
             propManager.SpawnProp(dmc12, "bttf_icebody", "chassis", Vector3.Zero, Vector3.Zero);
-            propManager.initDisplay(dmc12);
             propManager.ice.Alpha = 0;
             effectProps.Add(carName.Trim(), propManager);
         }
@@ -581,7 +580,7 @@ namespace TTTF_TimeTravel_0._9._0
                         bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastampm,
                         bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastm1,
                         bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastm2, 
-                        true);
+                        bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].bug);
                 }
                 else
                 {

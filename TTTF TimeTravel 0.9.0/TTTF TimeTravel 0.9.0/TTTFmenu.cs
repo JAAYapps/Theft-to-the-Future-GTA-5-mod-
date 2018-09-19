@@ -430,7 +430,7 @@ namespace TTTF_TimeTravel_0._9._0
                             RCmode = false;
                             setmenu(true);
 
-                            Script.Wait(100);
+                            Script.Wait(1000);
                         }
                         else
                         {

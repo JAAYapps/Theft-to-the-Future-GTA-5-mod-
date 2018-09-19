@@ -1,9 +1,11 @@
 ﻿using GTA;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TTTF_TimeTravel_0._9._0
 {
@@ -214,7 +216,9 @@ namespace TTTF_TimeTravel_0._9._0
 
         public static int presday1 = 1, presday2 = 0, presmonth1 = 0, presmonth2 = 9, presy1 = 1, presy2 = 9, presy3 = 9, presy4 = 5, presh1 = 0, presh2 = 6, presm1 = 1, presm2 = 1;
         public static string presampm = "pm";
-
+        static bool ticktock = false;
+        static Random errorDisplay = new Random();
+        static int ranint = 0;
         public static void tick()
         {
             currentGameTime();
@@ -249,7 +253,6 @@ namespace TTTF_TimeTravel_0._9._0
             try
             {
                 int ypos = 50;
-
                 if (timecurcuitssystem.bttfList.Count > 0)
                 {
                     foreach (string car in timecurcuitssystem.bttfList.Keys)
@@ -265,49 +268,139 @@ namespace TTTF_TimeTravel_0._9._0
                         TimedisplayDelorean.Draw();
                         ypos += 30;
 
+                        if (timecurcuitssystem.bttfList[car].getDelorean().Health < 300)
+                        {
+
+                            if (ranint == 2)
+                            {
+                                if (!Sounds.cirerror.getPlayState())
+                                {
+                                    Sounds.cirerror.Play();
+                                    ranint = 3;
+                                }
+                            }
+                            else
+                            {
+                                if (!Sounds.cirerror.getPlayState())
+                                {
+                                    ranint = errorDisplay.Next(1, 200);
+                                }
+                                else
+                                {
+                                    if (Sounds.cirerror.gettime() < 400)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = true;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 700)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = false;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 1100)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = true;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 1400)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = false;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 1800)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = true;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 2100)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = false;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 2400)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = true;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 2700)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = false;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 3000)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = false;
+                                    }
+
+                                    if (Sounds.cirerror.gettime() < 3400)
+                                    {
+                                        timecurcuitssystem.bttfList[car].bug = true;
+                                    }
+                                }
+                            }
+                        }
+
                         timecurcuitssystem.effectProps[car].wormholeTick(timecurcuitssystem.bttfList[car].getDelorean());
-                        timecurcuitssystem.effectProps[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].Display(timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].getDelorean(),
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].refilltimecurcuits,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fmonth1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fmonth2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fday1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fday2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fy1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fy2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fy3,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fy4,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fh1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fh2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fampm,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fm1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].fm2,
-                        presmonth1,
-                        presmonth2,
-                        presday1,
-                        presday2,
-                        presy1,
-                        presy2,
-                        presy3,
-                        presy4,
-                        presh1,
-                        presh2,
-                        presampm,
-                        presm1,
-                        presm2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastmonth1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastmonth2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastday1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastday2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pasty1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pasty2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pasty3,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pasty4,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pasth1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pasth2,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastampm,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastm1,
-                        timecurcuitssystem.bttfList[Game.Player.Character.CurrentVehicle.NumberPlate.Trim()].pastm2,
-                        true);
+                        timecurcuitssystem.effectProps[car].flickerTick(timecurcuitssystem.bttfList[car]);
+                        if (DateTime.Now.Millisecond > 500 && DateTime.Now.Millisecond <= 1000)
+                        {
+                            if (!ticktock)
+                            {
+                                timecurcuitssystem.effectProps[car].Display(timecurcuitssystem.bttfList[car].getDelorean(),
+                                    timecurcuitssystem.bttfList[car].toggletimecurcuits,
+                                    timecurcuitssystem.bttfList[car].getDelorean().EngineRunning,
+                                    timecurcuitssystem.bttfList[car].refilltimecurcuits,
+                                    timecurcuitssystem.bttfList[car].getDelorean().BodyHealth,
+                                    timecurcuitssystem.bttfList[car].fmonth1,
+                                    timecurcuitssystem.bttfList[car].fmonth2,
+                                    timecurcuitssystem.bttfList[car].fday1,
+                                    timecurcuitssystem.bttfList[car].fday2,
+                                    timecurcuitssystem.bttfList[car].fy1,
+                                    timecurcuitssystem.bttfList[car].fy2,
+                                    timecurcuitssystem.bttfList[car].fy3,
+                                    timecurcuitssystem.bttfList[car].fy4,
+                                    timecurcuitssystem.bttfList[car].fh1,
+                                    timecurcuitssystem.bttfList[car].fh2,
+                                    timecurcuitssystem.bttfList[car].fampm,
+                                    timecurcuitssystem.bttfList[car].fm1,
+                                    timecurcuitssystem.bttfList[car].fm2,
+                                    presmonth1,
+                                    presmonth2,
+                                    presday1,
+                                    presday2,
+                                    presy1,
+                                    presy2,
+                                    presy3,
+                                    presy4,
+                                    presh1,
+                                    presh2,
+                                    presampm,
+                                    presm1,
+                                    presm2,
+                                    timecurcuitssystem.bttfList[car].pastmonth1,
+                                    timecurcuitssystem.bttfList[car].pastmonth2,
+                                    timecurcuitssystem.bttfList[car].pastday1,
+                                    timecurcuitssystem.bttfList[car].pastday2,
+                                    timecurcuitssystem.bttfList[car].pasty1,
+                                    timecurcuitssystem.bttfList[car].pasty2,
+                                    timecurcuitssystem.bttfList[car].pasty3,
+                                    timecurcuitssystem.bttfList[car].pasty4,
+                                    timecurcuitssystem.bttfList[car].pasth1,
+                                    timecurcuitssystem.bttfList[car].pasth2,
+                                    timecurcuitssystem.bttfList[car].pastampm,
+                                    timecurcuitssystem.bttfList[car].pastm1,
+                                    timecurcuitssystem.bttfList[car].pastm2,
+                                    timecurcuitssystem.bttfList[car].bug);
+                                ticktock = true;
+                            }
+                        }
+                        else
+                        {
+                            if (ticktock)
+                            {
+                                ticktock = false;
+                            }
+                        }
                         timecurcuitssystem.circuits[car].runningCircuits(timecurcuitssystem.bttfList[car], timecurcuitssystem.wormhole[car]);
                         effects.flux_capcitor(timecurcuitssystem.bttfList[car].getDelorean());
                         timecurcuitssystem.circuits[car].tickfreeze(timecurcuitssystem.bttfList[car].getDelorean());
@@ -342,12 +435,17 @@ namespace TTTF_TimeTravel_0._9._0
             catch (Exception e)
             {
                 Sounds.unLoad();
-                while (false)
+                foreach (string car in timecurcuitssystem.bttfList.Keys)
+                    timecurcuitssystem.effectProps[car].removeWormhole();
+
+                string[] error = new string[] { e.ToString(), "\n", e.Message, "\n", e.StackTrace, "\n", e.TargetSite.Name };
+                File.WriteAllLines(Application.StartupPath + "\\TTTF Error.log", error);
+                while (true)
                 {
                     UI.Notify("Problem");
-                    UI.Notify(e.Message);
-                    UI.Notify(e.StackTrace);
-                    UI.Notify(e.TargetSite.Name);
+                    //UI.Notify(e.Message);
+                    //UI.Notify(e.StackTrace);
+                    //UI.Notify(e.TargetSite.Name);
                     UI.Notify(e.ToString());
                     Script.Wait(10);
                 }

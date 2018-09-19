@@ -714,6 +714,7 @@ namespace TTTF_TimeTravel_0._9._0
                     {
                         if (!ticktock)
                         {
+
                             ticktock = true;
                         }
                     }
@@ -726,7 +727,7 @@ namespace TTTF_TimeTravel_0._9._0
                     }
 
                     int h1 = 1, h2 = 2;
-                    if (bug)
+                    if (!bug)
                     {
                         #region future
 

@@ -1,5 +1,6 @@
 ﻿using GTA;
 using GTA.Math;
+using System;
 using System.Collections.Generic;
 
 namespace TTTF_TimeTravel_0._9._0
@@ -49,486 +50,466 @@ namespace TTTF_TimeTravel_0._9._0
             Past
         }
 
-        List<Prop> fday1, fday2, fmonth, fy1, fy2, fy3, fy4, fh1, fh2, fm1, fm2, 
+        Prop fday1, fday2, fmonth, fy1, fy2, fy3, fy4, fh1, fh2, fm1, fm2, 
             presday1, presday2, presmonth, presy1, presy2, presy3, presy4, presh1, presh2, presm1, presm2, 
             pastday1, pastday2, pastmonth, pasty1, pasty2, pasty3, pasty4, pasth1, pasth2, pastm1, pastm2;
-        List<Prop> fampm, presampm, pastampm;
+        Prop fampm, fampm2, presampm, presampm2, pastampm, pastampm2;
         //Prop collum;
-        private List<Prop> getDigits(Vehicle delorean, string dummy, time displayType)
+        private Prop getDigits(Vehicle delorean, string dummy, int index, time displayType)
         {
-            List<Prop> temp = new List<Prop>();
-            for (int i = 0; i < 10; i++)
-            {
-                if (displayType == time.Present)
-                    temp.Add(SpawnProp(delorean, "digit_" + i + "_green", dummy, Vector3.Zero, Vector3.Zero, true));
-                if (displayType == time.Future)
-                    temp.Add(SpawnProp(delorean, "digit_" + i + "_red", dummy, Vector3.Zero, Vector3.Zero, true));
-                if (displayType == time.Past)
-                    temp.Add(SpawnProp(delorean, "digit_" + i + "_yellow", dummy, Vector3.Zero, Vector3.Zero, true));
-                Script.Wait(1);
-            }
+            Prop temp = null;
+
+            if (displayType == time.Present)
+                temp = (SpawnProp(delorean, "digit_" + index + "_green", dummy, Vector3.Zero, Vector3.Zero));
+            if (displayType == time.Future)
+                temp = (SpawnProp(delorean, "digit_" + index + "_red", dummy, Vector3.Zero, Vector3.Zero));
+            if (displayType == time.Past)
+                temp = (SpawnProp(delorean, "digit_" + index + "_yellow", dummy, Vector3.Zero, Vector3.Zero));
 
             return temp;
         }
 
-        public void initDisplay(Vehicle delorean)
+        string[] fmonthstr = new string[] {"jan_red", "feb_red", "mar_red", "apr_red", "may_red", "jun_red", "jul_red", "aug_red", "sep_red", "oct_red", "nov_red", "dec_red"};
+        string[] presmonthstr = new string[] {"jan_green", "feb_green", "mar_green", "apr_green", "may_green", "jun_green", "jul_green", "aug_green", "sep_green", "oct_green", "nov_green", "dec_green"};
+        string[] pastmonthstr = new string[] {"jan_yellow", "feb_yellow", "mar_yellow", "apr_yellow", "may_yellow", "jun_yellow", "jul_yellow", "aug_yellow", "sep_yellow", "oct_yellow", "nov_yellow", "dec_yellow"};
+
+        Random flicker = new Random();
+        Random rdates = new Random();
+        bool flickering = false;
+        float health = 1000;
+        int deathLimit = 500000;
+        bool extrem = false;
+        bool ticktock = false;
+        DateTime GenererateRandomDate()
         {
-            fmonth = new List<Prop>();
-            presmonth = new List<Prop>();
-            pastmonth = new List<Prop>();
-            fampm = new List<Prop>();
-            presampm = new List<Prop>();
-            pastampm = new List<Prop>();
 
-            fmonth.Add(SpawnProp(delorean, "jan_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "feb_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "mar_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "apr_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "may_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "jun_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "jul_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "aug_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "sep_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "oct_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "nov_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
-            fmonth.Add(SpawnProp(delorean, "dec_red", "tcd_month_red", Vector3.Zero, Vector3.Zero, true));
+            int year = rdates.Next(1900, 9999);
+            int month = rdates.Next(1, 12);
+            int day = DateTime.DaysInMonth(year, month);
+            int hour = rdates.Next(1, 12);
+            int min = rdates.Next(1, 59);
 
-            fday1 = getDigits(delorean, "tcd_day1_red", time.Future);
-            fday2 = getDigits(delorean, "tcd_day2_red", time.Future);
-            fy1 = getDigits(delorean, "tcd_year1_red", time.Future);
-            fy2 = getDigits(delorean, "tcd_year2_red", time.Future);
-            fy3 = getDigits(delorean, "tcd_year3_red", time.Future);
-            fy4 = getDigits(delorean, "tcd_year4_red", time.Future);
-            fh1 = getDigits(delorean, "tcd_hour1_red", time.Future);
-            fh2 = getDigits(delorean, "tcd_hour2_red", time.Future);
-            fm1 = getDigits(delorean, "tcd_time1_red", time.Future);
-            fm2 = getDigits(delorean, "tcd_time2_red", time.Future);
-            fampm.Add(SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero, true));
-            fampm.Add(SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero, true));
+            int Day = rdates.Next(1, day);
 
-
-            pastmonth.Add(SpawnProp(delorean, "jan_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "feb_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "mar_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "apr_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "may_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "jun_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "jul_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "aug_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "sep_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "oct_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "nov_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-            pastmonth.Add(SpawnProp(delorean, "dec_yellow", "tcd_month_yellow", Vector3.Zero, Vector3.Zero, true));
-
-            pastday1 = getDigits(delorean, "tcd_day1_yellow", time.Past);
-            pastday2 = getDigits(delorean, "tcd_day2_yellow", time.Past);
-            pasty1 = getDigits(delorean, "tcd_year1_yellow", time.Past);
-            pasty2 = getDigits(delorean, "tcd_year2_yellow", time.Past);
-            pasty3 = getDigits(delorean, "tcd_year3_yellow", time.Past);
-            pasty4 = getDigits(delorean, "tcd_year4_yellow", time.Past);
-            pasth1 = getDigits(delorean, "tcd_hour1_yellow", time.Past);
-            pasth2 = getDigits(delorean, "tcd_hour2_yellow", time.Past);
-            pastm1 = getDigits(delorean, "tcd_time1_yellow", time.Past);
-            pastm2 = getDigits(delorean, "tcd_time2_yellow", time.Past);
-            pastampm.Add(SpawnProp(delorean, "bttf_pres_am", "", Vector3.Zero, Vector3.Zero, true));
-            pastampm.Add(SpawnProp(delorean, "bttf_pres_pm", "", Vector3.Zero, Vector3.Zero, true));
-
-
-            presmonth.Add(SpawnProp(delorean, "jan_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "feb_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "mar_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "apr_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "may_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "jun_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "jul_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "aug_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "sep_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "oct_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "nov_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-            presmonth.Add(SpawnProp(delorean, "dec_green", "tcd_month_green", Vector3.Zero, Vector3.Zero, true));
-
-            presday1 = getDigits(delorean, "tcd_day1_green", time.Present);
-            presday2 = getDigits(delorean, "tcd_day2_green", time.Present);
-            presy1 = getDigits(delorean, "tcd_year1_green", time.Present);
-            presy2 = getDigits(delorean, "tcd_year2_green", time.Present);
-            presy3 = getDigits(delorean, "tcd_year3_green", time.Present);
-            presy4 = getDigits(delorean, "tcd_year4_green", time.Present);
-            presh1 = getDigits(delorean, "tcd_hour1_green", time.Present);
-            presh2 = getDigits(delorean, "tcd_hour2_green", time.Present);
-            presm1 = getDigits(delorean, "tcd_time1_green", time.Present);
-            presm2 = getDigits(delorean, "tcd_time2_green", time.Present);
-            presampm.Add(SpawnProp(delorean, "bttf_last_am", "", Vector3.Zero, Vector3.Zero, true));
-            presampm.Add(SpawnProp(delorean, "bttf_last_pm", "", Vector3.Zero, Vector3.Zero, true));
+            DateTime dt = new DateTime(year, month, Day, hour, min, 0);
+            return dt;
         }
 
-        private void showDigit(List<Prop> pdigit , int digit)
+        public int[] GetDigits(int number)
         {
-            if (digit == 0)
+            string temp = number.ToString();
+            int[] rtn = new int[temp.Length];
+            for (int i = 0; i < rtn.Length; i++)
             {
-                pdigit[0].Alpha = 255;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
+                rtn[i] = int.Parse(temp[i].ToString());
             }
-            else if (digit == 1)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 255;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 2)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 255;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 3)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 255;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 4)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 255;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 5)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 255;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 6)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 255;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 7)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 255;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 8)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 255;
-                pdigit[9].Alpha = 0;
-            }
-            else if (digit == 9)
-            {
-                pdigit[0].Alpha = 0;
-                pdigit[1].Alpha = 0;
-                pdigit[2].Alpha = 0;
-                pdigit[3].Alpha = 0;
-                pdigit[4].Alpha = 0;
-                pdigit[5].Alpha = 0;
-                pdigit[6].Alpha = 0;
-                pdigit[7].Alpha = 0;
-                pdigit[8].Alpha = 0;
-                pdigit[9].Alpha = 255;
-            }
+            return rtn;
         }
 
-        private void showMonth(List<Prop> pmonth, int digit)
+        public void dateError()
         {
-            if (digit == 0)
-            {
-                pmonth[0].Alpha = 255;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 1)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 255;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 2)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 255;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 3)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 255;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 4)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 255;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 5)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 255;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 6)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 255;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 7)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 255;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 8)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 255;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 9)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 255;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 10)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 255;
-                pmonth[11].Alpha = 0;
-            }
-            else if (digit == 11)
-            {
-                pmonth[0].Alpha = 0;
-                pmonth[1].Alpha = 0;
-                pmonth[2].Alpha = 0;
-                pmonth[3].Alpha = 0;
-                pmonth[4].Alpha = 0;
-                pmonth[5].Alpha = 0;
-                pmonth[6].Alpha = 0;
-                pmonth[7].Alpha = 0;
-                pmonth[8].Alpha = 0;
-                pmonth[9].Alpha = 0;
-                pmonth[10].Alpha = 0;
-                pmonth[11].Alpha = 255;
-            }
+            DateTime rdate = GenererateRandomDate();
+            int[] day = GetDigits(rdate.Day);
+            int[] month = GetDigits(rdate.Month);
+            int[] year = GetDigits(rdate.Year);
+            int[] hour = GetDigits(rdate.Hour);
+            int fullHour = rdate.Hour;
+            int[] min = GetDigits(rdate.Minute);
+            timecurcuitssystem.Settime(day[0], day[1], month[0], month[1], year[0], year[1], year[2], year[3], hour[0], hour[1], min[0], min[1], fullHour > 11 ? "pm" : "am");
         }
 
-        public void Display(Vehicle delorean, bool refilltimecurcuits, int fmonth1, int fmonth2, int fday1, int fday2, int fy1, int fy2, int fy3, int fy4, int fh1, int fh2, string fampm, int fm1, int fm2, int presmonth1, int presmonth2, int presday1, int presday2, int presy1, int presy2, int presy3, int presy4, int presh1, int presh2, string presampm, int presm1, int presm2, int pastmonth1, int pastmonth2, int pastday1, int pastday2, int pasty1, int pasty2, int pasty3, int pasty4, int pasth1, int pasth2, string pastampm, int pastm1, int pastm2, bool bug)
+        public void flickerTick(Delorean dmc12)
         {
-            if (refilltimecurcuits)
+            if (extrem || (DateTime.Now.Millisecond > 250 && DateTime.Now.Millisecond < 500 && DateTime.Now.Millisecond > 750 && DateTime.Now.Millisecond <= 1000))
             {
-                if (bug)
+                if (!ticktock)
                 {
-                    showMonth(fmonth, ((fmonth1 * 10) + fmonth2) - 1);
-                    showDigit(this.fday1, fday1);
-                    showDigit(this.fday2, fday2);
-                    showDigit(this.fy1, fy1);
-                    showDigit(this.fy2, fy2);
-                    showDigit(this.fy3, fy3);
-                    showDigit(this.fy4, fy4);
-                    showDigit(this.fh1, fh1);
-                    showDigit(this.fh1, fh2);
-                    showDigit(this.fm1, fm1);
-                    showDigit(this.fm2, fm2);
+                    if (flickering)
+                    {
+                        if (extrem)
+                        {
+                            deathLimit--;
+                            if (deathLimit <= 0)
+                            {
+                                flickering = false;
+                                timecurcuitssystem.switchCircuits();
+                                World.AddExplosion(dmc12.getDelorean().GetOffsetInWorldCoords(new Vector3(0, 1.2f, 0)), ExplosionType.VehicleBullet, 0.5f, 0.5f);
+                                deathLimit = 0;
+                            }
+                        }
+
+                        if (health > 100)
+                        {
+                            int alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fmonth.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fday1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fday2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fy1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fy2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fy3.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fy4.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fh1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fh2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fm1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fm2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fampm.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.fampm2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pastmonth.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pastday1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pastday2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pasty1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pasty2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pasty3.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pasty4.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pasth1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pasth2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pastm1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pastm2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pastampm.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.pastampm2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presmonth.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presday1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presday2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presy1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presy2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presy3.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presy4.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presh1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presh2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presm1.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presm2.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presampm.Alpha = alpha;
+                            alpha = flicker.Next(40, 150);
+                            if (health < 200)
+                                this.presampm2.Alpha = alpha;
+                        }
+                    }
+                    ticktock = true;
+                }
+            }
+            else
+            {
+                if (ticktock)
+                {
+                    ticktock = false;
+                }
+            }
+        }
+
+        public void Display(Vehicle delorean, bool displayOn, bool engineOn, bool refilltimecurcuits, float body, int fmonth1, int fmonth2, int fday1, int fday2, int fy1, int fy2, int fy3, int fy4, int fh1, int fh2, string fampm, int fm1, int fm2, int presmonth1, int presmonth2, int presday1, int presday2, int presy1, int presy2, int presy3, int presy4, int presh1, int presh2, string presampm, int presm1, int presm2, int pastmonth1, int pastmonth2, int pastday1, int pastday2, int pasty1, int pasty2, int pasty3, int pasty4, int pasth1, int pasth2, string pastampm, int pastm1, int pastm2, bool bug)
+        {
+            if (refilltimecurcuits && displayOn)
+            {
+                flickering = false;
+                this.fmonth?.Delete();
+                this.fday1?.Delete();
+                this.fday2?.Delete();
+                this.fy1?.Delete();
+                this.fy2?.Delete();
+                this.fy3?.Delete();
+                this.fy4?.Delete();
+                this.fh1?.Delete();
+                this.fh2?.Delete();
+                this.fm1?.Delete();
+                this.fm2?.Delete();
+                this.pastmonth?.Delete();
+                this.pastday1?.Delete();
+                this.pastday2?.Delete();
+                this.pasty1?.Delete();
+                this.pasty2?.Delete();
+                this.pasty3?.Delete();
+                this.pasty4?.Delete();
+                this.pasth1?.Delete();
+                this.pasth2?.Delete();
+                this.pastm1?.Delete();
+                this.pastm2?.Delete();
+                this.presmonth?.Delete();
+                this.presday1?.Delete();
+                this.presday2?.Delete();
+                this.presy1?.Delete();
+                this.presy2?.Delete();
+                this.presy3?.Delete();
+                this.presy4?.Delete();
+                this.presh1?.Delete();
+                this.presh2?.Delete();
+                this.presm1?.Delete();
+                this.presm2?.Delete();
+                this.fampm?.Delete();
+                this.fampm2?.Delete();
+                this.pastampm?.Delete();
+                this.pastampm2?.Delete();
+                this.presampm?.Delete();
+                this.presampm2?.Delete();
+
+                if (!bug)
+                {
+                    this.fmonth = SpawnProp(delorean, fmonthstr[((fmonth1 * 10) + fmonth2) - 1], "tcd_month_red", Vector3.Zero, Vector3.Zero);
+                    this.fday1 = getDigits(delorean, "tcd_day1_red", fday1, time.Future);
+                    this.fday2 = getDigits(delorean, "tcd_day2_red", fday2, time.Future);
+                    this.fy1 = getDigits(delorean, "tcd_year1_red", fy1, time.Future);
+                    this.fy2 = getDigits(delorean, "tcd_year2_red", fy2, time.Future);
+                    this.fy3 = getDigits(delorean, "tcd_year3_red", fy3, time.Future);
+                    this.fy4 = getDigits(delorean, "tcd_year4_red", fy4, time.Future);
+                    this.fh1 = getDigits(delorean, "tcd_hour1_red", fh1, time.Future);
+                    this.fh2 = getDigits(delorean, "tcd_hour2_red", fh2, time.Future);
+                    this.fm1 = getDigits(delorean, "tcd_time1_red", fm1, time.Future);
+                    this.fm2 = getDigits(delorean, "tcd_time2_red", fm2, time.Future);
+                    this.fampm = SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero);
+                    this.fampm2 = SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero); 
                 }
 
-                showMonth(presmonth, ((presmonth1 * 10) + presmonth2) - 1);
-                showDigit(this.presday1, presday1);
-                showDigit(this.presday2, presday2);
-                showDigit(this.presy1, presy1);
-                showDigit(this.presy2, presy2);
-                showDigit(this.presy3, presy3);
-                showDigit(this.presy4, presy4);
-                showDigit(this.presh1, presh1);
-                showDigit(this.presh1, presh1);
-                showDigit(this.presm1, presm1);
-                showDigit(this.presm2, presm2);
+                this.pastmonth = SpawnProp(delorean, pastmonthstr[((pastmonth1 * 10) + pastmonth2) - 1], "tcd_month_yellow", Vector3.Zero, Vector3.Zero);
+                this.pastday1 = getDigits(delorean, "tcd_day1_yellow",pastday1, time.Past);
+                this.pastday2 = getDigits(delorean, "tcd_day2_yellow",pastday2, time.Past);
+                this.pasty1 = getDigits(delorean, "tcd_year1_yellow",pasty1, time.Past);
+                this.pasty2 = getDigits(delorean, "tcd_year2_yellow",pasty2, time.Past);
+                this.pasty3 = getDigits(delorean, "tcd_year3_yellow",pasty3, time.Past);
+                this.pasty4 = getDigits(delorean, "tcd_year4_yellow",pasty4, time.Past);
+                this.pasth1 = getDigits(delorean, "tcd_hour1_yellow",pasth1, time.Past);
+                this.pasth2 = getDigits(delorean, "tcd_hour2_yellow",pasth2, time.Past);
+                this.pastm1 = getDigits(delorean, "tcd_time1_yellow",pastm1, time.Past);
+                this.pastm2 = getDigits(delorean, "tcd_time2_yellow",pastm2, time.Past);
+                this.pastampm = SpawnProp(delorean, "bttf_pres_am", "", Vector3.Zero, Vector3.Zero);
+                this.pastampm2 = SpawnProp(delorean, "bttf_pres_pm", "", Vector3.Zero, Vector3.Zero);
+                this.presmonth = (SpawnProp(delorean, presmonthstr[((pastmonth1 * 10) + pastmonth2) - 1], "tcd_month_green", Vector3.Zero, Vector3.Zero));
+                this.presday1 = getDigits(delorean, "tcd_day1_green",presday1, time.Present);
+                this.presday2 = getDigits(delorean, "tcd_day2_green",presday2, time.Present);
+                this.presy1 = getDigits(delorean, "tcd_year1_green",presy1, time.Present);
+                this.presy2 = getDigits(delorean, "tcd_year2_green",presy2, time.Present);
+                this.presy3 = getDigits(delorean, "tcd_year3_green",presy3, time.Present);
+                this.presy4 = getDigits(delorean, "tcd_year4_green",presy4, time.Present);
+                this.presh1 = getDigits(delorean, "tcd_hour1_green",presh1, time.Present);
+                this.presh2 = getDigits(delorean, "tcd_hour2_green",presh2, time.Present);
+                this.presm1 = getDigits(delorean, "tcd_time1_green",presm1, time.Present);
+                this.presm2 = getDigits(delorean, "tcd_time2_green",presm2, time.Present);
+                this.presampm = (SpawnProp(delorean, "bttf_last_am", "", Vector3.Zero, Vector3.Zero));
+                this.presampm2  = (SpawnProp(delorean, "bttf_last_pm", "", Vector3.Zero, Vector3.Zero));
 
-                showMonth(pastmonth, ((pastmonth1 * 10) + pastmonth2) - 1);
-                showDigit(this.pastday1, pastday1);
-                showDigit(this.pastday2, pastday2);
-                showDigit(this.pasty1, pasty1);
-                showDigit(this.pasty2, pasty2);
-                showDigit(this.pasty3, pasty3);
-                showDigit(this.pasty4, pasty4);
-                showDigit(this.pasth1, pasth1);
-                showDigit(this.pasth1, pasth1);
-                showDigit(this.pastm1, pastm1);
-                showDigit(this.pastm2, pastm2);
+                if (body <= 300 && !bug)
+                {
+                    flickering = true;
+                    health = body;
+                }
+                else
+                {
+                    deathLimit = 500000;
+                    if (!engineOn)
+                    {
+                        this.fmonth.Alpha = 150;
+                        this.fday1.Alpha = 150;
+                        this.fday2.Alpha = 150;
+                        this.fy1.Alpha = 150;
+                        this.fy2.Alpha = 150;
+                        this.fy3.Alpha = 150;
+                        this.fy4.Alpha = 150;
+                        this.fh1.Alpha = 150;
+                        this.fh2.Alpha = 150;
+                        this.fm1.Alpha = 150;
+                        this.fm2.Alpha = 150;
+                        this.fampm.Alpha = 150;
+                        this.fampm2.Alpha = 150;
+
+                        this.pastmonth.Alpha = 150;
+                        this.pastday1.Alpha = 150;
+                        this.pastday2.Alpha = 150;
+                        this.pasty1.Alpha = 150;
+                        this.pasty2.Alpha = 150;
+                        this.pasty3.Alpha = 150;
+                        this.pasty4.Alpha = 150;
+                        this.pasth1.Alpha = 150;
+                        this.pasth2.Alpha = 150;
+                        this.pastm1.Alpha = 150;
+                        this.pastm2.Alpha = 150;
+                        this.pastampm.Alpha = 150;
+                        this.pastampm2.Alpha = 150;
+
+                        this.presmonth.Alpha = 150;
+                        this.presday1.Alpha = 150;
+                        this.presday2.Alpha = 150;
+                        this.presy1.Alpha = 150;
+                        this.presy2.Alpha = 150;
+                        this.presy3.Alpha = 150;
+                        this.presy4.Alpha = 150;
+                        this.presh1.Alpha = 150;
+                        this.presh2.Alpha = 150;
+                        this.presm1.Alpha = 150;
+                        this.presm2.Alpha = 150;
+                        this.presampm.Alpha = 150;
+                        this.presampm2.Alpha = 150;
+                    }
+                    else
+                    {
+                        this.fmonth.Alpha = 255;
+                        this.fday1.Alpha = 255;
+                        this.fday2.Alpha = 255;
+                        this.fy1.Alpha = 255;
+                        this.fy2.Alpha = 255;
+                        this.fy3.Alpha = 255;
+                        this.fy4.Alpha = 255;
+                        this.fh1.Alpha = 255;
+                        this.fh2.Alpha = 255;
+                        this.fm1.Alpha = 255;
+                        this.fm2.Alpha = 255;
+                        this.fampm.Alpha = 255;
+                        this.fampm2.Alpha = 255;
+
+                        this.pastmonth.Alpha = 255;
+                        this.pastday1.Alpha = 255;
+                        this.pastday2.Alpha = 255;
+                        this.pasty1.Alpha = 255;
+                        this.pasty2.Alpha = 255;
+                        this.pasty3.Alpha = 255;
+                        this.pasty4.Alpha = 255;
+                        this.pasth1.Alpha = 255;
+                        this.pasth2.Alpha = 255;
+                        this.pastm1.Alpha = 255;
+                        this.pastm2.Alpha = 255;
+                        this.pastampm.Alpha = 255;
+                        this.pastampm2.Alpha = 255;
+
+                        this.presmonth.Alpha = 255;
+                        this.presday1.Alpha = 255;
+                        this.presday2.Alpha = 255;
+                        this.presy1.Alpha = 255;
+                        this.presy2.Alpha = 255;
+                        this.presy3.Alpha = 255;
+                        this.presy4.Alpha = 255;
+                        this.presh1.Alpha = 255;
+                        this.presh2.Alpha = 255;
+                        this.presm1.Alpha = 255;
+                        this.presm2.Alpha = 255;
+                        this.presampm.Alpha = 255;
+                        this.presampm2.Alpha = 255;
+                    }
+                }
             }
+            else
+            {
+                flickering = false;
+                this.fmonth?.Delete();
+                this.fday1?.Delete();
+                this.fday2?.Delete();
+                this.fy1?.Delete();
+                this.fy2?.Delete();
+                this.fy3?.Delete();
+                this.fy4?.Delete();
+                this.fh1?.Delete();
+                this.fh2?.Delete();
+                this.fm1?.Delete();
+                this.fm2?.Delete();
+                this.fampm?.Delete();
+                this.fampm2?.Delete();
 
+                this.pastmonth?.Delete();
+                this.pastday1?.Delete();
+                this.pastday2?.Delete();
+                this.pasty1?.Delete();
+                this.pasty2?.Delete();
+                this.pasty3?.Delete();
+                this.pasty4?.Delete();
+                this.pasth1?.Delete();
+                this.pasth2?.Delete();
+                this.pastm1?.Delete();
+                this.pastm2?.Delete();
+                this.pastampm?.Delete();
+                this.pastampm2?.Delete();
+
+                this.presmonth?.Delete();
+                this.presday1?.Delete();
+                this.presday2?.Delete();
+                this.presy1?.Delete();
+                this.presy2?.Delete();
+                this.presy3?.Delete();
+                this.presy4?.Delete();
+                this.presh1?.Delete();
+                this.presh2?.Delete();
+                this.presm1?.Delete();
+                this.presm2?.Delete();
+                this.presampm?.Delete();
+                this.presampm2?.Delete();
+
+            }
             //tcd_month_yellow
             //timecurcuitssystem.effectProps[delorean.NumberPlate.Trim()].SpawnProp(delorean, "aug_yellow", "tcd_month_yellow", delorean.GetBoneCoord("tcd_month_yellow"), new Vector3(0, 0, 0));
         }
 
 
-        public Prop SpawnProp(Vehicle dmc12, string propName, string dummy, Vector3 pos, Vector3 rot, bool dates = false)
+        public Prop SpawnProp(Vehicle dmc12, string propName, string dummy, Vector3 pos, Vector3 rot)
         {
             var model = new Model(propName);
             model.Request(250);
@@ -543,7 +524,7 @@ namespace TTTF_TimeTravel_0._9._0
                 if (dummy.Equals("licenseplate"))
                 {
                     licenseplate = prop;
-                    prop.AttachTo(dmc12, 0, boneOffset, new Vector3(dmc12.Rotation.X , dmc12.Rotation.Y, dmc12.Rotation.Z));
+                    prop.AttachTo(dmc12, 0, boneOffset, new Vector3(0, 0, 0));
                     return prop;
                 }
 
@@ -555,12 +536,7 @@ namespace TTTF_TimeTravel_0._9._0
                     return prop;
                 }
 
-                if (dates)
-                {
-                    prop.Alpha = 0;
-                }
-
-                prop.AttachTo(dmc12, 0, boneOffset, new Vector3(dmc12.Rotation.X + rot.X, dmc12.Rotation.Y + rot.Y, dmc12.Rotation.Z + rot.Z));
+                prop.AttachTo(dmc12, 0, boneOffset, new Vector3(rot.X, rot.Y, rot.Z));
                 return prop;
             }
             else
@@ -576,7 +552,6 @@ namespace TTTF_TimeTravel_0._9._0
             
             for (int i = 1; i < 76; i++)
             {
-                UI.Notify("Loading props... %" + ((i / 76f) * 100));
                 var wormholeString = "wormhole_frame" + i.ToString();
                 var sparkString = "spark_frame" + i.ToString();
                 var flashString = "flash_frame" + i.ToString();
@@ -1343,22 +1318,62 @@ namespace TTTF_TimeTravel_0._9._0
             foreach (var prop in flashProps)
             {
                 if (prop != null)
-                    prop.Delete();
+                    prop?.Delete();
             }
 
             foreach (var prop in wormholeProps)
             {
                 if (prop != null)
-                    prop.Delete();
+                    prop?.Delete();
             }
 
             foreach (var prop in sparkProps)
             {
                 if (prop != null)
-                    prop.Delete();
+                    prop?.Delete();
             }
 
-            coilsProp.Delete();
+            coilsProp?.Delete();
+            ice?.Delete();
+            this.fmonth?.Delete();
+            this.fday1?.Delete();
+            this.fday2?.Delete();
+            this.fy1?.Delete();
+            this.fy2?.Delete();
+            this.fy3?.Delete();
+            this.fy4?.Delete();
+            this.fh1?.Delete();
+            this.fh2?.Delete();
+            this.fm1?.Delete();
+            this.fm2?.Delete();
+            this.pastmonth?.Delete();
+            this.pastday1?.Delete();
+            this.pastday2?.Delete();
+            this.pasty1?.Delete();
+            this.pasty2?.Delete();
+            this.pasty3?.Delete();
+            this.pasty4?.Delete();
+            this.pasth1?.Delete();
+            this.pasth2?.Delete();
+            this.pastm1?.Delete();
+            this.pastm2?.Delete();
+            this.presmonth?.Delete();
+            this.presday1?.Delete();
+            this.presday2?.Delete();
+            this.presy1?.Delete();
+            this.presy2?.Delete();
+            this.presy3?.Delete();
+            this.presy4?.Delete();
+            this.presh1?.Delete();
+            this.presh2?.Delete();
+            this.presm1?.Delete();
+            this.presm2?.Delete();
+            this.fampm?.Delete();
+            this.fampm2?.Delete();
+            this.pastampm?.Delete();
+            this.pastampm2?.Delete();
+            this.presampm?.Delete();
+            this.presampm2?.Delete();
         }
 
 

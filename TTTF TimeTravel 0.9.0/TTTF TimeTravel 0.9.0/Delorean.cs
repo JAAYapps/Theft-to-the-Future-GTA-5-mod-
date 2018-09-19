@@ -119,7 +119,7 @@ namespace TTTF_TimeTravel_0._9._0
         public bool toggletimecurcuits = false;
         public int datecount = 0;
         public bool deadplay = false;
-        public bool bug = true;
+        public bool bug = false;
         public Delorean(Vehicle currentvehicle)
         {
             car = currentvehicle;

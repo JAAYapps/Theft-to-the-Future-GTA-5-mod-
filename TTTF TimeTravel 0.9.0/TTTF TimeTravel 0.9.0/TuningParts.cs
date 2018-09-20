@@ -31,6 +31,11 @@ namespace TTTF_TimeTravel_0._9._0
             dmc12.SetMod(VehicleMod.ColumnShifterLevers, 0, true);
             dmc12.SetMod(VehicleMod.SteeringWheels, 0, true);
             dmc12.SetMod(VehicleMod.DialDesign, 0, true);
+
+            //if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { DMC, 10 }))
+            //{
+            //    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { DMC, 10, -1 });
+            //}
         }
 
         public Vehicle dmc12;

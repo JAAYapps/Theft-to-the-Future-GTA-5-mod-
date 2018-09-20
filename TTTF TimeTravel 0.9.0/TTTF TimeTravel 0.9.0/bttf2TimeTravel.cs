@@ -27,40 +27,32 @@ namespace TTTF_TimeTravel_0._9._0
         {
             if (!Sounds.cirerror.getPlayStateStopped())
             {
-                Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, -1, true);
                 if (Sounds.cirerror.gettime() > 0 && Sounds.cirerror.gettime() < 0.023)
                 {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
                     Delorean.bug = false;
                 }
                 else if (Sounds.cirerror.gettime() > 0.189 && Sounds.cirerror.gettime() < 0.858)
                 {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
                     Delorean.bug = true;
                 }
                 else if (Sounds.cirerror.gettime() > 1.023 && Sounds.cirerror.gettime() < 1.692)
                 {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
                     Delorean.bug = false;
                 }
                 else if (Sounds.cirerror.gettime() > 1.858 && Sounds.cirerror.gettime() < 2.567)
                 {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
                     Delorean.bug = true;
                 }
                 else if (Sounds.cirerror.gettime() > 2.733 && Sounds.cirerror.gettime() < 3.624)
                 {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
                     Delorean.bug = false;
                 }
                 else if (Sounds.cirerror.gettime() > 2.733 && Sounds.cirerror.gettime() < 3.624)
                 {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
                     Delorean.bug = true;
                 }
                 else if (Sounds.cirerror.gettimeend())
                 {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, -1, true);
                     Delorean.bug = false;
                 }
             }
@@ -101,14 +93,11 @@ namespace TTTF_TimeTravel_0._9._0
         {
             if (delorean.refilltimecurcuits)
             {
-                Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.getDelorean().Handle, 0);
-                delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
                 body((int)delorean.getDelorean().BodyHealth, delorean);
             }
             else
             {
-                Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.getDelorean().Handle, 0);
-                delorean.getDelorean().SetMod(VehicleMod.SideSkirt, -1, true);
+
             }
         }
 
@@ -201,9 +190,6 @@ namespace TTTF_TimeTravel_0._9._0
             Script.Wait(10);
             delorean.refilltimecurcuits = false;
             Script.Wait(10);
-            Function.Call(Hash.SET_VEHICLE_MOD_KIT, DMC.Handle, 0);
-            DMC.SetMod(VehicleMod.Spoilers, 1, true);
-            DMC.SetMod(VehicleMod.FrontBumper, -1, true);
         }
 
         void cutScene(Delorean delorean)
@@ -223,14 +209,6 @@ namespace TTTF_TimeTravel_0._9._0
             DMC.IsVisible = false;
             DMC.EngineRunning = false;
             // TODO - replace flame trail effects for bttf2
-
-            if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { DMC, 10 }))
-            {
-                Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { DMC, 10, -1 });
-            }
-            Function.Call(Hash.SET_VEHICLE_MOD_KIT, DMC.Handle, 0);
-            DMC.SetMod(VehicleMod.Spoilers, 1, true);
-            DMC.SetMod(VehicleMod.FrontBumper, -1, true);
             if (Game.Player.Character.IsInVehicle(DMC))
             {
                 if (Game.Player.WantedLevel > 0)
@@ -274,8 +252,6 @@ namespace TTTF_TimeTravel_0._9._0
 
         void below88(Delorean delorean, effects worm)
         {
-            Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.getDelorean().Handle, 0);
-            delorean.getDelorean().SetMod(VehicleMod.Spoilers, 1, true);
             stoponce = false;
             if (worm.below84)
             {
@@ -287,12 +263,6 @@ namespace TTTF_TimeTravel_0._9._0
 
         void resetTravel(int speed, Delorean delorean, effects worm)
         {
-            Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.getDelorean().Handle, 0);
-            delorean.getDelorean().SetMod(VehicleMod.FrontBumper, -1, true);
-            delorean.getDelorean().SetMod(VehicleMod.SideSkirt, -1, true);
-            delorean.getDelorean().SetMod(VehicleMod.Spoilers, -1, true);
-            delorean.getDelorean().SetMod(VehicleMod.Frame, -1, true);
-            delorean.getDelorean().SetMod(VehicleMod.Grille, -1, true);
             if (speed < 84 && delorean.timeTraveled && !worm.below84)
             {
                 Sounds.sparksfeul.Stop();

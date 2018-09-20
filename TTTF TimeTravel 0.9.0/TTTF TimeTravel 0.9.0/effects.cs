@@ -77,27 +77,26 @@ namespace TTTF_TimeTravel_0._9._0
                     if (fluxanim == 8)
                     {
                         fluxanim = 0;
-                        car.SetMod(VehicleMod.Frame, 4, true);
                     }
 
                     if (fluxanim == 6)
                     {
-                        car.SetMod(VehicleMod.Frame, 3, true);
+
                     }
 
                     if (fluxanim == 4)
                     {
-                        car.SetMod(VehicleMod.Frame, 2, true);
+
                     }
 
                     if (fluxanim == 2)
                     {
-                        car.SetMod(VehicleMod.Frame, 1, true);
+
                     }
 
                     if (fluxanim == 0)
                     {
-                        car.SetMod(VehicleMod.Frame, 0, true);
+
                     }
                     timeonce = true;
                 }
@@ -116,9 +115,6 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 if (tempspeed > 64 && tempspeed < 88)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Spoilers, 0, true);
-                    delorean.SetMod(VehicleMod.Frame, 5, true);
                     if (refilltimecurcuits)
                     {
                         make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);
@@ -219,9 +215,6 @@ namespace TTTF_TimeTravel_0._9._0
                 }
                 past84 = true;
             }
-            Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-            delorean.SetMod(VehicleMod.Spoilers, 0, true);
-            delorean.SetMod(VehicleMod.Frame, 5, true);
             if (refilltimecurcuits)
             {
                 make_effect("scr_mp_house", "scr_sh_lighter_sparks", new Vector3(-0.8f, 1.1f, -0.5f), new Vector3(100, 0, 0), 2.9f, false, false, false, delorean);

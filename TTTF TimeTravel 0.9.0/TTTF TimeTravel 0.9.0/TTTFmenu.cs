@@ -324,9 +324,6 @@ namespace TTTF_TimeTravel_0._9._0
                     Deloreon.NumberPlate = "OutATime";
                     Deloreon.PlaceOnGround();
                     // Set the vehicle mods
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
-                    Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.SetMod(VehicleMod.Horns, 16, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     Deloreon.PrimaryColor = VehicleColor.BrushedAluminium;
                     Deloreon.SecondaryColor = VehicleColor.BrushedAluminium;
@@ -354,9 +351,6 @@ namespace TTTF_TimeTravel_0._9._0
                     Deloreon.NumberPlate = "OutATime";
                     Deloreon.PlaceOnGround();
                     // Set the vehicle mods
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, Deloreon.Handle, 0);
-                    Deloreon.ToggleMod(VehicleToggleMod.Turbo, true);
-                    Deloreon.SetMod(VehicleMod.Horns, 16, true);
                     Game.Player.Character.Task.WarpIntoVehicle(Deloreon, VehicleSeat.Driver);
                     Deloreon.PrimaryColor = VehicleColor.BrushedGold;
                     Deloreon.SecondaryColor = VehicleColor.BrushedGold;

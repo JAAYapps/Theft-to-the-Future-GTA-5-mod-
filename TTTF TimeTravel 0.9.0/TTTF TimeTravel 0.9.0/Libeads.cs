@@ -77,7 +77,6 @@ namespace TTTF_TimeTravel_0._9._0
                             World.SetRelationshipBetweenGroups(Relationship.Respect, shooter.RelationshipGroup, z.RelationshipGroup);
                             libeadscar.EngineRunning = true;
                             libeadscar.EnginePowerMultiplier = 100;
-                            libeadscar.SetMod(VehicleMod.Brakes, 2, true);
                             libeadscar.ApplyForceRelative(new Vector3(0, 6, 0));
                         }
                         catch (Exception f)

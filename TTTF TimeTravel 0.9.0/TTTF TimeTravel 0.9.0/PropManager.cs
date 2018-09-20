@@ -366,8 +366,8 @@ namespace TTTF_TimeTravel_0._9._0
                 this.fh2 = getDigits(delorean, "tcd_hour2_red", fh2, time.Future);
                 this.fm1 = getDigits(delorean, "tcd_time1_red", fm1, time.Future);
                 this.fm2 = getDigits(delorean, "tcd_time2_red", fm2, time.Future);
-                this.fampm = SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero);
-                this.fampm2 = SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero); 
+                //this.fampm = SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero);
+                //this.fampm2 = SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero); 
 
                 this.pastmonth = SpawnProp(delorean, pastmonthstr[((pastmonth1 * 10) + pastmonth2) - 1], "tcd_month_yellow", Vector3.Zero, Vector3.Zero);
                 this.pastday1 = getDigits(delorean, "tcd_day1_yellow",pastday1, time.Past);
@@ -380,8 +380,9 @@ namespace TTTF_TimeTravel_0._9._0
                 this.pasth2 = getDigits(delorean, "tcd_hour2_yellow",pasth2, time.Past);
                 this.pastm1 = getDigits(delorean, "tcd_time1_yellow",pastm1, time.Past);
                 this.pastm2 = getDigits(delorean, "tcd_time2_yellow",pastm2, time.Past);
-                this.pastampm = SpawnProp(delorean, "bttf_pres_am", "", Vector3.Zero, Vector3.Zero);
-                this.pastampm2 = SpawnProp(delorean, "bttf_pres_pm", "", Vector3.Zero, Vector3.Zero);
+                //this.pastampm = SpawnProp(delorean, "bttf_pres_am", "", Vector3.Zero, Vector3.Zero);
+                //this.pastampm2 = SpawnProp(delorean, "bttf_pres_pm", "", Vector3.Zero, Vector3.Zero);
+
                 this.presmonth = (SpawnProp(delorean, presmonthstr[((pastmonth1 * 10) + pastmonth2) - 1], "tcd_month_green", Vector3.Zero, Vector3.Zero));
                 this.presday1 = getDigits(delorean, "tcd_day1_green",presday1, time.Present);
                 this.presday2 = getDigits(delorean, "tcd_day2_green",presday2, time.Present);
@@ -393,8 +394,8 @@ namespace TTTF_TimeTravel_0._9._0
                 this.presh2 = getDigits(delorean, "tcd_hour2_green",presh2, time.Present);
                 this.presm1 = getDigits(delorean, "tcd_time1_green",presm1, time.Present);
                 this.presm2 = getDigits(delorean, "tcd_time2_green",presm2, time.Present);
-                this.presampm = (SpawnProp(delorean, "bttf_last_am", "", Vector3.Zero, Vector3.Zero));
-                this.presampm2  = (SpawnProp(delorean, "bttf_last_pm", "", Vector3.Zero, Vector3.Zero));
+                //this.presampm = (SpawnProp(delorean, "bttf_last_am", "", Vector3.Zero, Vector3.Zero));
+                //this.presampm2  = (SpawnProp(delorean, "bttf_last_pm", "", Vector3.Zero, Vector3.Zero));
 
                 if (body <= 300)
                 {
@@ -587,7 +588,7 @@ namespace TTTF_TimeTravel_0._9._0
             }
             else
             {
-                UI.Notify(" Does not exist");
+                UI.Notify(" Does not exist: " + propName);
                 return null;
             }
         }

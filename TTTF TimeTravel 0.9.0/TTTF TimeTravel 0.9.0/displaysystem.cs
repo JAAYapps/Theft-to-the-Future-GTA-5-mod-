@@ -28,84 +28,61 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 if (Sounds.empty.gettime() <= 300)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, -1, true);
                     emptystr = "\\EMPTY_OFF.png";
                 }
                 else if (Sounds.empty.gettime() <= 700)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, 0, true);
                     emptystr = "\\EMPTY_ON.png";
                 }
                 else if (Sounds.empty.gettime() <= 1000)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, -1, true);
                     emptystr = "\\EMPTY_OFF.png";
                 }
                 else if (Sounds.empty.gettime() <= 1500)
                 {
                     if (!refilltimecurcuits)
                         //empty.Play();
-                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, 0, true);
                     emptystr = "\\EMPTY_ON.png";
                 }
                 else if (Sounds.empty.gettime() <= 1800)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, -1, true);
                     emptystr = "\\EMPTY_OFF.png";
                 }
                 else if (Sounds.empty.gettime() <= 2200)
                 {
-                    if (!refilltimecurcuits)
+                    //if (!refilltimecurcuits)
                         //empty.Play();
-                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, 0, true);
+
                     emptystr = "\\EMPTY_ON.png";
                 }
                 else if (Sounds.empty.gettime() <= 2700)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, -1, true);
                     emptystr = "\\EMPTY_OFF.png";
                 }
                 else if (Sounds.empty.gettime() <= 3000)
                 {
-                    if (!refilltimecurcuits)
+                    //if (!refilltimecurcuits)
                         //empty.Play();
-                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, 0, true);
                     emptystr = "\\EMPTY_ON.png";
                 }
                 else if (Sounds.empty.gettime() <= 3400)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, -1, true);
                     emptystr = "\\EMPTY_OFF.png";
                 }
                 else if (Sounds.empty.gettime() <= 3900)
                 {
-                    if (!refilltimecurcuits)
+                    //if (!refilltimecurcuits)
                         //empty.Play();
-                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, 0, true);
                     emptystr = "\\EMPTY_ON.png";
                 }
                 else if (Sounds.empty.gettime() <= 4200)
                 {
-                    Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, -1, true);
                     emptystr = "\\EMPTY_OFF.png";
                 }
                 else if (Sounds.empty.gettime() <= 4700)
                 {
-                    if (!refilltimecurcuits)
+                    //if (!refilltimecurcuits)
                         //empty.Play();
-                        Function.Call(Hash.SET_VEHICLE_MOD_KIT, delorean.Handle, 0);
-                    delorean.SetMod(VehicleMod.Roof, 0, true);
                     emptystr = "\\EMPTY_ON.png";
                 }
             }
@@ -1148,7 +1125,6 @@ namespace TTTF_TimeTravel_0._9._0
                         if (File.Exists(image + img))
                         {
                             DrawTexture(image + img, 60, new Point(loc.X + 420, loc.Y + 159), new Size(16, 24));
-                            delorean.SetMod(VehicleMod.Grille, 0, true);
                         }
                         else
                         {
@@ -1158,7 +1134,7 @@ namespace TTTF_TimeTravel_0._9._0
                     }
                     else
                     {
-                        delorean.SetMod(VehicleMod.Grille, -1, true);
+
                     }
 
                     //minute display

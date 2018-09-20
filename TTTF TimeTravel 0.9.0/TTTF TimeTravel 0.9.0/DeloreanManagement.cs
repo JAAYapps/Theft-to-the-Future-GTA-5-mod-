@@ -423,7 +423,7 @@ namespace TTTF_TimeTravel_0._9._0
                                 ticktock = false;
                             }
                         }
-                        //timecurcuitssystem.effectProps[car].wormholeTick(timecurcuitssystem.bttfList[car].getDelorean());
+                        timecurcuitssystem.effectProps[car].wormholeTick(timecurcuitssystem.bttfList[car].getDelorean());
                         timecurcuitssystem.effectProps[car].flickerTick(timecurcuitssystem.bttfList[car], timecurcuitssystem.bttfList[car].getDelorean().Health, timecurcuitssystem.bttfList[car].bug);
 
                         timecurcuitssystem.circuits[car].runningCircuits(timecurcuitssystem.bttfList[car], timecurcuitssystem.wormhole[car]);

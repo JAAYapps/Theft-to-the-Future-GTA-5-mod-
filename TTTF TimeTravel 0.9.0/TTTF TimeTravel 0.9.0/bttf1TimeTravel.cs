@@ -15,47 +15,6 @@ namespace TTTF_TimeTravel_0._9._0
         public const double movie = 1;
 
         #region Delorean functions
-        void malfunction(Delorean Delorean, bool refilltimecircuits, bool toggle)
-        {
-            if (!Sounds.cirerror.getPlayStateStopped())
-            {
-                if (Sounds.cirerror.gettime() > 0 && Sounds.cirerror.gettime() < 0.023)
-                {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
-                    Delorean.bug = false;
-                }
-                else if (Sounds.cirerror.gettime() > 0.189 && Sounds.cirerror.gettime() < 0.858)
-                {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
-                    Delorean.bug = true;
-                }
-                else if (Sounds.cirerror.gettime() > 1.023 && Sounds.cirerror.gettime() < 1.692)
-                {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
-                    Delorean.bug = false;
-                }
-                else if (Sounds.cirerror.gettime() > 1.858 && Sounds.cirerror.gettime() < 2.567)
-                {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
-                    Delorean.bug = true;
-                }
-                else if (Sounds.cirerror.gettime() > 2.733 && Sounds.cirerror.gettime() < 3.624)
-                {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
-                    Delorean.bug = false;
-                }
-                else if (Sounds.cirerror.gettime() > 2.733 && Sounds.cirerror.gettime() < 3.624)
-                {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
-                    Delorean.bug = true;
-                }
-                else if (Sounds.cirerror.gettimeend())
-                {
-                    Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, -1, true);
-                    Delorean.bug = false;
-                }
-            }
-        }
 
         void removePedsandVehicles(Vehicle Delorean)
         {
@@ -139,9 +98,6 @@ namespace TTTF_TimeTravel_0._9._0
             Script.Wait(10);
             delorean.refilltimecurcuits = false;
             Script.Wait(10);
-            Function.Call(Hash.SET_VEHICLE_MOD_KIT, DMC.Handle, 0);
-            DMC.SetMod(VehicleMod.Spoilers, 1, true);
-            DMC.SetMod(VehicleMod.FrontBumper, -1, true);
         }
 
         void cutScene(Delorean delorean, effects worm)

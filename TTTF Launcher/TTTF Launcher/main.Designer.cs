@@ -49,6 +49,8 @@
             this.buttonStop = new System.Windows.Forms.Button();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.clear = new System.Windows.Forms.Button();
+            this.number = new System.Windows.Forms.TextBox();
+            this.getdigit = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPlaybackPosition)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPlaybackRate)).BeginInit();
@@ -86,7 +88,7 @@
             // scriptmanager
             // 
             this.scriptmanager.Enabled = true;
-            this.scriptmanager.Interval = 1000;
+            this.scriptmanager.Interval = 1;
             this.scriptmanager.Tick += new System.EventHandler(this.scriptmanager_Tick);
             // 
             // closeshare
@@ -255,11 +257,30 @@
             this.clear.UseVisualStyleBackColor = true;
             this.clear.Click += new System.EventHandler(this.clear_Click);
             // 
+            // number
+            // 
+            this.number.Location = new System.Drawing.Point(499, 468);
+            this.number.Name = "number";
+            this.number.Size = new System.Drawing.Size(100, 20);
+            this.number.TabIndex = 9;
+            // 
+            // getdigit
+            // 
+            this.getdigit.Location = new System.Drawing.Point(605, 466);
+            this.getdigit.Name = "getdigit";
+            this.getdigit.Size = new System.Drawing.Size(75, 23);
+            this.getdigit.TabIndex = 10;
+            this.getdigit.Text = "Get Digit";
+            this.getdigit.UseVisualStyleBackColor = true;
+            this.getdigit.Click += new System.EventHandler(this.getdigit_Click);
+            // 
             // launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(847, 689);
+            this.Controls.Add(this.getdigit);
+            this.Controls.Add(this.number);
             this.Controls.Add(this.clear);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
@@ -303,6 +324,8 @@
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.Button clear;
+        private System.Windows.Forms.TextBox number;
+        private System.Windows.Forms.Button getdigit;
     }
 }
 

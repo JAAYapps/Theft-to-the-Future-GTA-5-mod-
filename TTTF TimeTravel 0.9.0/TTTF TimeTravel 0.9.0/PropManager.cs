@@ -76,9 +76,7 @@ namespace TTTF_TimeTravel_0._9._0
         Random flicker = new Random();
         Random rdates = new Random();
         bool flickering = false;
-        float health = 1000;
         int deathLimit = 500000;
-        bool extrem = false;
         bool ticktock = false;
         DateTime GenererateRandomDate()
         {
@@ -95,15 +93,14 @@ namespace TTTF_TimeTravel_0._9._0
             return dt;
         }
 
-        public int[] GetDigits(int number)
+        public int[] GetDigits(int num)
         {
-            string temp = number.ToString();
-            int[] rtn = new int[temp.Length];
-            for (int i = 0; i < rtn.Length; i++)
-            {
-                rtn[i] = int.Parse(temp[i].ToString());
-            }
-            return rtn;
+            return new int[] { (num % 100) / 10, (num % 10) };
+        }
+
+        public int[] GetYearDigits(int num)
+        {
+            return new int[] { num / 1000, (num % 1000) / 100, (num % 100) / 10, (num % 10) };
         }
 
         public void dateError()
@@ -111,167 +108,209 @@ namespace TTTF_TimeTravel_0._9._0
             DateTime rdate = GenererateRandomDate();
             int[] day = GetDigits(rdate.Day);
             int[] month = GetDigits(rdate.Month);
-            int[] year = GetDigits(rdate.Year);
+            int[] year = GetYearDigits(rdate.Year);
             int[] hour = GetDigits(rdate.Hour);
             int fullHour = rdate.Hour;
             int[] min = GetDigits(rdate.Minute);
             timecurcuitssystem.Settime(day[0], day[1], month[0], month[1], year[0], year[1], year[2], year[3], hour[0], hour[1], min[0], min[1], fullHour > 11 ? "pm" : "am");
         }
 
-        public void flickerTick(Delorean dmc12)
+        public void destError(bool bug)
         {
-            if (extrem || (DateTime.Now.Millisecond > 250 && DateTime.Now.Millisecond < 500 && DateTime.Now.Millisecond > 750 && DateTime.Now.Millisecond <= 1000))
+            int alpha = 0;
+            if (!bug)
+                alpha = 255;
+            else
+                alpha = 0;
+            this.fmonth.Alpha = alpha;
+            this.fday1.Alpha = alpha;
+            this.fday2.Alpha = alpha;
+            this.fy1.Alpha = alpha;
+            this.fy2.Alpha = alpha;
+            this.fy3.Alpha = alpha;
+            this.fy4.Alpha = alpha;
+            this.fh1.Alpha = alpha;
+            this.fh2.Alpha = alpha;
+            this.fm1.Alpha = alpha;
+            this.fm2.Alpha = alpha;
+            this.fampm.Alpha = alpha;
+            this.fampm2.Alpha = alpha;
+        }
+
+        public void flickerTick(Delorean dmc12, int health, bool bug)
+        {
+            if (dmc12.toggletimecurcuits)
             {
-                if (!ticktock)
+                if (health < 100 || ((DateTime.Now.Millisecond > 250 && DateTime.Now.Millisecond < 500) || (DateTime.Now.Millisecond > 750 && DateTime.Now.Millisecond <= 1000)))
                 {
-                    if (flickering)
+                    if (health < 100)
                     {
-                        if (extrem)
+                        deathLimit--;
+                        if (deathLimit == 0)
                         {
-                            deathLimit--;
-                            if (deathLimit <= 0)
+                            flickering = false;
+                            timecurcuitssystem.switchCircuits();
+                            deathLimit = 100;
+                        }
+                        ticktock = false;
+                    }
+                    else
+                        deathLimit = 100;
+
+                    if (!ticktock)
+                    {
+                        if (flickering)
+                        {
+                            if (health < 300)
                             {
-                                flickering = false;
-                                timecurcuitssystem.switchCircuits();
-                                World.AddExplosion(dmc12.getDelorean().GetOffsetInWorldCoords(new Vector3(0, 1.2f, 0)), ExplosionType.VehicleBullet, 0.5f, 0.5f);
-                                deathLimit = 0;
+                                int alpha = 0;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fmonth.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fday1.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fday2.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fy1.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fy2.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fy3.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fy4.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fh1.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fh2.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fm1.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fm2.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fampm.Alpha = alpha;
+                                if (!bug)
+                                    alpha = flicker.Next(40, 150);
+                                else
+                                    alpha = 0;
+                                if (health < 200)
+                                    this.fampm2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pastmonth.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pastday1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pastday2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pasty1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pasty2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pasty3.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pasty4.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pasth1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pasth2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pastm1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pastm2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pastampm.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.pastampm2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presmonth.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presday1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presday2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presy1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presy2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presy3.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presy4.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presh1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presh2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presm1.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presm2.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presampm.Alpha = alpha;
+                                alpha = flicker.Next(40, 150);
+                                this.presampm2.Alpha = alpha;
+                                UI.ShowSubtitle("flicker " + flickering + "random: " + alpha + " death limit: " + deathLimit);
                             }
                         }
-
-                        if (health > 100)
-                        {
-                            int alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fmonth.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fday1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fday2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fy1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fy2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fy3.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fy4.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fh1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fh2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fm1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fm2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fampm.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.fampm2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pastmonth.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pastday1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pastday2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pasty1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pasty2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pasty3.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pasty4.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pasth1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pasth2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pastm1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pastm2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pastampm.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.pastampm2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presmonth.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presday1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presday2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presy1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presy2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presy3.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presy4.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presh1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presh2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presm1.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presm2.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presampm.Alpha = alpha;
-                            alpha = flicker.Next(40, 150);
-                            if (health < 200)
-                                this.presampm2.Alpha = alpha;
-                        }
+                        ticktock = true;
                     }
-                    ticktock = true;
                 }
-            }
-            else
-            {
-                if (ticktock)
+                else
                 {
-                    ticktock = false;
+                    if (ticktock)
+                    {
+                        ticktock = false;
+                    }
                 }
             }
         }
 
-        public void Display(Vehicle delorean, bool displayOn, bool engineOn, bool refilltimecurcuits, float body, int fmonth1, int fmonth2, int fday1, int fday2, int fy1, int fy2, int fy3, int fy4, int fh1, int fh2, string fampm, int fm1, int fm2, int presmonth1, int presmonth2, int presday1, int presday2, int presy1, int presy2, int presy3, int presy4, int presh1, int presh2, string presampm, int presm1, int presm2, int pastmonth1, int pastmonth2, int pastday1, int pastday2, int pasty1, int pasty2, int pasty3, int pasty4, int pasth1, int pasth2, string pastampm, int pastm1, int pastm2, bool bug)
+        public void Display(Vehicle delorean, bool displayOn, bool engineOn, bool refilltimecurcuits, float body, int fmonth1, int fmonth2, int fday1, int fday2, int fy1, int fy2, int fy3, int fy4, int fh1, int fh2, string fampm, int fm1, int fm2, int presmonth1, int presmonth2, int presday1, int presday2, int presy1, int presy2, int presy3, int presy4, int presh1, int presh2, string presampm, int presm1, int presm2, int pastmonth1, int pastmonth2, int pastday1, int pastday2, int pasty1, int pasty2, int pasty3, int pasty4, int pasth1, int pasth2, string pastampm, int pastm1, int pastm2)
         {
             if (refilltimecurcuits && displayOn)
             {
@@ -316,22 +355,19 @@ namespace TTTF_TimeTravel_0._9._0
                 this.presampm?.Delete();
                 this.presampm2?.Delete();
 
-                if (!bug)
-                {
-                    this.fmonth = SpawnProp(delorean, fmonthstr[((fmonth1 * 10) + fmonth2) - 1], "tcd_month_red", Vector3.Zero, Vector3.Zero);
-                    this.fday1 = getDigits(delorean, "tcd_day1_red", fday1, time.Future);
-                    this.fday2 = getDigits(delorean, "tcd_day2_red", fday2, time.Future);
-                    this.fy1 = getDigits(delorean, "tcd_year1_red", fy1, time.Future);
-                    this.fy2 = getDigits(delorean, "tcd_year2_red", fy2, time.Future);
-                    this.fy3 = getDigits(delorean, "tcd_year3_red", fy3, time.Future);
-                    this.fy4 = getDigits(delorean, "tcd_year4_red", fy4, time.Future);
-                    this.fh1 = getDigits(delorean, "tcd_hour1_red", fh1, time.Future);
-                    this.fh2 = getDigits(delorean, "tcd_hour2_red", fh2, time.Future);
-                    this.fm1 = getDigits(delorean, "tcd_time1_red", fm1, time.Future);
-                    this.fm2 = getDigits(delorean, "tcd_time2_red", fm2, time.Future);
-                    this.fampm = SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero);
-                    this.fampm2 = SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero); 
-                }
+                this.fmonth = SpawnProp(delorean, fmonthstr[((fmonth1 * 10) + fmonth2) - 1], "tcd_month_red", Vector3.Zero, Vector3.Zero);
+                this.fday1 = getDigits(delorean, "tcd_day1_red", fday1, time.Future);
+                this.fday2 = getDigits(delorean, "tcd_day2_red", fday2, time.Future);
+                this.fy1 = getDigits(delorean, "tcd_year1_red", fy1, time.Future);
+                this.fy2 = getDigits(delorean, "tcd_year2_red", fy2, time.Future);
+                this.fy3 = getDigits(delorean, "tcd_year3_red", fy3, time.Future);
+                this.fy4 = getDigits(delorean, "tcd_year4_red", fy4, time.Future);
+                this.fh1 = getDigits(delorean, "tcd_hour1_red", fh1, time.Future);
+                this.fh2 = getDigits(delorean, "tcd_hour2_red", fh2, time.Future);
+                this.fm1 = getDigits(delorean, "tcd_time1_red", fm1, time.Future);
+                this.fm2 = getDigits(delorean, "tcd_time2_red", fm2, time.Future);
+                this.fampm = SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero);
+                this.fampm2 = SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero); 
 
                 this.pastmonth = SpawnProp(delorean, pastmonthstr[((pastmonth1 * 10) + pastmonth2) - 1], "tcd_month_yellow", Vector3.Zero, Vector3.Zero);
                 this.pastday1 = getDigits(delorean, "tcd_day1_yellow",pastday1, time.Past);
@@ -360,14 +396,12 @@ namespace TTTF_TimeTravel_0._9._0
                 this.presampm = (SpawnProp(delorean, "bttf_last_am", "", Vector3.Zero, Vector3.Zero));
                 this.presampm2  = (SpawnProp(delorean, "bttf_last_pm", "", Vector3.Zero, Vector3.Zero));
 
-                if (body <= 300 && !bug)
+                if (body <= 300)
                 {
                     flickering = true;
-                    health = body;
                 }
                 else
                 {
-                    deathLimit = 500000;
                     if (!engineOn)
                     {
                         this.fmonth.Alpha = 150;
@@ -381,8 +415,10 @@ namespace TTTF_TimeTravel_0._9._0
                         this.fh2.Alpha = 150;
                         this.fm1.Alpha = 150;
                         this.fm2.Alpha = 150;
-                        this.fampm.Alpha = 150;
-                        this.fampm2.Alpha = 150;
+                        if (this.fampm != null)
+                            this.fampm.Alpha = 150;
+                        if (this.fampm2 != null)
+                            this.fampm2.Alpha = 150;
 
                         this.pastmonth.Alpha = 150;
                         this.pastday1.Alpha = 150;
@@ -395,8 +431,10 @@ namespace TTTF_TimeTravel_0._9._0
                         this.pasth2.Alpha = 150;
                         this.pastm1.Alpha = 150;
                         this.pastm2.Alpha = 150;
-                        this.pastampm.Alpha = 150;
-                        this.pastampm2.Alpha = 150;
+                        if (this.pastampm != null)
+                            this.pastampm.Alpha = 150;
+                        if (this.pastampm2 != null)
+                            this.pastampm2.Alpha = 150;
 
                         this.presmonth.Alpha = 150;
                         this.presday1.Alpha = 150;
@@ -409,8 +447,10 @@ namespace TTTF_TimeTravel_0._9._0
                         this.presh2.Alpha = 150;
                         this.presm1.Alpha = 150;
                         this.presm2.Alpha = 150;
-                        this.presampm.Alpha = 150;
-                        this.presampm2.Alpha = 150;
+                        if (this.presampm != null)
+                            this.presampm.Alpha = 150;
+                        if (this.presampm2 != null)
+                            this.presampm2.Alpha = 150;
                     }
                     else
                     {
@@ -425,8 +465,10 @@ namespace TTTF_TimeTravel_0._9._0
                         this.fh2.Alpha = 255;
                         this.fm1.Alpha = 255;
                         this.fm2.Alpha = 255;
-                        this.fampm.Alpha = 255;
-                        this.fampm2.Alpha = 255;
+                        if (this.fampm != null)
+                            this.fampm.Alpha = 255;
+                        if (this.fampm2 != null)
+                            this.fampm2.Alpha = 255;
 
                         this.pastmonth.Alpha = 255;
                         this.pastday1.Alpha = 255;
@@ -439,8 +481,10 @@ namespace TTTF_TimeTravel_0._9._0
                         this.pasth2.Alpha = 255;
                         this.pastm1.Alpha = 255;
                         this.pastm2.Alpha = 255;
-                        this.pastampm.Alpha = 255;
-                        this.pastampm2.Alpha = 255;
+                        if (this.pastampm != null)
+                            this.pastampm.Alpha = 255;
+                        if (this.pastampm2 != null)
+                            this.pastampm2.Alpha = 255;
 
                         this.presmonth.Alpha = 255;
                         this.presday1.Alpha = 255;
@@ -453,8 +497,10 @@ namespace TTTF_TimeTravel_0._9._0
                         this.presh2.Alpha = 255;
                         this.presm1.Alpha = 255;
                         this.presm2.Alpha = 255;
-                        this.presampm.Alpha = 255;
-                        this.presampm2.Alpha = 255;
+                        if (this.presampm != null)
+                            this.presampm.Alpha = 255;
+                        if (this.presampm2 != null)
+                            this.presampm2.Alpha = 255;
                     }
                 }
             }
@@ -1374,6 +1420,7 @@ namespace TTTF_TimeTravel_0._9._0
             this.pastampm2?.Delete();
             this.presampm?.Delete();
             this.presampm2?.Delete();
+            this.licenseplate?.Delete();
         }
 
 

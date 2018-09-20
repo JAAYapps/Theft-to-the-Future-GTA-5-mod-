@@ -330,6 +330,16 @@ namespace TTTF_Launcher
 
         public int presday1 = 1, presday2 = 0, presmonth1 = 0, presmonth2 = 9, presy1 = 1, presy2 = 9, presy3 = 9, presy4 = 5, presh1 = 0, presh2 = 6, presm1 = 1, presm2 = 1;
 
+        private void getdigit_Click(object sender, EventArgs e)
+        {
+            int num = int.Parse(number.Text);
+            int d3 = (num % 100) / 10;
+            int d4 = (num % 10);
+
+            MessageBox.Show(d3 + " " + d4);
+
+        }
+
         private void clear_Click(object sender, EventArgs e)
         {
             activitylist.Items.Clear();

@@ -219,6 +219,7 @@ namespace TTTF_TimeTravel_0._9._0
         static bool ticktock = false;
         static Random errorDisplay = new Random();
         static int ranint = 0;
+        static string point = "";
         public static void tick()
         {
             currentGameTime();
@@ -228,6 +229,7 @@ namespace TTTF_TimeTravel_0._9._0
             {
                 Delorean temp = null;
                 string car = Game.Player.Character.CurrentVehicle.NumberPlate.Trim();
+                test_values.data = car + ": ";
                 if (timecurcuitssystem.bttfList.TryGetValue(car, out temp))
                 {
                     timecurcuitssystem.DisplayScreenTimePanel(presmonth1, presmonth2,
@@ -268,81 +270,102 @@ namespace TTTF_TimeTravel_0._9._0
                         TimedisplayDelorean.Draw();
                         ypos += 30;
 
-                        if (timecurcuitssystem.bttfList[car].getDelorean().Health < 300)
+                        if (timecurcuitssystem.bttfList[car].getDelorean().Health < 300 && timecurcuitssystem.bttfList[car].toggletimecurcuits)
                         {
-
                             if (ranint == 2)
                             {
                                 if (!Sounds.cirerror.getPlayState())
                                 {
                                     Sounds.cirerror.Play();
+                                    point = File.ReadAllLines(Application.StartupPath + "\\destError.txt")[0];
                                     ranint = 3;
                                 }
                             }
                             else
                             {
-                                if (!Sounds.cirerror.getPlayState())
+                                try
                                 {
-                                    ranint = errorDisplay.Next(1, 200);
+                                    if (!Sounds.cirerror.getPlayState())
+                                    {
+                                        ranint = errorDisplay.Next(1, 200);
+                                    }
+                                    string[] errorstr = point.Split('|');
+                                    string[] first = errorstr[0].Split(',');
+                                    string[] second = errorstr[1].Split(',');
+                                    string[] third = errorstr[2].Split(',');
+                                    string[] fourth = errorstr[3].Split(',');
+                                    string[] fith = errorstr[4].Split(',');
+                                    if (Sounds.cirerror.getPlayState())
+                                    {
+                                        if (Sounds.cirerror.gettimeend())
+                                        {
+                                            Sounds.cirerror.Stop();
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(first[0]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = true;
+                                            timecurcuitssystem.effectProps[car].destError(true);
+                                            timecurcuitssystem.effectProps[car].dateError();
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(first[1]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = false;
+                                            timecurcuitssystem.effectProps[car].destError(false);
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(second[0]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = true;
+                                            timecurcuitssystem.effectProps[car].destError(true);
+                                            timecurcuitssystem.effectProps[car].dateError();
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(second[1]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = false;
+                                            timecurcuitssystem.effectProps[car].destError(false);
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(third[0]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = true;
+                                            timecurcuitssystem.effectProps[car].destError(true);
+                                            timecurcuitssystem.effectProps[car].dateError();
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(third[1]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = false;
+                                            timecurcuitssystem.effectProps[car].destError(false);
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(fourth[0]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = true;
+                                            timecurcuitssystem.effectProps[car].destError(true);
+                                            timecurcuitssystem.effectProps[car].dateError();
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(fourth[1]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = false;
+                                            timecurcuitssystem.effectProps[car].destError(false);
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(fith[0]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = true;
+                                            timecurcuitssystem.effectProps[car].destError(true);
+                                            timecurcuitssystem.effectProps[car].dateError();
+                                        }
+                                        else if (Sounds.cirerror.gettime() < int.Parse(fith[1]))
+                                        {
+                                            timecurcuitssystem.bttfList[car].bug = false;
+                                            timecurcuitssystem.effectProps[car].destError(false);
+                                        }
+                                    }
                                 }
-                                else
+                                catch 
                                 {
-                                    if (Sounds.cirerror.gettime() < 400)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = true;
-                                    }
 
-                                    if (Sounds.cirerror.gettime() < 700)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = false;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 1100)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = true;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 1400)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = false;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 1800)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = true;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 2100)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = false;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 2400)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = true;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 2700)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = false;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 3000)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = false;
-                                    }
-
-                                    if (Sounds.cirerror.gettime() < 3400)
-                                    {
-                                        timecurcuitssystem.bttfList[car].bug = true;
-                                    }
                                 }
                             }
                         }
 
-                        timecurcuitssystem.effectProps[car].wormholeTick(timecurcuitssystem.bttfList[car].getDelorean());
-                        timecurcuitssystem.effectProps[car].flickerTick(timecurcuitssystem.bttfList[car]);
-                        if (DateTime.Now.Millisecond > 500 && DateTime.Now.Millisecond <= 1000)
+                        if ((DateTime.Now.Millisecond > 500 && DateTime.Now.Millisecond <= 1000))
                         {
                             if (!ticktock)
                             {
@@ -389,8 +412,7 @@ namespace TTTF_TimeTravel_0._9._0
                                     timecurcuitssystem.bttfList[car].pasth2,
                                     timecurcuitssystem.bttfList[car].pastampm,
                                     timecurcuitssystem.bttfList[car].pastm1,
-                                    timecurcuitssystem.bttfList[car].pastm2,
-                                    timecurcuitssystem.bttfList[car].bug);
+                                    timecurcuitssystem.bttfList[car].pastm2);
                                 ticktock = true;
                             }
                         }
@@ -401,6 +423,9 @@ namespace TTTF_TimeTravel_0._9._0
                                 ticktock = false;
                             }
                         }
+                        //timecurcuitssystem.effectProps[car].wormholeTick(timecurcuitssystem.bttfList[car].getDelorean());
+                        timecurcuitssystem.effectProps[car].flickerTick(timecurcuitssystem.bttfList[car], timecurcuitssystem.bttfList[car].getDelorean().Health, timecurcuitssystem.bttfList[car].bug);
+
                         timecurcuitssystem.circuits[car].runningCircuits(timecurcuitssystem.bttfList[car], timecurcuitssystem.wormhole[car]);
                         effects.flux_capcitor(timecurcuitssystem.bttfList[car].getDelorean());
                         timecurcuitssystem.circuits[car].tickfreeze(timecurcuitssystem.bttfList[car].getDelorean());
@@ -434,19 +459,19 @@ namespace TTTF_TimeTravel_0._9._0
             }
             catch (Exception e)
             {
-                Sounds.unLoad();
-                foreach (string car in timecurcuitssystem.bttfList.Keys)
-                    timecurcuitssystem.effectProps[car].removeWormhole();
+                //Sounds.unLoad();
+                //foreach (string car in timecurcuitssystem.bttfList.Keys)
+                    //timecurcuitssystem.effectProps[car].removeWormhole();
 
                 string[] error = new string[] { e.ToString(), "\n", e.Message, "\n", e.StackTrace, "\n", e.TargetSite.Name };
                 File.WriteAllLines(Application.StartupPath + "\\TTTF Error.log", error);
-                while (true)
+                while (false)
                 {
-                    UI.Notify("Problem");
+                    //UI.Notify("Problem");
                     //UI.Notify(e.Message);
                     //UI.Notify(e.StackTrace);
                     //UI.Notify(e.TargetSite.Name);
-                    UI.Notify(e.ToString());
+                    //UI.Notify(e.ToString());
                     Script.Wait(10);
                 }
             }

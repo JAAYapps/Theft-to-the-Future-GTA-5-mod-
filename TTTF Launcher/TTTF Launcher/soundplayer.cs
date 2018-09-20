@@ -109,7 +109,7 @@ namespace TTTF_Launcher
             try
             {
                 if (str)
-                    return reader.CurrentTime.ToString("mm\\:ss") + " milliseconds: " + reader.CurrentTime.TotalMilliseconds;
+                    return reader.CurrentTime.ToString("mm\\:ss") + " milliseconds: " + reader.CurrentTime.TotalMilliseconds / 10;
                 else
                 {
                     if (total)

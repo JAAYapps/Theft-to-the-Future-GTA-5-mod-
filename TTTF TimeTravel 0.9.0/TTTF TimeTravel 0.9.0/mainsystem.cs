@@ -130,6 +130,12 @@ namespace TTTF_TimeTravel_0._9._0
                         }
                     }
                 }
+                else if (e.KeyCode == Keys.Insert)
+                {
+                    Sounds.unLoad();
+                    foreach (string car in timecurcuitssystem.bttfList.Keys)
+                        timecurcuitssystem.effectProps[car].removeWormhole();
+                }
                 //UI.ShowSubtitle("Key: " + e.KeyCode.ToString());
             }
             catch
@@ -326,19 +332,7 @@ namespace TTTF_TimeTravel_0._9._0
                             {
                                 Game.Player.Character.CurrentVehicle.CanBeVisiblyDamaged = !TTTF.invincible;
                                 Game.Player.Character.CurrentVehicle.IsInvincible = TTTF.invincible;
-                                if (TTTF.invincible)
-                                {
-                                    Game.Player.Character.CurrentVehicle.EngineHealth = 1000;
-                                    Game.Player.Character.CurrentVehicle.IsDriveable = true;
-                                    Game.Player.Character.CurrentVehicle.IsPersistent = true;
-                                    Game.Player.Character.CurrentVehicle.IsOnlyDamagedByPlayer = true;
-                                    Game.Player.Character.CurrentVehicle.IsFireProof = true;
-                                    Game.Player.Character.CurrentVehicle.Health = 1000;
-                                    Game.Player.Character.CurrentVehicle.FuelLevel = 1000;
-                                    Game.Player.Character.CurrentVehicle.EngineCanDegrade = false;
-                                }
-                                   //("misc_a");
-                                
+                                Game.Player.Character.CurrentVehicle.EngineCanDegrade = !TTTF.invincible;              
                             }
 
                         //UI.ShowSubtitle("Is in flying vehicle: " + Function.Call<bool>(Hash.IS_PED_IN_FLYING_VEHICLE, Game.Player.Character));

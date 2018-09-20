@@ -88,6 +88,7 @@
     <Compile Include="SoundTouch\VarispeedSampleProvider.cs" />
     <Compile Include="spawn delorean.cs" />
     <Compile Include="surroundAudio.cs" />
+    <Compile Include="test values.cs" />
     <Compile Include="timecurcuitssystem.cs" />
     <Compile Include="TimeTravel.cs" />
     <Compile Include="Traveler.cs" />

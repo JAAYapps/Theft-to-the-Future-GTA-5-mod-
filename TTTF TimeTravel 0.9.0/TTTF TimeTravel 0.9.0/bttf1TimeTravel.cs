@@ -15,17 +15,10 @@ namespace TTTF_TimeTravel_0._9._0
         public const double movie = 1;
 
         #region Delorean functions
-        public void startMalfunction(Vehicle car)
-        {
-            if (Sounds.cirerror.getPlayStateStopped())
-                Sounds.cirerror.Play();
-        }
-
         void malfunction(Delorean Delorean, bool refilltimecircuits, bool toggle)
         {
             if (!Sounds.cirerror.getPlayStateStopped())
             {
-                Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, -1, true);
                 if (Sounds.cirerror.gettime() > 0 && Sounds.cirerror.gettime() < 0.023)
                 {
                     Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, 0, true);
@@ -61,50 +54,6 @@ namespace TTTF_TimeTravel_0._9._0
                     Delorean.getDelorean().SetMod(VehicleMod.SideSkirt, -1, true);
                     Delorean.bug = false;
                 }
-            }
-        }
-
-        void body(int BodyHealth, Delorean delorean)
-        {
-            if (BodyHealth == 0)
-            {
-                malfunction(delorean, delorean.refilltimecurcuits, delorean.toggletimecurcuits);
-            }
-            else if (BodyHealth < 700 && BodyHealth > 0)
-            {
-                int n = 0;
-                if (DateTime.Now.Millisecond % 180 >= 90 && DateTime.Now.Millisecond % 180 <= 180)
-                {
-                    if (!tickbool)
-                    {
-                        n = rand.Next(1, BodyHealth);
-                        tickbool = true;
-                    }
-                }
-                else
-                {
-                    if (!delorean.bug)
-                        tickbool = false;
-                }
-
-                if (n == 1)
-                {
-                    n++;
-                    malfunction(delorean, delorean.refilltimecurcuits, delorean.toggletimecurcuits);
-                }
-            }
-        }
-
-        void displaymodelOnOff(Delorean delorean ,bool on)
-        {
-            if (delorean.refilltimecurcuits)
-            {
-
-                body((int)delorean.getDelorean().BodyHealth, delorean);
-            }
-            else
-            {
-
             }
         }
 
@@ -327,7 +276,6 @@ namespace TTTF_TimeTravel_0._9._0
                 int tempspeed = (int)((Deloreancar.Speed / .27777) / 1.60934);
                 if (delorean.toggletimecurcuits)
                 {
-                    displaymodelOnOff(delorean, delorean.toggletimecurcuits);
                     worm.wormhole(Deloreancar, tempspeed, delorean.refilltimecurcuits);
 
                     if (tempspeed > 84)

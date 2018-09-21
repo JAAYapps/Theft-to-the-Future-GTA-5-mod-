@@ -6,9 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GTA;
-using NAudio;
-using NAudio.Wave;
-using VarispeedDemo.SoundTouch;
 
 namespace TTTF_TimeTravel_0._9._0
 {

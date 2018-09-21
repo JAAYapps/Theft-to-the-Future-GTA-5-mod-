@@ -366,8 +366,8 @@ namespace TTTF_TimeTravel_0._9._0
                 this.fh2 = getDigits(delorean, "tcd_hour2_red", fh2, time.Future);
                 this.fm1 = getDigits(delorean, "tcd_time1_red", fm1, time.Future);
                 this.fm2 = getDigits(delorean, "tcd_time2_red", fm2, time.Future);
-                //this.fampm = SpawnProp(delorean, "bttf_dest_am", "", Vector3.Zero, Vector3.Zero);
-                //this.fampm2 = SpawnProp(delorean, "bttf_dest_pm", "", Vector3.Zero, Vector3.Zero); 
+                this.fampm = SpawnProp(delorean, "bttf_red_am", "", Vector3.Zero, Vector3.Zero);
+                this.fampm2 = SpawnProp(delorean, "bttf_red_pm", "", Vector3.Zero, Vector3.Zero); 
 
                 this.pastmonth = SpawnProp(delorean, pastmonthstr[((pastmonth1 * 10) + pastmonth2) - 1], "tcd_month_yellow", Vector3.Zero, Vector3.Zero);
                 this.pastday1 = getDigits(delorean, "tcd_day1_yellow",pastday1, time.Past);
@@ -380,8 +380,8 @@ namespace TTTF_TimeTravel_0._9._0
                 this.pasth2 = getDigits(delorean, "tcd_hour2_yellow",pasth2, time.Past);
                 this.pastm1 = getDigits(delorean, "tcd_time1_yellow",pastm1, time.Past);
                 this.pastm2 = getDigits(delorean, "tcd_time2_yellow",pastm2, time.Past);
-                //this.pastampm = SpawnProp(delorean, "bttf_pres_am", "", Vector3.Zero, Vector3.Zero);
-                //this.pastampm2 = SpawnProp(delorean, "bttf_pres_pm", "", Vector3.Zero, Vector3.Zero);
+                this.pastampm = SpawnProp(delorean, "bttf_yellow_am", "", Vector3.Zero, Vector3.Zero);
+                this.pastampm2 = SpawnProp(delorean, "bttf_yellow_pm", "", Vector3.Zero, Vector3.Zero);
 
                 this.presmonth = (SpawnProp(delorean, presmonthstr[((pastmonth1 * 10) + pastmonth2) - 1], "tcd_month_green", Vector3.Zero, Vector3.Zero));
                 this.presday1 = getDigits(delorean, "tcd_day1_green",presday1, time.Present);
@@ -394,8 +394,8 @@ namespace TTTF_TimeTravel_0._9._0
                 this.presh2 = getDigits(delorean, "tcd_hour2_green",presh2, time.Present);
                 this.presm1 = getDigits(delorean, "tcd_time1_green",presm1, time.Present);
                 this.presm2 = getDigits(delorean, "tcd_time2_green",presm2, time.Present);
-                //this.presampm = (SpawnProp(delorean, "bttf_last_am", "", Vector3.Zero, Vector3.Zero));
-                //this.presampm2  = (SpawnProp(delorean, "bttf_last_pm", "", Vector3.Zero, Vector3.Zero));
+                this.presampm = (SpawnProp(delorean, "bttf_green_am", "", Vector3.Zero, Vector3.Zero));
+                this.presampm2  = (SpawnProp(delorean, "bttf_green_pm", "", Vector3.Zero, Vector3.Zero));
 
                 if (body <= 300)
                 {
@@ -467,9 +467,19 @@ namespace TTTF_TimeTravel_0._9._0
                         this.fm1.Alpha = 255;
                         this.fm2.Alpha = 255;
                         if (this.fampm != null)
-                            this.fampm.Alpha = 255;
+                        {
+                            if (fampm == "am")
+                                this.fampm.Alpha = 255;
+                            else
+                                this.fampm.Alpha = 0;
+                        }
                         if (this.fampm2 != null)
-                            this.fampm2.Alpha = 255;
+                        {
+                            if (fampm == "pm")
+                                this.fampm2.Alpha = 255;
+                            else
+                                this.fampm2.Alpha = 0;
+                        }
 
                         this.pastmonth.Alpha = 255;
                         this.pastday1.Alpha = 255;
@@ -483,9 +493,19 @@ namespace TTTF_TimeTravel_0._9._0
                         this.pastm1.Alpha = 255;
                         this.pastm2.Alpha = 255;
                         if (this.pastampm != null)
-                            this.pastampm.Alpha = 255;
+                        {
+                            if (pastampm == "am")
+                                this.pastampm.Alpha = 255;
+                            else
+                                this.pastampm.Alpha = 0;
+                        }
                         if (this.pastampm2 != null)
-                            this.pastampm2.Alpha = 255;
+                        {
+                            if (pastampm == "pm")
+                                this.pastampm2.Alpha = 255;
+                            else
+                                this.pastampm.Alpha = 0;
+                        }
 
                         this.presmonth.Alpha = 255;
                         this.presday1.Alpha = 255;
@@ -499,9 +519,19 @@ namespace TTTF_TimeTravel_0._9._0
                         this.presm1.Alpha = 255;
                         this.presm2.Alpha = 255;
                         if (this.presampm != null)
-                            this.presampm.Alpha = 255;
+                        {
+                            if (presampm == "am")
+                                this.presampm.Alpha = 255;
+                            else
+                                this.presampm.Alpha = 0;
+                        }
                         if (this.presampm2 != null)
-                            this.presampm2.Alpha = 255;
+                        {
+                            if (presampm == "pm")
+                                this.presampm2.Alpha = 255;
+                            else
+                                this.presampm2.Alpha = 0;
+                        }
                     }
                 }
             }

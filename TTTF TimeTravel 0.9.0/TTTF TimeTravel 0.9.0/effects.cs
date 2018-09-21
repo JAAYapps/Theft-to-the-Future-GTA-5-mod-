@@ -26,15 +26,16 @@ namespace TTTF_TimeTravel_0._9._0
             Function.Call(Hash._SET_PTFX_ASSET_NEXT_CALL, new InputArgument[] { root });
             Function.Call(Hash.START_PARTICLE_FX_NON_LOOPED_ON_ENTITY, new InputArgument[] { effect, delorean.Handle, pos.X, pos.Y, pos.Z, rot.X, rot.Y, rot.Z, scale, axisX, axisY, axisZ });
         }
-        public static void reseteffects(Vehicle delorean)
+        public static void reseteffects(int id)
         {
             //Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { delorean.Position.X, delorean.Position.Y, delorean.Position.Z, 200f });
-            Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { delorean.Position.X, delorean.Position.Y, delorean.Position.Z, 200f });
+            //Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { delorean.Position.X, delorean.Position.Y, delorean.Position.Z, 200f });
+            Function.Call(Hash.REMOVE_PARTICLE_FX, id, 0);
         }
         //int id = Function.Call<int>(Hash.START_PARTICLE_FX_LOOPED_AT_COORD, EffectName, Position.X, Position.Y, Position.Z, Rotation.X, Rotation.Y, Rotation.Z, Size, false, false, false);
 
         //Function.Call(Hash.SET_PARTICLE_FX_LOOPED_EVOLUTION, id, "parameter_name", 1f, 0);
-        public static void make_effect(string root, string effect, string evolution,string evolution2,string evolution3, Vector3 pos, Vector3 rot, float scale, bool axisX, bool axisY, bool axisZ, Vehicle delorean)
+        public static int make_effect(string root, string effect, string evolution,string evolution2,string evolution3, Vector3 pos, Vector3 rot, float scale, bool axisX, bool axisY, bool axisZ, Vehicle delorean)
         {
             Function.Call(Hash.REQUEST_NAMED_PTFX_ASSET, root);
 
@@ -52,6 +53,7 @@ namespace TTTF_TimeTravel_0._9._0
                 Function.Call(Hash.SET_PARTICLE_FX_LOOPED_EVOLUTION, id, evolution2, 1f, 0);
             if (!evolution.Equals(""))
                 Function.Call(Hash.SET_PARTICLE_FX_LOOPED_EVOLUTION, id, evolution3, 1f, 0);
+            return id;
         }
 
         public static void make_effect_smoke(string root, string effect, Vehicle delorean)

@@ -108,6 +108,12 @@ namespace TTTF_TimeTravel_0._9._0
             }
         }
 
+        public int peak()
+        {
+
+            return 0;
+        }
+
         public int Tick()
         {
             if (reader != null)

@@ -100,13 +100,14 @@ namespace TTTF_TimeTravel_0._9._0
             Script.Wait(10);
         }
 
+        int[] flameTrails = new int[16];
         void cutScene(Delorean delorean, effects worm)
         {
             Vehicle DMC = delorean.getDelorean();
             DMC.IsInvincible = true;
             if (delorean.refilltimecurcuits)
                 Sounds.sparksfeul.Stop();
-            effects.make_effect("core", "veh_exhaust_spacecraft", DMC);
+            int temp = effects.make_effect("core", "veh_exhaust_spacecraft", "", "", "", new Vector3(0f, 0f, 0f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
             Sounds.Timetravelreenterycutscene.Play();
             if (!stoponce)
             {
@@ -114,38 +115,40 @@ namespace TTTF_TimeTravel_0._9._0
                 DMC.HasCollision = false;
                 stoponce = true;
             }
+
             DMC.IsVisible = false;
             DMC.EngineRunning = false;
             timecurcuitssystem.effectProps[DMC.NumberPlate.Trim()].wormholeHide(DMC);
             float fireY = -0.1f;
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[0] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[1] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 1.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 1.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[2] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 1.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[3] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 1.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 3f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 3f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[4] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 3f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[5] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 3f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 4.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 4.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[6] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 4.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[7] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 4.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 6f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 6f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[8] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 6f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[9] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 6f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 7.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 7.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[10] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 7.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[11] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 7.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 9f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 9f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[12] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 9f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[13] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 9f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 10.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
-            effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 10.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[14] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(1f, fireY + 10.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
+            flameTrails[15] = effects.make_effect("core", "fire_petrol_two", "dist", "strength", "fadein", new Vector3(-1f, fireY + 10.5f, 0.2f), new Vector3(0, 0, 0), 1f, false, false, false, DMC);
 
             //if (Function.Call<bool>(Hash.IS_VEHICLE_EXTRA_TURNED_ON, new InputArgument[] { DMC, 10 }))
             //{
             //    Function.Call(Hash.SET_VEHICLE_EXTRA, new InputArgument[] { DMC, 10, -1 });
             //}
+            effects.reseteffects(temp);
             if (Game.Player.Character.IsInVehicle(DMC))
             {
                 if (Game.Player.WantedLevel > 0)
@@ -211,22 +214,12 @@ namespace TTTF_TimeTravel_0._9._0
             }
         }
 
-        int iceDelay = 20;
         public override void runningCircuits(Delorean delorean, effects worm)
         {
             if (delorean != null)
             {
                 Vehicle Deloreancar = delorean.getDelorean();
                 #region functions
-                if (timecurcuitssystem.effectProps[Deloreancar.NumberPlate.Trim()].ice.Alpha > 0)
-                {
-                    if (iceDelay <= 0)
-                    {
-                        timecurcuitssystem.effectProps[Deloreancar.NumberPlate.Trim()].ice.Alpha -= 1;
-                        iceDelay = 20;
-                    }
-                    iceDelay--;
-                }
 
                 #endregion
                 int tempspeed = (int)((Deloreancar.Speed / .27777) / 1.60934);
@@ -259,25 +252,26 @@ namespace TTTF_TimeTravel_0._9._0
         //static bool timeenter = false;
         void enterEffect(Vehicle car)
         {
+            int temp = 0;
             World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
-            effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0.7f), new Vector3(10, 0, 180), 2f, false, false, false, car);
+            temp = effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0.7f), new Vector3(10, 0, 180), 2f, false, false, false, car);
             Script.Wait(10);
-            effects.reseteffects(car);
+            effects.reseteffects(temp);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = false;
             Script.Wait(50);
             World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
-            effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0f), new Vector3(10, 0, 180), 2f, false, false, false, car);
+            temp = effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0f), new Vector3(10, 0, 180), 2f, false, false, false, car);
             Script.Wait(10);
-            effects.reseteffects(car);
+            effects.reseteffects(temp);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = false;
             Script.Wait(50);
             World.DrawSpotLight(timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Position, timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().Rotation, Color.SkyBlue, 80, 100, 60, 100, 5);
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsVisible = true;
-            effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0f), new Vector3(10, 0, 180), 2f, false, false, false, car);
+            temp = effects.make_effect("cut_lester1b", "scr_camera_flash", "", "", "", new Vector3(0f, -2f, 0f), new Vector3(10, 0, 180), 2f, false, false, false, car);
             Script.Wait(10);
-            effects.reseteffects(car);
+            effects.reseteffects(temp);
         }
 
         public override void reentry(Vehicle car)
@@ -291,7 +285,7 @@ namespace TTTF_TimeTravel_0._9._0
             //Function.Call(Hash.REMOVE_PARTICLE_FX_IN_RANGE, new InputArgument[] { car.Position.X, car.Position.Y, car.Position.Z, 200f });
 
             Script.Wait(1000);
-            effects.reseteffects(car);
+            flameTrails.ToList().ForEach(x => effects.reseteffects(x));
             if (!timeentry)
             {
                 //Function.Call(Hash.SET_CLOCK_DATE, getmonth(), getday(), getyear());
@@ -299,21 +293,14 @@ namespace TTTF_TimeTravel_0._9._0
                     ((timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fm1 * 10) + timecurcuitssystem.bttfList[car.NumberPlate.Trim()].fm2), 0);
                 timeentry = true;
             }
-
             Script.Wait(2000);
-
             removePedsandVehicles(car);
-
             Script.Wait(2000);
-
             timeentry = false;
             car.CloseDoor(VehicleDoor.Hood, false);
-
             Game.FadeScreenIn(300);
             Script.Wait(1000);
-
             Sounds.reenterybttf1.Play();
-
 
             enterEffect(car);
             Script.Wait(10);
@@ -341,7 +328,6 @@ namespace TTTF_TimeTravel_0._9._0
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].refilltimecurcuits = false;
             timecurcuitssystem.bttfList[car.NumberPlate.Trim()].getDelorean().IsInvincible = false;
             Game.Player.CanControlCharacter = true;
-            timecurcuitssystem.effectProps[car.NumberPlate.Trim()].ice.Alpha = 255;
 
             startfreeze();
         }
@@ -352,13 +338,14 @@ namespace TTTF_TimeTravel_0._9._0
             freeze = true;
             smokedelay = 0;
             highpressure = false;
+            Doors.iceDoor();
         }
 
 
         bool playonce = false;
         int smokedelay = 0;
         bool highpressure = false;
-
+        List<int> steam = new List<int>();
         public override void tickfreeze(Vehicle car)
         {
             if (!Sounds.cold.gettimeend() && freeze)
@@ -373,21 +360,20 @@ namespace TTTF_TimeTravel_0._9._0
 
                         if (!highpressure)
                         {
-                            effects.make_effect("scr_ar_planes", "scr_ar_trail_smoke_slow","dist","strength", "fadein", new Vector3(0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car);
-                            effects.make_effect("scr_ar_planes", "scr_ar_trail_smoke_slow","dist","strength", "fadein", new Vector3(-0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car);
+                            steam.Add(effects.make_effect("scr_mp_creator", "scr_mp_plane_landing_tyre_smoke", "", "", "", new Vector3(0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car));
+                            steam.Add(effects.make_effect("scr_mp_creator", "scr_mp_plane_landing_tyre_smoke", "", "", "", new Vector3(-0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car));
+
+                            steam.Add(effects.make_effect("scr_ar_planes", "scr_ar_trail_smoke_slow","dist","strength", "fadein", new Vector3(0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car));
+                            steam.Add(effects.make_effect("scr_ar_planes", "scr_ar_trail_smoke_slow","dist","strength", "fadein", new Vector3(-0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car));
                             highpressure = true;
                         }
-
-                        effects.make_effect("scr_mp_creator", "scr_mp_plane_landing_tyre_smoke", new Vector3(0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car);
-                        effects.make_effect("scr_mp_creator", "scr_mp_plane_landing_tyre_smoke", new Vector3(-0.5f, -2f, 0.7f), new Vector3(0, 0, 90), 2f, false, false, false, car);
-
                         //effects.make_effect("cut_trevor1", "cs_meth_pipe_smoke", new Vector3(0.5f, -2f, 0.7f), new Vector3(15, 0, 180), 5f, false, false, false, car);
                         //effects.make_effect("cut_trevor1", "cs_meth_pipe_smoke", new Vector3(-0.5f, -2f, 0.7f), new Vector3(15, 0, 180), 5f, false, false, false, car);
                     }
                     smokedelay--;
                     
                 }
-                effects.make_effect("core", "ent_amb_dry_ice_area","dist", "strength", "fadein", car.GetOffsetInWorldCoords( new Vector3(0.2f, 0f, 0f)), new Vector3(0, 0, 0), 4f, false, false, false, car);
+                UI.ShowSubtitle("time: " + Sounds.cold.gettime());
                 if (Sounds.cold.gettime() <= 7400)
                 {
                     playonce = false;
@@ -402,6 +388,12 @@ namespace TTTF_TimeTravel_0._9._0
                     {
                         Sounds.inputoff.Play();
                         playonce = true;
+                        Doors.uniceDoor();
+                        foreach (int i in steam)
+                        {
+                            effects.reseteffects(i);
+                        }
+                        UI.Notify("effects clean");
                     }
                 }
             }
@@ -411,6 +403,7 @@ namespace TTTF_TimeTravel_0._9._0
                 {
                     Sounds.cold.Play();
                     playonce = false;
+                    steam.Add(effects.make_effect("core", "ent_amb_dry_ice_area", "dist", "strength", "fadein", car.GetOffsetInWorldCoords(new Vector3(0.2f, 0f, 0f)), new Vector3(0, 0, 0), 4f, false, false, false, car));
                 }
                 freeze = false;
             }
